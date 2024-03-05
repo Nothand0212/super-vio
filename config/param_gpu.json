@@ -1,0 +1,12 @@
+{
+    "matcher_path": "/home/lin/CLionProjects/light_glue_onnx/models/superpoint_lightglue_fused.onnx",
+    "extractor_path": "/home/lin/CLionProjects/light_glue_onnx/models/superpoint.onnx",
+    "combiner_path": "/home/lin/CLionProjects/light_glue_onnx/models/superpoint_lightglue_end2end_fused.onnx",
+    "image_src_path": "/home/lin/Projects/vision_ws/data/left",
+    "image_dst_path": "/home/lin/Projects/vision_ws/data/right",
+    "output_path": "/home/lin/CLionProjects/light_glue_onnx/output",
+    "device": "cuda",
+    "gray_flag": true,
+    "image_size": 512,
+    "threshold": 0.5
+}

@@ -1,0 +1,26 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/decoupled_test", // 替换为你的程序的路径
+            "args": [], // 如果你的程序需要命令行参数，可以在这里添加
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                }
+            ],
+            "preLaunchTask": "", // 如果你有构建任务，可以在这里指定
+            "miDebuggerPath": "/usr/bin/gdb" // 替换为你的 gdb 或 lldb 的路径
+        }
+    ]
+}
