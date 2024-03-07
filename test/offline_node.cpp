@@ -1,14 +1,17 @@
+#include <future>
+#include <memory>
 #include <opencv2/opencv.hpp>
+#include <thread>
 
 #include "base_onnx_runner.h"
 #include "configuration.h"
-#include "decoupled_onnx_runner/decoupled_onxx_runner.h"
+#include "extractor/extractor.h"
 #include "image_process.h"
 #include "logger/logger.h"
+#include "matcher/matcher.h"
 #include "utilities/accumulate_average.h"
 #include "utilities/timer.h"
 #include "visualizer.h"
-
 
 std::vector<cv::Mat> readImage( std::vector<cv::String> image_file_vec, bool grayscale = false )
 {
@@ -41,7 +44,6 @@ std::vector<cv::Mat> readImage( std::vector<cv::String> image_file_vec, bool gra
   return image_matlist;
 }
 
-
 int main( int argc, char const* argv[] )
 {
   std::string config_path;
@@ -61,8 +63,10 @@ int main( int argc, char const* argv[] )
   InitLogger( cfg.log_path );
   INFO( logger, "Start" );
 
-  Timer                   timer;
-  AccumulateAverage       accumulate_average_timer;
+  Timer             timer;
+  AccumulateAverage accumulate_average_timer;
+
+
   std::vector<cv::String> image_file_src_vec;
   std::vector<cv::String> image_file_dst_vec;
 
@@ -82,11 +86,14 @@ int main( int argc, char const* argv[] )
   std::vector<cv::Mat> image_src_mat_vec = readImage( image_file_src_vec, cfg.gray_flag );
   std::vector<cv::Mat> image_dst_mat_vec = readImage( image_file_dst_vec, cfg.gray_flag );
 
-  // end2end
-  DecoupledOnnxRunner* feature_matcher;
-  feature_matcher = new DecoupledOnnxRunner{ 0 };
-  feature_matcher->initOrtEnv( cfg );
-  feature_matcher->setMatchThreshold( cfg.threshold );
+  std::shared_ptr<Extracotr> extractor_left_ptr = std::make_unique<Extracotr>( 6, 200 );
+  extractor_left_ptr->initOrtEnv( cfg );
+  std::shared_ptr<Extracotr> extractor_right_ptr = std::make_unique<Extracotr>( 6, 200 );
+  extractor_right_ptr->initOrtEnv( cfg );
+
+  // matcher init
+  std::unique_ptr<Matcher> matcher_ptr = std::make_unique<Matcher>();
+  matcher_ptr->initOrtEnv( cfg );
 
   // inference
   int    count = 0;
@@ -98,15 +105,42 @@ int main( int argc, char const* argv[] )
     INFO( logger, "processing image {0} / {1}", image_file_src_vec[ count ], image_file_dst_vec[ count ] );
     count++;
     timer.tic();
-    auto key_points_result = feature_matcher->inferenceImagePair( cfg, *iter_src, *iter_dst );
-    time_consumed          = timer.tocGetDuration();
+
+    auto left_future = std::async( std::launch::async, [ extractor_left_ptr, cfg, iter_src ]() {
+      return extractor_left_ptr->inferenceImage( cfg, *iter_src );
+    } );
+
+    auto right_future = std::async( std::launch::async, [ extractor_right_ptr, cfg, iter_dst ]() {
+      return extractor_right_ptr->inferenceImage( cfg, *iter_dst );
+    } );
+
+    auto key_points_result_left  = left_future.get();
+    auto key_points_result_right = right_future.get();
+
+    auto key_points_src = key_points_result_left.getKeyPoints();
+    auto key_points_dst = key_points_result_right.getKeyPoints();
+
+    float scale_temp = extractor_left_ptr->getScale();
+    matcher_ptr->setParams( std::vector<float>( scale_temp, scale_temp ), extractor_left_ptr->getHeightTransformed(), extractor_left_ptr->getWidthTransformed(), 0.0f );
+    auto matches_set = matcher_ptr->inferenceDescriptorPair( cfg, key_points_src, key_points_dst, key_points_result_left.getDescriptor(), key_points_result_right.getDescriptor() );
+
+
+    std::vector<cv::Point2f> matches_src;
+    std::vector<cv::Point2f> matches_dst;
+    for ( const auto& match : matches_set )
+    {
+      matches_src.emplace_back( key_points_src[ match.first ] );
+      matches_dst.emplace_back( key_points_dst[ match.second ] );
+    }
+    std::pair<std::vector<cv::Point2f>, std::vector<cv::Point2f>> matches_pair = std::make_pair( matches_src, matches_dst );
+
+    time_consumed = timer.tocGetDuration();
     accumulate_average_timer.addValue( time_consumed );
     INFO( logger, "time consumed: {0} / {1}", time_consumed, accumulate_average_timer.getAverage() );
+    INFO( logger, "key points number: {0} / {1}", key_points_src.size(), key_points_dst.size() );
 
-    auto key_points_src = feature_matcher->getKeyPointsSrc();
-    auto key_points_dst = feature_matcher->getKeyPointsDst();
-
-    visualizeMatches( *iter_src, *iter_dst, key_points_result, key_points_src, key_points_dst );
+    // visualizeKeyPoints( *iter_src, *iter_dst, key_points_src, key_points_dst );
+    visualizeMatches( *iter_src, *iter_dst, matches_pair, key_points_src, key_points_dst );
   }
   return 0;
 }
