@@ -7,6 +7,9 @@ a simple vio project.
 
 ## History
 
+- 2024-03-08:
+  - 1. add offline_node
+  - 2. change run logic
 - 2024-03-05:
   - 1. add Frame, MapPoint
   - 2. add Triangulate 

@@ -25,6 +25,7 @@ public:
   std::string image_dst_path = "/home/lin/Projects/vision_ws/data/right";
 
   std::string output_path = "/home/lin/CLionProjects/light_glue_onnx/output";
+  std::string log_path    = "/home/lin/Projects/super-vio/log_data/tmp.log";
 
   bool gray_flag = true;
 
@@ -52,6 +53,8 @@ public:
     image_dst_path = config[ "image_dst_path" ];
 
     output_path = config[ "output_path" ];
+    log_path    = config[ "log_path" ];
+
 
     gray_flag = config[ "gray_flag" ];
 

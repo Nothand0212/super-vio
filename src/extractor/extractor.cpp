@@ -148,7 +148,8 @@ Features Extracotr::postProcess( const Config& config, std::vector<Ort::Value> t
     std::vector<cv::Point2f> vec_points;
     for ( int i = 0; i < points_shape[ 1 ] * 2; i += 2 )
     {
-      vec_points.emplace_back( cv::Point2f( ( ptr_points_value[ i ] + 0.5f ) / m_scale - 0.5f, ( ptr_points_value[ i + 1 ] + 0.5f ) / m_scale - 0.5f ) );
+      // vec_points.emplace_back( cv::Point2f( ( ptr_points_value[ i ] + 0.5f ) / m_scale - 0.5f, ( ptr_points_value[ i + 1 ] + 0.5f ) / m_scale - 0.5f ) );
+      vec_points.emplace_back( cv::Point2f( ptr_points_value[ i ], ptr_points_value[ i + 1 ] ) );
     }
     key_points_result.setKeyPoints( vec_points );
 

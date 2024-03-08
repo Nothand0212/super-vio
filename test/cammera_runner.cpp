@@ -49,6 +49,7 @@ int main()
   while ( true )
   {
     timer.tic();
+    INFO( logger, "Frame {0} start", frame_id );
 
     camera.getStereoFrame( image_left, image_right );
 

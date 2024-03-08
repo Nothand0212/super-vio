@@ -183,7 +183,7 @@ int Matcher::postProcess( const Config& config )
     int                           count = 0;
     for ( int i = 0; i < matches_shape[ 0 ] * 2; i += 2 )
     {
-      if ( matches_ptr[ i ] > -1 && matches_ptr[ i + 1 ] > -1 && scores_ptr[ count ] > m_match_threshold_ )
+      if ( matches_ptr[ i ] > -1 && scores_ptr[ count ] > m_match_threshold_ )
       {
         matches.insert( std::make_pair( matches_ptr[ i ], matches_ptr[ i + 1 ] ) );
       }

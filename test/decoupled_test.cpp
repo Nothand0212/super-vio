@@ -44,15 +44,25 @@ std::vector<cv::Mat> readImage( std::vector<cv::String> image_file_vec, bool gra
 
 int main( int argc, char const* argv[] )
 {
-  InitLogger( "/home/lin/CLionProjects/light_glue_onnx/log/tmp.log" );
-  INFO( logger, "Start" );
-
-  Timer             timer;
-  AccumulateAverage accumulate_average_timer;
+  std::string config_path;
+  if ( argc != 2 )
+  {
+    std::cerr << "Usage: " << argv[ 0 ] << " <path_to_config>" << std::endl;
+    return 1;
+  }
+  else
+  {
+    config_path = argv[ 1 ];
+  }
 
   Config cfg{};
-  cfg.readConfig( "/home/lin/CLionProjects/light_glue_onnx/config/param.json" );
+  cfg.readConfig( config_path );
 
+  InitLogger( cfg.log_path );
+  INFO( logger, "Start" );
+
+  Timer                   timer;
+  AccumulateAverage       accumulate_average_timer;
   std::vector<cv::String> image_file_src_vec;
   std::vector<cv::String> image_file_dst_vec;
 

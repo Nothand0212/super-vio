@@ -65,3 +65,13 @@ target_link_libraries(map_point ${OpenCV_LIBS} ${Sophus_LIBS} logger spdlog::spd
 
 add_executable(online_node node/online_node.cpp)
 target_link_libraries(online_node extractor matcher frame map_point ${OpenCV_LIBS} ${Sophus_LIBS} logger spdlog::spdlog)
+
+add_executable(offline_node node/offline_node.cpp)
+target_link_libraries(offline_node extractor matcher frame map_point ${OpenCV_LIBS} ${Sophus_LIBS} logger spdlog::spdlog)
+
+add_executable(matcher_test test/matcher_test.cpp)
+target_link_libraries(matcher_test matcher extractor frame map_point ${OpenCV_LIBS} ${Sophus_LIBS} logger spdlog::spdlog)
+
+add_executable(decoupled_onnx_runner_test test/decoupled_test.cpp)
+target_link_libraries(decoupled_onnx_runner_test decoupled_onnx_runner  ${OpenCV_LIBS} ${Sophus_LIBS} logger spdlog::spdlog)
+

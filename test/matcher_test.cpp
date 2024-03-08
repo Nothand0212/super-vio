@@ -47,14 +47,26 @@ std::vector<cv::Mat> readImage( std::vector<cv::String> image_file_vec, bool gra
 
 int main( int argc, char const* argv[] )
 {
-  InitLogger( "/home/lin/CLionProjects/light_glue_onnx/log/tmp.log" );
+  std::string config_path;
+  if ( argc != 2 )
+  {
+    std::cerr << "Usage: " << argv[ 0 ] << " <path_to_config>" << std::endl;
+    return 1;
+  }
+  else
+  {
+    config_path = argv[ 1 ];
+  }
+
+  Config cfg{};
+  cfg.readConfig( config_path );
+
+  InitLogger( cfg.log_path );
   INFO( logger, "Start" );
 
   Timer             timer;
   AccumulateAverage accumulate_average_timer;
 
-  Config cfg{};
-  cfg.readConfig( "/home/lin/CLionProjects/light_glue_onnx/config/param.json" );
 
   std::vector<cv::String> image_file_src_vec;
   std::vector<cv::String> image_file_dst_vec;
@@ -113,23 +125,34 @@ int main( int argc, char const* argv[] )
     matcher_ptr->setParams( std::vector<float>( scale_temp, scale_temp ), extractor_left_ptr->getHeightTransformed(), extractor_left_ptr->getWidthTransformed(), 0.0f );
     auto matches_set = matcher_ptr->inferenceDescriptorPair( cfg, key_points_src, key_points_dst, key_points_result_left.getDescriptor(), key_points_result_right.getDescriptor() );
 
+    std::vector<cv::Point2f> key_points_transformed_src;
+    std::vector<cv::Point2f> key_points_transformed_dst;
+    for ( const auto& key_point : key_points_src )
+    {
+      key_points_transformed_src.emplace_back( cv::Point2f( ( key_point.x + 0.5f ) / scale_temp, ( key_point.y + 0.5f ) / scale_temp ) );
+    }
+    for ( const auto& key_point : key_points_dst )
+    {
+      key_points_transformed_dst.emplace_back( cv::Point2f( ( key_point.x + 0.5f ) / scale_temp, ( key_point.y + 0.5f ) / scale_temp ) );
+    }
+
 
     std::vector<cv::Point2f> matches_src;
     std::vector<cv::Point2f> matches_dst;
     for ( const auto& match : matches_set )
     {
-      matches_src.emplace_back( key_points_src[ match.first ] );
-      matches_dst.emplace_back( key_points_dst[ match.second ] );
+      matches_src.emplace_back( key_points_transformed_src[ match.first ] );
+      matches_dst.emplace_back( key_points_transformed_dst[ match.second ] );
     }
     std::pair<std::vector<cv::Point2f>, std::vector<cv::Point2f>> matches_pair = std::make_pair( matches_src, matches_dst );
 
     time_consumed = timer.tocGetDuration();
     accumulate_average_timer.addValue( time_consumed );
     INFO( logger, "time consumed: {0} / {1}", time_consumed, accumulate_average_timer.getAverage() );
-    INFO( logger, "key points number: {0} / {1}", key_points_src.size(), key_points_dst.size() );
+    INFO( logger, "key points number: {0} / {1}", key_points_transformed_src.size(), key_points_transformed_dst.size() );
 
     // visualizeKeyPoints( *iter_src, *iter_dst, key_points_src, key_points_dst );
-    visualizeMatches( *iter_src, *iter_dst, matches_pair, key_points_src, key_points_dst );
+    visualizeMatches( *iter_src, *iter_dst, matches_pair, key_points_transformed_src, key_points_transformed_dst );
   }
   return 0;
 }
