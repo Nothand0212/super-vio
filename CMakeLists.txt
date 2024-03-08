@@ -14,6 +14,21 @@ include_directories(
 /usr/local/include/eigen3
 )
 
+# ROS
+find_package(catkin REQUIRED COMPONENTS
+    roscpp
+    std_msgs
+    sensor_msgs
+    cv_bridge
+    image_transport
+    pcl_conversions
+    pcl_ros
+    tf
+    tf_conversions
+    message_generation
+    message_runtime
+    )
+
 # CUDA
 find_package(CUDA REQUIRED)
 
@@ -32,6 +47,11 @@ set(OpenCV_CUDA_MODULE_PATH "")
 find_package(OpenCV REQUIRED QUIET)
 message("OpenCV version: " ${OpenCV_VERSION})
 include_directories(${OpenCV_INCLUDE_DIRS})
+
+# PCL
+find_package(PCL REQUIRED)
+message("PCL version: " ${PCL_VERSION})
+include_directories(${PCL_INCLUDE_DIRS})
 
 # SOPHUS
 find_package(Sophus REQUIRED)
@@ -64,14 +84,7 @@ target_link_libraries(map_point ${OpenCV_LIBS} ${Sophus_LIBS} logger spdlog::spd
 
 
 add_executable(online_node node/online_node.cpp)
-target_link_libraries(online_node extractor matcher frame map_point ${OpenCV_LIBS} ${Sophus_LIBS} logger spdlog::spdlog)
+target_link_libraries(online_node extractor matcher frame map_point ${OpenCV_LIBS} ${Sophus_LIBS} ${PCL_LIBRARIES}  ${catkin_LIBRARIES} logger spdlog::spdlog)
 
 add_executable(offline_node node/offline_node.cpp)
-target_link_libraries(offline_node extractor matcher frame map_point ${OpenCV_LIBS} ${Sophus_LIBS} logger spdlog::spdlog)
-
-add_executable(matcher_test test/matcher_test.cpp)
-target_link_libraries(matcher_test matcher extractor frame map_point ${OpenCV_LIBS} ${Sophus_LIBS} logger spdlog::spdlog)
-
-add_executable(decoupled_onnx_runner_test test/decoupled_test.cpp)
-target_link_libraries(decoupled_onnx_runner_test decoupled_onnx_runner  ${OpenCV_LIBS} ${Sophus_LIBS} logger spdlog::spdlog)
-
+target_link_libraries(offline_node extractor matcher frame map_point ${OpenCV_LIBS} ${Sophus_LIBS} ${PCL_LIBRARIES} ${catkin_LIBRARIES} logger spdlog::spdlog)

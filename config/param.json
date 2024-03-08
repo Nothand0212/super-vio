@@ -1,4 +1,5 @@
 {
+    "camera_json_path": "/home/lin/Projects/super-vio/config/camera.json",
     "matcher_path": "/home/lin/Projects/super-vio/models/superpoint_lightglue_fused_fp16.onnx",
     "extractor_path": "/home/lin/Projects/super-vio/models/superpoint.onnx",
     "combiner_path": "/home/lin/Projects/super-vio/models/superpoint_lightglue_end2end_fused.onnx",

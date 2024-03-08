@@ -125,17 +125,8 @@ int main( int argc, char const* argv[] )
     matcher_ptr->setParams( std::vector<float>( scale_temp, scale_temp ), extractor_left_ptr->getHeightTransformed(), extractor_left_ptr->getWidthTransformed(), 0.0f );
     auto matches_set = matcher_ptr->inferenceDescriptorPair( cfg, key_points_src, key_points_dst, key_points_result_left.getDescriptor(), key_points_result_right.getDescriptor() );
 
-    std::vector<cv::Point2f> key_points_transformed_src;
-    std::vector<cv::Point2f> key_points_transformed_dst;
-    for ( const auto& key_point : key_points_src )
-    {
-      key_points_transformed_src.emplace_back( cv::Point2f( ( key_point.x + 0.5f ) / scale_temp, ( key_point.y + 0.5f ) / scale_temp ) );
-    }
-    for ( const auto& key_point : key_points_dst )
-    {
-      key_points_transformed_dst.emplace_back( cv::Point2f( ( key_point.x + 0.5f ) / scale_temp, ( key_point.y + 0.5f ) / scale_temp ) );
-    }
-
+    std::vector<cv::Point2f> key_points_transformed_src = getKeyPointsInOriginalImage( key_points_src, scale_temp );
+    std::vector<cv::Point2f> key_points_transformed_dst = getKeyPointsInOriginalImage( key_points_dst, scale_temp );
 
     std::vector<cv::Point2f> matches_src;
     std::vector<cv::Point2f> matches_dst;

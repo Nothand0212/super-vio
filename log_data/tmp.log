@@ -1,173 +1,530 @@
-[2024-03-07 23:05:51.830] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:65:65] Start
-[2024-03-07 23:05:51.939] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:7:7] Extractor is being constructed, threads_num: 6, point_num: 200
-[2024-03-07 23:05:51.939] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:17:17] Initializing extractor ort env
-[2024-03-07 23:05:51.939] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:31:31] Using 6 threads, with graph optimization level 99
-[2024-03-07 23:05:51.939] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:35:35] Using CUDA for extractor
-[2024-03-07 23:05:52.076] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:50:50] Loading extractor model from /home/lin/Projects/super-vio/models/superpoint.onnx
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:54:54] Extractor model loaded
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 1
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: image
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 3
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: keypoints
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: scores
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: descriptors
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:58:58] Extractor ort env initialized
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:7:7] Extractor is being constructed, threads_num: 6, point_num: 200
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:17:17] Initializing extractor ort env
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:31:31] Using 6 threads, with graph optimization level 99
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:35:35] Using CUDA for extractor
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:50:50] Loading extractor model from /home/lin/Projects/super-vio/models/superpoint.onnx
-[2024-03-07 23:05:52.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:54:54] Extractor model loaded
-[2024-03-07 23:05:52.596] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 1
-[2024-03-07 23:05:52.596] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: image
-[2024-03-07 23:05:52.596] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 3
-[2024-03-07 23:05:52.596] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: keypoints
-[2024-03-07 23:05:52.597] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: scores
-[2024-03-07 23:05:52.597] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: descriptors
-[2024-03-07 23:05:52.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:58:58] Extractor ort env initialized
-[2024-03-07 23:05:52.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:19:19] Matcher is being created
-[2024-03-07 23:05:52.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:41:41] Initializing matcher ort env
-[2024-03-07 23:05:52.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:55:55] Using 0 threads, with graph optimization level 99
-[2024-03-07 23:05:52.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:59:59] Using CUDA for matcher
-[2024-03-07 23:05:52.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:74:74] Loading matcher model from /home/lin/Projects/super-vio/models/superpoint_lightglue_fused_fp16.onnx
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:78:78] Matcher model loaded
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 4
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: kpts0
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: kpts1
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: desc0
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: desc1
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 2
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: matches0
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: mscores0
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:82:82] Matcher ort env initialized
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:106:106] processing image /home/lin/Projects/super-vio/data/left/0.png / /home/lin/Projects/super-vio/data/right/0.png
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
-[2024-03-07 23:05:52.815] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
-[2024-03-07 23:05:52.815] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
-[2024-03-07 23:05:52.817] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
-[2024-03-07 23:05:52.817] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
-[2024-03-07 23:05:52.818] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
-[2024-03-07 23:05:52.818] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 786.180018
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:139:139] Transforming tensor to key points
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:146:146] key points shape: [1, 458, 2], size: 3
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:158:158] score shape: [1, 458], size: 2
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 787.009004
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:169:169] descriptor shape: [1, 458, 256], size: 3
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:139:139] Transforming tensor to key points
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:172:172] descriptor size: [256, 458]
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:146:146] key points shape: [1, 364, 2], size: 3
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:158:158] score shape: [1, 364], size: 2
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:169:169] descriptor shape: [1, 364, 256], size: 3
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:172:172] descriptor size: [256, 364]
-[2024-03-07 23:05:53.606] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:555:555] inference image time consumed: 791.328434
-[2024-03-07 23:05:53.606] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:555:555] inference image time consumed: 791.315448
-[2024-03-07 23:05:53.606] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:101:101] Matcher inference start
-[2024-03-07 23:05:53.606] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:110:110] Input shapes initialized
-[2024-03-07 23:05:53.606] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:149:149] Matcher inference input tensors created
-[2024-03-07 23:05:53.624] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:158:158] matcher inference time consumed: 17.944031
-[2024-03-07 23:05:53.624] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:172:172] Matcher post process start
-[2024-03-07 23:05:53.624] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:151:151] time consumed: 809.873778 / 809.873778
-[2024-03-07 23:05:53.624] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:152:152] key points number: 458 / 364
-[2024-03-07 23:05:55.562] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:106:106] processing image /home/lin/Projects/super-vio/data/left/1.png / /home/lin/Projects/super-vio/data/right/1.png
-[2024-03-07 23:05:55.562] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
-[2024-03-07 23:05:55.562] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
-[2024-03-07 23:05:55.562] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
-[2024-03-07 23:05:55.562] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
-[2024-03-07 23:05:55.563] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
-[2024-03-07 23:05:55.563] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
-[2024-03-07 23:05:55.565] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
-[2024-03-07 23:05:55.565] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
-[2024-03-07 23:05:55.567] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
-[2024-03-07 23:05:55.567] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 28.119998
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:139:139] Transforming tensor to key points
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:146:146] key points shape: [1, 501, 2], size: 3
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:158:158] score shape: [1, 501], size: 2
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 26.720466
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:139:139] Transforming tensor to key points
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:169:169] descriptor shape: [1, 501, 256], size: 3
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:146:146] key points shape: [1, 406, 2], size: 3
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:172:172] descriptor size: [256, 501]
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:158:158] score shape: [1, 406], size: 2
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:169:169] descriptor shape: [1, 406, 256], size: 3
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:172:172] descriptor size: [256, 406]
-[2024-03-07 23:05:55.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:555:555] inference image time consumed: 34.555365
-[2024-03-07 23:05:55.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:555:555] inference image time consumed: 34.506333
-[2024-03-07 23:05:55.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:101:101] Matcher inference start
-[2024-03-07 23:05:55.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:110:110] Input shapes initialized
-[2024-03-07 23:05:55.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:149:149] Matcher inference input tensors created
-[2024-03-07 23:05:55.608] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:158:158] matcher inference time consumed: 10.718789
-[2024-03-07 23:05:55.608] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:172:172] Matcher post process start
-[2024-03-07 23:05:55.608] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:151:151] time consumed: 46.061963 / 427.9678705
-[2024-03-07 23:05:55.608] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:152:152] key points number: 501 / 406
-[2024-03-07 23:05:56.241] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:106:106] processing image /home/lin/Projects/super-vio/data/left/21.png / /home/lin/Projects/super-vio/data/right/21.png
-[2024-03-07 23:05:56.241] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
-[2024-03-07 23:05:56.241] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
-[2024-03-07 23:05:56.241] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
-[2024-03-07 23:05:56.241] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
-[2024-03-07 23:05:56.241] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
-[2024-03-07 23:05:56.242] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
-[2024-03-07 23:05:56.243] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
-[2024-03-07 23:05:56.243] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
-[2024-03-07 23:05:56.246] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
-[2024-03-07 23:05:56.246] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
-[2024-03-07 23:05:56.272] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 23.277101
-[2024-03-07 23:05:56.272] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:139:139] Transforming tensor to key points
-[2024-03-07 23:05:56.272] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:146:146] key points shape: [1, 282, 2], size: 3
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:158:158] score shape: [1, 282], size: 2
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:169:169] descriptor shape: [1, 282, 256], size: 3
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:172:172] descriptor size: [256, 282]
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:555:555] inference image time consumed: 31.679995
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 25.89433
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:139:139] Transforming tensor to key points
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:146:146] key points shape: [1, 218, 2], size: 3
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:158:158] score shape: [1, 218], size: 2
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:169:169] descriptor shape: [1, 218, 256], size: 3
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:172:172] descriptor size: [256, 218]
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:555:555] inference image time consumed: 31.750875
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:101:101] Matcher inference start
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:110:110] Input shapes initialized
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:149:149] Matcher inference input tensors created
-[2024-03-07 23:05:56.280] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:158:158] matcher inference time consumed: 7.556414
-[2024-03-07 23:05:56.280] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:172:172] Matcher post process start
-[2024-03-07 23:05:56.281] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:151:151] time consumed: 39.957255 / 298.6309986666667
-[2024-03-07 23:05:56.281] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:152:152] key points number: 282 / 218
-[2024-03-07 23:05:56.756] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:106:106] processing image /home/lin/Projects/super-vio/data/left/22.png / /home/lin/Projects/super-vio/data/right/22.png
-[2024-03-07 23:05:56.756] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
-[2024-03-07 23:05:56.756] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
-[2024-03-07 23:05:56.756] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
-[2024-03-07 23:05:56.757] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
-[2024-03-07 23:05:56.757] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
-[2024-03-07 23:05:56.757] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
-[2024-03-07 23:05:56.759] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
-[2024-03-07 23:05:56.759] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
-[2024-03-07 23:05:56.761] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
-[2024-03-07 23:05:56.761] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 25.054516
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:139:139] Transforming tensor to key points
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:146:146] key points shape: [1, 294, 2], size: 3
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:158:158] score shape: [1, 294], size: 2
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:169:169] descriptor shape: [1, 294, 256], size: 3
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:172:172] descriptor size: [256, 294]
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:555:555] inference image time consumed: 30.922296
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 24.272919
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:139:139] Transforming tensor to key points
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:146:146] key points shape: [1, 224, 2], size: 3
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:158:158] score shape: [1, 224], size: 2
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:169:169] descriptor shape: [1, 224, 256], size: 3
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:172:172] descriptor size: [256, 224]
-[2024-03-07 23:05:56.788] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:555:555] inference image time consumed: 30.99942
-[2024-03-07 23:05:56.788] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:101:101] Matcher inference start
-[2024-03-07 23:05:56.788] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:110:110] Input shapes initialized
-[2024-03-07 23:05:56.788] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:149:149] Matcher inference input tensors created
-[2024-03-07 23:05:56.796] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:158:158] matcher inference time consumed: 8.175587
-[2024-03-07 23:05:56.796] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:172:172] Matcher post process start
-[2024-03-07 23:05:56.796] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:151:151] time consumed: 39.688869 / 233.89546625
-[2024-03-07 23:05:56.796] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:152:152] key points number: 294 / 224
-[2024-03-07 23:05:57.171] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:24:24] Matcher is being destroyed
-[2024-03-07 23:05:57.183] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:12:12] Extractor is being destructed
-[2024-03-07 23:05:57.196] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:12:12] Extractor is being destructed
+[2024-03-08 13:21:32.314] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:66:66] Start
+[2024-03-08 13:21:32.443] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:7:7] Extractor is being constructed, threads_num: 6, point_num: 200
+[2024-03-08 13:21:32.443] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:17:17] Initializing extractor ort env
+[2024-03-08 13:21:32.443] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:31:31] Using 6 threads, with graph optimization level 99
+[2024-03-08 13:21:32.443] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:35:35] Using CUDA for extractor
+[2024-03-08 13:21:33.130] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:50:50] Loading extractor model from /home/lin/Projects/super-vio/models/superpoint.onnx
+[2024-03-08 13:21:34.372] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:58:58] Extractor ort env initialized
+[2024-03-08 13:21:34.372] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:7:7] Extractor is being constructed, threads_num: 6, point_num: 200
+[2024-03-08 13:21:34.372] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:17:17] Initializing extractor ort env
+[2024-03-08 13:21:34.372] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:31:31] Using 6 threads, with graph optimization level 99
+[2024-03-08 13:21:34.372] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:35:35] Using CUDA for extractor
+[2024-03-08 13:21:34.372] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:50:50] Loading extractor model from /home/lin/Projects/super-vio/models/superpoint.onnx
+[2024-03-08 13:21:34.416] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:58:58] Extractor ort env initialized
+[2024-03-08 13:21:34.416] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:19:19] Matcher is being created
+[2024-03-08 13:21:34.416] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:41:41] Initializing matcher ort env
+[2024-03-08 13:21:34.416] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:55:55] Using 0 threads, with graph optimization level 99
+[2024-03-08 13:21:34.416] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:59:59] Using CUDA for matcher
+[2024-03-08 13:21:34.416] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:74:74] Loading matcher model from /home/lin/Projects/super-vio/models/superpoint_lightglue_fused_fp16.onnx
+[2024-03-08 13:21:34.644] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:78:78] Matcher model loaded
+[2024-03-08 13:21:34.644] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:82:82] Matcher ort env initialized
+[2024-03-08 13:21:35.576] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 929.266988
+[2024-03-08 13:21:35.577] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 929.677694
+[2024-03-08 13:21:35.590] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4099718388235748, -0.29411937288553364, 0.6755308316335105]
+[2024-03-08 13:21:35.590] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.03290603518326474, -0.4307180013706323, 0.9853247345559129]
+[2024-03-08 13:21:35.590] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.16779366050106034, -0.23502004034687016, 0.5485157844572909]
+[2024-03-08 13:21:35.590] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4440079783589462, -0.29379945142980135, 0.6884796303089412]
+[2024-03-08 13:21:35.590] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4471430488857208, -0.2811324211322155, 0.6614750484528714]
+[2024-03-08 13:21:35.590] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.43145206171811384, -0.2938719193990635, 0.702910804520651]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.11939098358515611, -0.26657065987005335, 0.6246491355643233]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.05844790681764432, -0.42941576434593276, 1.0144865617901169]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.2971808143854602, -0.23161738973456938, 0.5563051271220473]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.2209260343201055, -0.19814552460958904, 0.4860126271126087]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4677871390224124, -0.2633852636130645, 0.6746937414994406]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09206785314122419, -0.1893724558665113, 0.4725122356911147]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.46769159081812545, -0.27304784695536893, 0.7025593308333925]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4262481788758922, -0.26132386961560744, 0.6753988340064702]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.04165046546434706, -0.20603126742857952, 0.5324870062403697]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.11929367055324311, -0.1682129417579618, 0.43867149464296323]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.18288608720923366, -0.1939404193544922, 0.5103785970459892]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.22523285935801163, -0.19563675994548246, 0.5101879523573128]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.21734004593068174, -0.18537849995381075, 0.4856249742211021]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09273847005778413, -0.17748155429045576, 0.467059506719358]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.08712070274205057, -0.1838399147028732, 0.48824647912079244]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.26252769409479376, -0.19746863344605084, 0.5220312960400221]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.051224166884427755, -0.17964382792858552, 0.47274205733431424]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.002230986397024934, -0.177495187132411, 0.47356402838917583]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2570110685759926, -0.17628902957228249, 0.46817976325345306]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.04094741940349154, -0.1783848312153332, 0.48037506925529]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4051484036599696, -0.24609617513348506, 0.6753182074250033]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.12759839096375802, -0.1754947914515185, 0.48157955673917685]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.17683826313578946, -0.1772724060059993, 0.4887822521773308]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2222287011377131, -0.1814697720944613, 0.49561785867670993]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.4013171075220067, -0.19429185240446362, 0.5256570845984345]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.2173416805876672, -0.17697260944238358, 0.4856278447080824]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.0866513090256239, -0.17789182131430273, 0.49521762451375695]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.31345955553831656, -0.1799586340608155, 0.4961826908113427]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.34342421208106305, -0.22094744736303334, 0.6150681729066538]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.0938769447391974, -0.17074961496189572, 0.4730458180229645]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.04971551163662096, -0.17083968916432019, 0.4732953433744148]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.44772851393890617, -0.23330418721962756, 0.6622411789133099]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.003922402206667277, -0.17163913152582264, 0.48011533665485845]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.039837390609757196, -0.1724557995471505, 0.4871173661485862]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4294963849981466, -0.22876981548398373, 0.6623899578619162]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.13124813397594168, -0.1719391305294857, 0.49535409889249254]
+[2024-03-08 13:21:35.591] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.1768383827587468, -0.16881103989564172, 0.48878275532176424]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.22065109526128376, -0.1694640350017791, 0.4882161155552738]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.26658544451912275, -0.16886093262935623, 0.4889209764057365]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3132425921716093, -0.17036474614677335, 0.49575609280668476]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.390324582049338, -0.1727636444841924, 0.5184058945384178]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.44156566603129077, -0.20867312106815036, 0.6498003228377722]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.39740578871220744, -0.21157759871109016, 0.6624112418437107]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.41679846039121493, -0.2030409582754388, 0.6497714503184997]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3842244740497798, -0.21108010678326308, 0.675498256915853]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.2854570166982166, -0.17086340502873415, 0.5560339694381123]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.2127595972276179, -0.14173863448754137, 0.4718798732114991]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3088292692919962, -0.14596560999975178, 0.48877410446907515]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4168010108077121, -0.18954376130878509, 0.6497749372252253]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3474830316030229, -0.18375700576523732, 0.6262156888359456]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3900721834482052, -0.18290061714925024, 0.6501602906930375]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4458695726806186, -0.18273093605631893, 0.649548633214974]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.45163608280549755, -0.1758576727694698, 0.6749580689861243]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.13963308936651078, -0.12482716507409203, 0.47280695889093177]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.11680519980227033, -0.12317814123692222, 0.4665610085633481]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09534211190318159, -0.12557066196740857, 0.47251971601870113]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.050406875782981794, -0.12669028494103407, 0.47986377821688697]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4190421852084845, -0.16704365171850818, 0.6497635124147502]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.005663351171262386, -0.1268532590065704, 0.48686586049391706]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3896108503153715, -0.16585099362330205, 0.6494917300736225]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.03983661348369317, -0.1252370241053046, 0.48713600867910184]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.08662939643472709, -0.12635098449250437, 0.4948056630514368]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.1312085626040534, -0.12642030909625002, 0.4950771567221837]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.17755456471691675, -0.1247777704024918, 0.49536129652563615]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2207953813513952, -0.12308893243480643, 0.48865674767667433]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2628816490514688, -0.12144540346702759, 0.4821320730542543]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.30904222734126685, -0.1232243156895027, 0.48919425888683044]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.35339550523513813, -0.15935354117958622, 0.6369953424237405]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.21735185883288954, -0.11388059025480862, 0.47839289519617434]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.5608246184037444, -0.15897619917978104, 0.7815318365198854]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.43034319031863727, -0.13225421328686654, 0.7173091196996101]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.44268585552011286, -0.12975146204105062, 0.7172029533611118]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.13776253969836413, -0.0811611714669429, 0.4664630717334879]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.45459591548656686, -0.12094290113812262, 0.7164976397795967]
+[2024-03-08 13:21:35.592] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.0955236041909462, -0.08067333576119974, 0.47307300572365624]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.05050509528285316, -0.08107177538892787, 0.48029137547138384]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.005723476510563852, -0.08056958395531048, 0.4873118015803951]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.039835750196138324, -0.07970168044433572, 0.48715671814952144]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.08541021118403627, -0.07897037003660728, 0.48785551185341197]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.1312108803058175, -0.08014198474415223, 0.49509337724043007]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.17755823765025508, -0.08018786999911291, 0.4953768575163596]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2208872642167188, -0.07829807499470991, 0.4889373481919634]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2628878933530943, -0.07637696289847133, 0.4821469805589562]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3064224242456249, -0.07474823973108283, 0.48240912633694816]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4563914982087803, -0.10468051983113708, 0.7155453926810047]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.40278445618537306, -0.09580742174777143, 0.6874320027317152]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.5921117560594185, -0.10966798285848911, 0.8173546841724892]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.20583701111965688, -0.05454251227712981, 0.4599032295548656]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4716619347606267, -0.07182335512888127, 0.747468430573805]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.45547792665901143, -0.0638514787064315, 0.7024879665897448]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4919065855703181, -0.06521709351902016, 0.7314271109796009]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.22940593885458366, -0.04712575457204405, 0.49039641869818895]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09565645197256345, -0.03565989981380654, 0.4734780028293323]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.13777177320213568, -0.034326549275206564, 0.4664849059192259]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.12004720026971383, -0.03480282857603894, 0.47295729477226084]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.05041669403021153, -0.035314197977458724, 0.47990652169847997]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.0057257277799859846, -0.03501577215119604, 0.4873284989824307]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.03981730142620122, -0.035035229028088845, 0.4875992885917298]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.08538947303747049, -0.03418176498189931, 0.4874525068266867]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.1312133557607215, -0.03386072116743616, 0.49511070180379396]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.17505913934451017, -0.033402551577878394, 0.4884114001351919]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.22080567770869283, -0.03342148021353354, 0.48868819160250143]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.30905780215829187, -0.03345818880220706, 0.48922498723504165]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.26273048726939124, -0.03211531609633728, 0.4817711938096651]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4490337109512848, -0.04027261453506403, 0.715649819285626]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4965334322273754, -0.02914340217187789, 0.7161981925503987]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.5153882846674378, -0.01746791298456703, 0.7471220986905757]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.13917580640822158, -0.012510021254661309, 0.46598998395740965]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.43830057913364967, -0.016707043953347874, 0.7144665753761624]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.233230973263063, -0.005615040929764327, 0.4983432301562001]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.2144354810773815, 0.0036704496770321327, 0.47195260276094564]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.13609916129810246, 0.00836897771114843, 0.4606583806196724]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09566193180080675, 0.010241564965301524, 0.4734947085789061]
+[2024-03-08 13:21:35.593] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.05217347666584695, 0.010389091542188962, 0.4803152187892693]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.005649027841649236, 0.010394967954976637, 0.48058689708085006]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.08541194980600203, 0.010552917486257628, 0.48788929865413777]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.03983371444603765, 0.01138075915074684, 0.48720555393752984]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.13115511843527614, 0.011555897674841126, 0.49470312684978385]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.17496772614570794, 0.011399811899511638, 0.48802125012139375]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.22081135105519012, 0.012262618654839238, 0.4887055173754593]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2629011740007869, 0.012098846012276026, 0.4821786864880625]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3945151418056732, 0.014831224042111216, 0.5193427000689411]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.44224874161885297, 0.017212728711510056, 0.6860686767771346]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3062463344611554, 0.014598730149893888, 0.482062883740214]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3022333725238503, 0.033356086085389064, 0.47582228048673925]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.42709200865358143, 0.051503016227303966, 0.7001326379641715]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4408323573808619, 0.06493369032655316, 0.7145498903949165]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4285225414051088, 0.06494162353282516, 0.7146371196952848]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.40861723418593937, 0.07467926525206554, 0.7015093465560261]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.431804894747469, 0.07289397244656191, 0.6847516293001393]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09730365190200178, 0.054505737243212, 0.4735020309783809]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.05217756401008829, 0.055292038349365566, 0.4803327497780971]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.005651437731118359, 0.055323325554828356, 0.4806045442195811]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.03983256091866395, 0.05692918210191687, 0.4872332260225812]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.0853922122451485, 0.056961021711842856, 0.4875057377960952]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.1311592080848013, 0.05780532640315873, 0.4947317482568714]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.17497413181515134, 0.05702444429010476, 0.488048589340612]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.21929213502157963, 0.056265759822570496, 0.48155541314741773]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.26275091230743297, 0.056296665029054546, 0.48181995584171833]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.30625827309790127, 0.056327786879981176, 0.48208635844095976]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.13940344962855789, 0.05612469880820584, 0.4665239278356388]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.12006619171467517, 0.0569046825485403, 0.4730073031307284]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.389605045560017, 0.06051227242110161, 0.5103435269718154]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.8467569320280246, 0.13049496379651987, 1.025667050812046]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4786163257054022, 0.08978682159870563, 0.6870144410294855]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.37879110128312626, 0.09046417842552622, 0.6743324996564729]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4165298107782522, 0.08701885607252534, 0.6571415227431846]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4810838143547939, 0.12073925962571647, 0.7009975426153752]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.2775437207433276, 0.09571007220435314, 0.5556820618991734]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.43221598729560906, 0.11841588108131507, 0.6739605990862314]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.2190832919895294, 0.09153192574795851, 0.4785221553948197]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.46682737766628446, 0.13738720503237611, 0.687149936263068]
+[2024-03-08 13:21:35.594] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.43454858212348674, 0.13474995090179728, 0.6739596126783307]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4134970324823665, 0.14269387788339863, 0.7015426497587989]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.14117189463269583, 0.09900502237347499, 0.4668805947454428]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.053842663206548465, 0.1018595582236715, 0.48034174077425484]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.0074192097729018245, 0.1033507912329637, 0.4873739576379264]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.03927849036208116, 0.10106259057629817, 0.48050868058276597]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.08539372725486952, 0.10254044297890652, 0.48753517896823423]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.13116356694155953, 0.10406048025395355, 0.49476225372334387]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.21930122784519018, 0.10128853668065091, 0.4815830366152709]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4344251239700245, 0.14848546155829945, 0.7002197415220832]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09719123365470883, 0.10115581471904846, 0.47316288117217004]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.17409662592759476, 0.10195380595713308, 0.4807907644748307]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.26060189968934944, 0.10067476304263094, 0.4747592962700437]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3060175603869668, 0.10379563663849187, 0.4816130514212647]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.41876861050725245, 0.1835957878583821, 0.6864603624428692]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.129193127030754, 0.1478183568055753, 0.4810716968476298]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.17422655761055086, 0.14790118204462854, 0.4813412725943343]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.05376151999005669, 0.14915059623524715, 0.4799987852019868]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.007268293534424005, 0.1492343827794665, 0.4802684209456548]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.08539543823369919, 0.15150273652825597, 0.4875684284217517]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2177922814271721, 0.1466318357011915, 0.4745376422466883]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2642377286473726, 0.14874939014973235, 0.48139055890438087]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.30483139873654, 0.1457881588422574, 0.4744660936997782]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.21774075355000327, 0.15051927577840016, 0.47906560356183364]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.25220668300040217, 0.19682694256771943, 0.6264500190121101]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09895229034603212, 0.14960014491308798, 0.4735298494085488]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3943119163920821, 0.16577053812682152, 0.5190258744094427]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.307393153192945, 0.1561367568840277, 0.48104307368220456]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.21803691459317007, 0.15664306976384573, 0.4725210516131226]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.09893646856855816, 0.16263072536836648, 0.48803320300261893]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.07089174199387517, 0.16103042417006685, 0.48073468999884894]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.39160199940297097, 0.16969138528948438, 0.5039850007285612]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.077473854237845, 0.2375122296875463, 0.6911971932647915]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.02791000974372906, 0.17650251521888102, 0.5162519887384295]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.046868790954054454, 0.17395352514171392, 0.5087965147100011]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.17291972462618613, 0.26698653842329045, 0.7848777343682324]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.26274456098272236, 0.26325215968505394, 0.7699831446481118]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.00991928987885098, 0.22791268598312095, 0.6632607948079208]
+[2024-03-08 13:21:35.595] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.03812195053819816, 0.17347442725928858, 0.507395449048474]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.21593224571254135, 0.276094964567195, 0.8034759455603454]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.29407773736664494, 0.2511075016947683, 0.7344579675541567]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.4376014911139666, 0.28130444848386765, 0.8227785400515727]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.2844038614540274, 0.24022044050408164, 0.6886706381981545]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.26064804442545864, 0.24028560585671369, 0.6888574111072169]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.10646864582988315, 0.17209982753368244, 0.4933819199984369]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2333585960418321, 0.2711526818259401, 0.7697070032285263]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09190886043903958, 0.24383691628698223, 0.6755676985334826]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.04041788289598454, 0.19262349638577145, 0.5163435453816865]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.28623006921586946, 0.26720943284646337, 0.687559077767721]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2935460515296306, 0.28022603653517386, 0.721051620916541]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2609577852658792, 0.2866192309712799, 0.7342279883911115]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.024376973123119754, 0.20396973539506733, 0.5156507232181274]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.23036459642672014, 0.30387574186411725, 0.7682156994809953]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.13667026272440327, 0.19550269441330193, 0.4795543087475381]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09795097017385586, 0.202877861285301, 0.4934541406550842]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09829792235935725, 0.23660107498586194, 0.5754774494207548]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.46046350104250766, 0.3436426788976556, 0.8288489330677694]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.04596683405132069, 0.21709182230384083, 0.5236165773593499]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.18266099396298127, 0.3216152684189424, 0.7692958411150165]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.002455592887890184, 0.2175467402498656, 0.5160941335022381]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.22237835172141523, 0.3224803806931473, 0.7681820570406535]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.19619037281537946, 0.32878871534287635, 0.7705024494158412]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.2323440368379121, 0.25160619396056066, 0.5825378445049746]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.14283514012461695, 0.20829543977419487, 0.47842820997393565]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.20440112253633214, 0.2524763819505684, 0.5556041232251122]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.01225044776459186, 0.24332308469999098, 0.5314124452886194]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.28273782630050964, 0.37213212201857043, 0.7888670635443747]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.34657765034839266, 0.2629481680922917, 0.555375673897704]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3255206485838357, 0.26301206285318224, 0.555510598439609]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.15446678915051204, 0.2357456013199546, 0.4997482382480577]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.44070971965272865, 0.3717036057139067, 0.7879558626075739]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.295187028951363, 0.26478807667096343, 0.5531903985134498]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.004373226948246606, 0.25738304675954454, 0.5319513391583335]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.24978127318585416, 0.265946881272089, 0.5457441089072497]
+[2024-03-08 13:21:35.596] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.07019227215747297, 0.23818031836977313, 0.4870362542659112]
+[2024-03-08 13:21:35.597] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.43524123089537214, 0.3853317347863219, 0.7879298768418073]
+[2024-03-08 13:21:35.597] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.25591494897384637, 0.4725150201026514, 0.9560505794330083]
+[2024-03-08 13:21:35.597] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.043835192823677566, 0.24320261400712148, 0.4938097661089804]
+[2024-03-08 13:21:35.597] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.054092307625985374, 0.24323316443130386, 0.4938717994879052]
+[2024-03-08 13:21:35.597] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.07973125418780666, 0.23222912940465434, 0.4731917237663425]
+[2024-03-08 13:21:35.597] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.18801266764819352, 0.380287308221944, 0.7694456509169748]
+[2024-03-08 13:21:35.597] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3154549829678618, 0.4218346950543986, 0.8475725306167677]
+[2024-03-08 13:21:35.597] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.8787375253056122, 0.5276543398306728, 1.060190959364031]
+[2024-03-08 13:21:35.597] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:183:183] time consumed: 953.019877 / 953.019877
+[2024-03-08 13:21:35.597] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:184:184] key points number: 458 / 364
+[2024-03-08 13:21:38.151] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 10.053582
+[2024-03-08 13:21:38.151] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 9.608501
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.46478054203289515, -0.29817604748823173, 0.6875865192128943]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.31129874690442744, -0.37969611580511253, 0.8617978080255426]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.13625857229355084, -0.28724423420915246, 0.6519597667410901]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.40764639659709084, -0.2941277489189479, 0.6755500695359872]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.18380504361768754, -0.21067799144643104, 0.48580633900114806]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.41791452264030454, -0.28259736963281196, 0.6622290944371517]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.25987364841717103, -0.36006561461209713, 0.840349047122314]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.016223787736772244, -0.4319169485164011, 1.0162515260269043]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4076471199411567, -0.2824334201896779, 0.6755511178324188]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.1728832481775858, -0.3009450798986818, 0.7198290505830948]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3842127994176549, -0.27889735444879865, 0.6754804474590962]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3090656825041797, -0.2558871268483625, 0.6145873840937418]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.11076267634520935, -0.2791715602503157, 0.6761331588741062]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.04084689110348032, -0.4179687346645808, 1.0165583969126244]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.24715981017974023, -0.22239218376471495, 0.5478143978546718]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4181284063717905, -0.27611667818570834, 0.6889705154930365]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4356013276373075, -0.2500801393793823, 0.6377811052784751]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.17156494142798798, -0.1844348609604228, 0.46623795943903423]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.42025961026088937, -0.24682794031459063, 0.6379337054050607]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.40927984568352055, -0.24686121994604546, 0.6380197171673361]
+[2024-03-08 13:21:38.159] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3893496014227909, -0.24573042467235637, 0.6379478089877297]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.16640707260958026, -0.1726600659443085, 0.4606702779315584]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4279738507991519, -0.2390006913767575, 0.6496748321277479]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.2921155484546669, -0.22827121714307327, 0.6147134387780859]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.363038409277133, -0.22515140178309012, 0.6267794610427565]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.056258699682748575, -0.1766214582203336, 0.48698135324958164]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.01081696419455577, -0.17428828024541787, 0.48753277565902126]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.03696480118514364, -0.17592014712586979, 0.49448871083419554]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.31687913425532976, -0.21206837076851015, 0.6049315733958156]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.1667383775969359, -0.1650753425975298, 0.46627083733040164]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.30303209875728077, -0.18609346745756258, 0.5256380454741215]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4125024756458788, -0.21735218590629293, 0.6261882583289327]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3061853408652433, -0.2108943798341767, 0.6045635964568099]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.08092578083330493, -0.18441850335599355, 0.5234613507461995]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.12451134756393928, -0.17697825232422057, 0.5098717093389353]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.053819683943218066, -0.16586434973222136, 0.4802446176707921]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.16756589664065857, -0.1787058988592654, 0.5174259544894524]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.40253304141470764, -0.21698432433024878, 0.6378533815593741]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.37789173173664253, -0.23242373974047634, 0.672945964789748]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.30170876358882126, -0.21505055130319525, 0.6257887679944816]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.21423164059018135, -0.17701705761825554, 0.5177261963516651]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.25190850882939947, -0.17371914580411266, 0.5106699780067046]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.010929722560679877, -0.16726299946279824, 0.49420274839768136]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.0340520704639545, -0.1687520786696364, 0.5011616364848668]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.30584668751456795, -0.17971599866921611, 0.5337222932920668]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.07857599229032598, -0.16955822615958377, 0.5087872527540389]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.12637176776639275, -0.17066419892545637, 0.5174904206604551]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.34321756940302284, -0.17526620448870575, 0.5259150835431188]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.4454880411085244, -0.19790179383087525, 0.600080575876516]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.16936033282151366, -0.16975316837719695, 0.5174403234882273]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.1681103548617124, -0.14938838588623315, 0.4529623791906761]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2142325044019604, -0.16805536985065297, 0.5177291103803001]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.25956244263038775, -0.16988829636376493, 0.5261859739607354]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.41481780199719803, -0.19681568500733734, 0.6263833832035487]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3032659583862627, -0.16714415861756893, 0.5261460831261306]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.35207713148858444, -0.17135880528002717, 0.5423639487613031]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.35190822164952285, -0.19111796995065955, 0.6150177677729821]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.43435431869732627, -0.18011977796850176, 0.5796258610626839]
+[2024-03-08 13:21:38.160] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3328384148794375, -0.18655936884321328, 0.6037056189762025]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.32286056005413205, -0.18574245739367048, 0.6044540298575576]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3863034805345883, -0.1901743935827987, 0.6259291552596224]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.29368484707566317, -0.18161953636199782, 0.6046627430571616]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.40643785160054247, -0.17208989535055771, 0.6042861169387044]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.35446728089680896, -0.17212982946159958, 0.6156582282021447]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.17261569099297727, -0.13406986376380345, 0.465108389246191]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2556806312786426, -0.14222405609001926, 0.5183183221570506]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2988748913408181, -0.14229952997068218, 0.5185933862809388]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.2967829787070868, -0.16780571354984333, 0.6154245905869069]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.41682277546433294, -0.16748151733406505, 0.6261678335888391]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.40604636553862533, -0.15666277083615437, 0.6262524117470675]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.384007630473778, -0.15390825382121484, 0.6152413647526166]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09597250880631793, -0.11603163704645016, 0.46705952655897853]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.056161175772309405, -0.12172272802550616, 0.4865721348924166]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.35403748626284526, -0.1506597089312978, 0.6150177902888088]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.010931885852649497, -0.12106747559111694, 0.4942178294573389]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.035785707268477365, -0.12190946370715969, 0.5011916467333172]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.08035765767296542, -0.12299855733054024, 0.5092990477213983]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.33408340207542947, -0.15000282502457032, 0.6255921267356152]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.1263324007132406, -0.123111548017712, 0.5171813804746855]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.171225575423681, -0.12235788679442633, 0.5177857124477813]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3121188641644295, -0.14967923513790674, 0.6380700652482745]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.21423725309871303, -0.12145314531394527, 0.5177451298887468]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2574812489494298, -0.12069292855227837, 0.518334467803274]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.30327319399855024, -0.12160579681833361, 0.5261618018553057]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3432295866889901, -0.12246572669628229, 0.5259374944565726]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.17034289070860312, -0.10210822228469461, 0.4589743471677697]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.10485421673207697, -0.100421045935094, 0.4936632244908999]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.592953092532432, -0.15797761692656667, 0.8184127985448681]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.16028630478655914, -0.0872968198436639, 0.4482126594269735]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.12637380934398243, -0.09899897919302794, 0.5175064475375518]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.36344697752991995, -0.12111332734873982, 0.6759307563865615]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3862113934285596, -0.11626913438309465, 0.6749645392201543]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.44473853748811554, -0.11227357697630368, 0.7010788547730729]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09585195746722919, -0.07473858049771108, 0.46669773164255557]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3877375916304135, -0.10528358882797133, 0.7030507952519189]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.05373066554119382, -0.07352488579042547, 0.4798683779065363]
+[2024-03-08 13:21:38.161] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.009224565037116767, -0.07487089775763305, 0.4942444549428776]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.035762391071129655, -0.07599602319956576, 0.5016716994505538]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.0803583232404887, -0.07715401959623204, 0.5093159374042354]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.16030816813829166, -0.06941676557954823, 0.453042627098707]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.1262420433152144, -0.07543325630849962, 0.5096040568886364]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.17116139295639027, -0.0765998636873782, 0.5174852782101566]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.21424218990549113, -0.07664079020207105, 0.5177617839813323]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2573694437271809, -0.07668191714403469, 0.5180396476625397]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3032806701324013, -0.07788659032371234, 0.5261780430997751]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3401613840879887, -0.07496589962258661, 0.51857647564913]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.36074257782040203, -0.09671453731353559, 0.7026806588320728]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.5050739779469329, -0.10025023551762671, 0.7471645347662632]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4546057757579019, -0.09365657412352302, 0.716511413699385]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.38978530039079673, -0.09181800442783764, 0.7024455825767875]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.40515693653840656, -0.08628557020551032, 0.6874209105908964]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4550638336271987, -0.07473762497065814, 0.7019217957871696]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3824036128581212, -0.06978765958274533, 0.6890550039464152]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.36763298012351, -0.07502569276035637, 0.7162574390465565]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4156113741727176, -0.06737495141976987, 0.6887790724057749]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3190360277572402, -0.0670215254761933, 0.6617160733125144]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.45081159281712824, -0.06022526530004179, 0.7027609451428525]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.19684823500243295, -0.04692256411528487, 0.5065565238823078]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4381569699206717, -0.057737801363792876, 0.7020686035126219]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.45166287770947844, -0.049667261877592905, 0.6749935330243851]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.38071817155308313, -0.046947437749485996, 0.68642153987353]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.34594053148795734, -0.04347445514908281, 0.6878995350284391]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.009226912857721913, -0.030380059108748084, 0.49426122574259623]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.03576154456297483, -0.03083662154028391, 0.5016891281065702]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.1262442826500601, -0.031324184722230565, 0.5096214022853915]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2128623013304781, -0.031357752455584156, 0.5101675555431002]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.30055151440403144, -0.03185984145503389, 0.5183361863637592]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3450819554171414, -0.03324222510406923, 0.5259957808192623]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.054489433752267454, -0.02906929631209547, 0.48662679381275337]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.08091431086574227, -0.02995872634300044, 0.5015159236796292]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.1710622890974021, -0.030884971522563306, 0.5170213814701873]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2551825985727165, -0.030464475780443548, 0.5099823418281734]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09716707222576935, -0.02662266153713863, 0.4730899898205932]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.0769584653778084, -0.026997925582585153, 0.4797584376465943]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.39082982084132784, -0.03577240593344008, 0.7002835904323694]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.41587705820791837, -0.028592331470101165, 0.6739523495686153]
+[2024-03-08 13:21:38.162] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4720890278672352, -0.0160810155933305, 0.687803213948012]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.40394326140500186, -0.015475883774926659, 0.6619210915277121]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3669494754724905, -0.005160071500073219, 0.6614116150588113]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.33274464245835994, -0.004099088249236848, 0.6754463332109683]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.38906895351978815, -0.000529183552761391, 0.6034337758323329]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.38615543896540183, 0.00159277665314636, 0.6152660067436128]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.30832496711472684, 0.002610967547232195, 0.6046402734259513]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.2626606649579531, 0.005627068808461605, 0.5919045544605976]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.22957521474848047, 0.011061259089615954, 0.5559270452644898]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.25713418275044875, 0.012808636447042731, 0.5104660384804266]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.29790279440146566, 0.01281513994154099, 0.5107252459292762]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.43681062442701724, 0.013307450814744416, 0.5696860410490613]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.12813167873829565, 0.014769681685275607, 0.5172480034671706]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.17041791291058728, 0.014560383850838068, 0.5099182448764296]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.21450124284148947, 0.013672172958013058, 0.5097453230782206]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3417380004654599, 0.013898196972283125, 0.5181723496701794]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09729871546654688, 0.015159470662688513, 0.4734871384200866]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.009229480765712958, 0.015825177717175405, 0.4942795686609333]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.03698155046593868, 0.014964215342835046, 0.4941312224434932]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.08210402492536821, 0.01541161690259449, 0.5089046768736952]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.054495441854554134, 0.016422668933838112, 0.486652374527331]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.2766918944918661, 0.03085020321125406, 0.6042203634661182]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.25828295097929194, 0.038223438375343755, 0.6050171503456095]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3384839923698572, 0.03313915270695921, 0.5105633728258192]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.35784145890481694, 0.047030601269812206, 0.6878880440368833]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3190929879737156, 0.05441372008630773, 0.6618158210191277]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.6285231634223513, 0.07547589844619898, 0.7582991213416135]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3435526121352919, 0.05516596534101774, 0.5182101581702943]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.29948295465305025, 0.05609320636461429, 0.5103227234063854]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3756080380680365, 0.072075163463087, 0.6261304824681593]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3637320117901371, 0.06973455879514255, 0.6245963868615901]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.21771211012163955, 0.05866048691046454, 0.5173818971652878]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2587436787873895, 0.0578302219525239, 0.5100591202587328]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.35217508639205025, 0.0706871436641356, 0.6234662114292452]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.1720924605367543, 0.05953122787062243, 0.509502913935664]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.08265359367369089, 0.060342403812655425, 0.5015823099789951]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.12795593702249752, 0.06126168889690371, 0.5092236067924457]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.007416790909135791, 0.06116268590185398, 0.48735646476405825]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.03751575620209261, 0.06204481622629707, 0.5013057693830246]
+[2024-03-08 13:21:38.163] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.05459534801152332, 0.06281411414431445, 0.4870777466884898]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.39590348328054353, 0.08704486334684321, 0.6488447746223843]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3312639564328152, 0.09124522886918071, 0.6630305917234302]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09437918448565365, 0.06347649640058926, 0.4671313680825594]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.36065931671083207, 0.10375997222513339, 0.6623268196079268]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.32340943353449586, 0.09912770767173905, 0.6258464685723408]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3162288927233377, 0.11496033401570267, 0.6608066312891625]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09702178159034122, 0.08549960669089121, 0.47265167182225093]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3453702253998478, 0.1018237317792338, 0.5182529791757486]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2587551512801961, 0.10198575090238875, 0.510088699815914]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.30099341105276706, 0.1010406589740155, 0.5097780216371721]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.44143100215579884, 0.13309709667032818, 0.6599803833736194]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3901823592615769, 0.1282605290815666, 0.6359978157027889]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.21489485702032754, 0.1021956256686518, 0.5024377239114285]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.12790227504498364, 0.10477968515166006, 0.5023136062264665]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.17121788062704538, 0.10288924408785019, 0.5015809212937822]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3768598731331232, 0.13633890388513698, 0.6590824483217473]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.1675391183597581, 0.0958965358318256, 0.45973263425896954]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.08267378863860643, 0.1064598501142427, 0.5020353752909847]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.03749532716466457, 0.1081383879617297, 0.501758537901726]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.00741940521159807, 0.10672597334568343, 0.4873753710225857]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09731040889248645, 0.10697137803779079, 0.47352241591056415]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.052095561465281486, 0.10759898850839558, 0.4799810343386449]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4026485187061897, 0.14770247165473654, 0.6488531583749045]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.3834793207238031, 0.15350917754169072, 0.6743615450333407]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4500197772072256, 0.15432245341307355, 0.6728188554424491]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.40439032142925885, 0.1628129736040212, 0.6742140579903746]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3524598739049124, 0.14892187807065604, 0.526164779416592]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.25866023767397495, 0.14501944568324673, 0.5031429940942364]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.30278530797565406, 0.1469474802205404, 0.5098348533724545]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.39745023388502576, 0.20018989706990953, 0.6743064263379227]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.21647272195754105, 0.1481408488668211, 0.5019166062563241]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.4074078417689791, 0.19945604080986493, 0.6718335517992691]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.17296746296456705, 0.1497957856462446, 0.5016390582532122]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3578445881458488, 0.16296968547194668, 0.5426093533954315]
+[2024-03-08 13:21:38.164] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.12958959612452325, 0.15249201955281072, 0.5019377127368735]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.08439381529131426, 0.15414414813441113, 0.5016586635357035]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.03867076755365947, 0.1545528827842781, 0.49462740756535967]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.005607167340126639, 0.15256384882687166, 0.4802803617424623]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.143237944438873, 0.15818119047832147, 0.49526367767771107]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2692526263743303, 0.1520937345723103, 0.4814250160134696]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.05147377078453583, 0.15460835779877488, 0.47380472732821793]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.08091956114484382, 0.16282375011252842, 0.5016435919485892]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.13581743047650072, 0.16686160137553604, 0.5007294628060047]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.26979474607152976, 0.2514493390401961, 0.7665062674627163]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.1593086436478535, 0.15215019073741454, 0.4542241700416961]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.11568008144926104, 0.1646729181336451, 0.49416323002079]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.07006806648358362, 0.1792624918264702, 0.524324581903427]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.08954699523051766, 0.1809102522390675, 0.5318372971040771]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.17190438011018508, 0.16287146118357512, 0.4669232392500468]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.25192403388281626, 0.28054935042803425, 0.8205685548809706]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.08814379720362649, 0.20744034542179857, 0.5747300046426433]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.13354257611877074, 0.17804734679637096, 0.4862978877393001]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.4584064914131, 0.31784589457867396, 0.8681233530895004]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.18136383417819718, 0.17714029999488667, 0.47928814670206693]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.19126255410305235, 0.20561405525783547, 0.5563288724314137]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.08330668468039878, 0.18981793070279832, 0.5160068314058728]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2783665406520443, 0.28808485752962276, 0.7686642495294613]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.24635558979913305, 0.293288081514935, 0.7683509850245128]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.06745858726683147, 0.20782036104764243, 0.5323749844469907]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.3115225799136734, 0.2976265664648922, 0.7524180062315293]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.4636207644278704, 0.3457159232675355, 0.8664056636189174]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.1995231677196175, 0.3254378141081222, 0.8051098961426196]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.21371292516266313, 0.32737182778156465, 0.8064415554791846]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.26061341166713325, 0.2768458257818662, 0.6762099383227438]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.23779245361946239, 0.32405804954301926, 0.8016898337052756]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.07417353527831214, 0.20736641927944469, 0.49397118798188394]
+[2024-03-08 13:21:38.165] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.026445508756832405, 0.2223172437857571, 0.5317791632558162]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.013032314972065263, 0.20657222442596432, 0.4941176204030722]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.46811287959928716, 0.36505336934146493, 0.8695984214620625]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.00454437024798331, 0.20718267908905158, 0.49353423702616844]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.048964330093521954, 0.20729468567782797, 0.4938010545850385]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.06008242848905884, 0.21535263055683454, 0.5151193521552351]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09608175945059799, 0.20864209268903036, 0.49294512451725064]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.05457267616103818, 0.2311167208331974, 0.5308445095902551]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2131832850843715, 0.3512821554189429, 0.8036490894019583]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.4625902451665806, 0.38223305802121277, 0.8641846875524573]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.13369281523305696, 0.2194692422605967, 0.4866763276033316]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.2861794625617792, 0.3498788542792664, 0.7818503754647355]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.09994410133202905, 0.2219267595618633, 0.4865233754779679]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.05215214029680792, 0.23212233351814376, 0.5088746450816578]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.8414847941486899, 0.5022575095460386, 1.0927853446068339]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.45960809514079504, 0.39720353875817876, 0.864206173783857]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.16179144374375756, 0.2593425552723984, 0.547760091744765]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.028627583605194046, 0.20213973686973688, 0.42694213394604585]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [0.0409580659911267, 0.242921418991748, 0.502061342506941]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:171] Triangulate success. Point: [-0.10022248123112183, 0.23380555485165982, 0.479789211482304]
+[2024-03-08 13:21:38.166] [MineLog] [info] [/home/lin/Projects/super-vio/node/offline_node.cpp:171:

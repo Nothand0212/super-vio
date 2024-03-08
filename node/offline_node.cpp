@@ -1,3 +1,7 @@
+#include <pcl_conversions/pcl_conversions.h>
+#include <ros/ros.h>
+#include <sensor_msgs/PointCloud2.h>
+
 #include <future>
 #include <memory>
 #include <opencv2/opencv.hpp>
@@ -6,13 +10,14 @@
 #include "base_onnx_runner.h"
 #include "configuration.h"
 #include "extractor/extractor.h"
+#include "frame.h"
 #include "image_process.h"
 #include "logger/logger.h"
 #include "matcher/matcher.h"
 #include "utilities/accumulate_average.h"
+#include "utilities/reconstructor.h"
 #include "utilities/timer.h"
 #include "visualizer.h"
-
 std::vector<cv::Mat> readImage( std::vector<cv::String> image_file_vec, bool grayscale = false )
 {
   /*
@@ -44,13 +49,37 @@ std::vector<cv::Mat> readImage( std::vector<cv::String> image_file_vec, bool gra
   return image_matlist;
 }
 
+void publishPointCloud( ros::Publisher& pub, const std::vector<Eigen::Vector3d>& points )
+{
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud( new pcl::PointCloud<pcl::PointXYZ> );
+
+  // Fill the PointCloud with the points
+  for ( const auto& point : points )
+  {
+    cloud->points.push_back( pcl::PointXYZ( point[ 0 ], point[ 1 ], point[ 2 ] ) );
+  }
+
+  // Convert the PointCloud to a sensor_msgs/PointCloud2
+  sensor_msgs::PointCloud2 output;
+  pcl::toROSMsg( *cloud, output );
+
+  // Publish the data
+  pub.publish( output );
+}
+
 int main( int argc, char const* argv[] )
 {
+  ros::init( argc, argv, "offline_node" );
+  ros::NodeHandle nh;
+  ros::Publisher  pub = nh.advertise<sensor_msgs::PointCloud2>( "/point_cloud", 1 );
+
+
   std::string config_path;
   if ( argc != 2 )
   {
-    std::cerr << "Usage: " << argv[ 0 ] << " <path_to_config>" << std::endl;
-    return 1;
+    std::cerr << "Usage: " << argv[ 0 ] << " <path_to_config>\n";
+    std::cout << BOLDRED << "Using default config path: /home/lin/Projects/super-vio/config/param.json" << RESET << "\n";
+    config_path = "/home/lin/Projects/super-vio/config/param.json";
   }
   else
   {
@@ -65,7 +94,6 @@ int main( int argc, char const* argv[] )
 
   Timer             timer;
   AccumulateAverage accumulate_average_timer;
-
 
   std::vector<cv::String> image_file_src_vec;
   std::vector<cv::String> image_file_dst_vec;
@@ -102,7 +130,6 @@ int main( int argc, char const* argv[] )
   auto   iter_dst = image_dst_mat_vec.begin();
   for ( ; iter_src != image_src_mat_vec.end(); ++iter_src, ++iter_dst )
   {
-    INFO( logger, "processing image {0} / {1}", image_file_src_vec[ count ], image_file_dst_vec[ count ] );
     count++;
     timer.tic();
 
@@ -125,22 +152,67 @@ int main( int argc, char const* argv[] )
     auto matches_set = matcher_ptr->inferenceDescriptorPair( cfg, key_points_src, key_points_dst, key_points_result_left.getDescriptor(), key_points_result_right.getDescriptor() );
 
 
+    std::vector<cv::Point2f> key_points_transformed_src = getKeyPointsInOriginalImage( key_points_src, scale_temp );
+    std::vector<cv::Point2f> key_points_transformed_dst = getKeyPointsInOriginalImage( key_points_dst, scale_temp );
+
     std::vector<cv::Point2f> matches_src;
     std::vector<cv::Point2f> matches_dst;
     for ( const auto& match : matches_set )
     {
-      matches_src.emplace_back( key_points_src[ match.first ] );
-      matches_dst.emplace_back( key_points_dst[ match.second ] );
+      matches_src.emplace_back( key_points_transformed_src[ match.first ] );
+      matches_dst.emplace_back( key_points_transformed_dst[ match.second ] );
     }
     std::pair<std::vector<cv::Point2f>, std::vector<cv::Point2f>> matches_pair = std::make_pair( matches_src, matches_dst );
+
+
+    // Triangulate keypoints
+    // pixel to camera
+    cv::Mat K_left  = cfg.camera_matrix_left;
+    cv::Mat K_right = cfg.camera_matrix_right;
+
+    Eigen::Matrix<double, 3, 4> pose_left  = Eigen::Matrix<double, 3, 4>::Identity();
+    Eigen::Matrix<double, 3, 4> pose_right = Eigen::Matrix<double, 3, 4>::Identity();
+    pose_right( 0, 3 )                     = -0.12f;  // 120mm
+
+    std::vector<Eigen::Vector3d> points_3d;
+    for ( const auto& match : matches_set )
+    {
+      Eigen::Vector3d point_3d;
+
+      bool success = compute3DPoint( K_left, K_right, pose_left, pose_right, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
+
+      // bool success = triangulate( pose_left, pose_right, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
+
+      if ( !success )
+      {
+        WARN( logger, "Triangulate failed" );
+        continue;
+      }
+      else if ( point_3d[ 2 ] < 0 )
+      {
+        WARN( logger, "Triangulate failed, point behind camera" );
+        continue;
+      }
+      else
+      {
+        INFO( logger, "Triangulate success. Point: [{0}, {1}, {2}]", point_3d[ 0 ], point_3d[ 1 ], point_3d[ 2 ] );
+        points_3d.push_back( point_3d );
+      }
+    }
+
+    // std::thread visualizer_3d( [ points_3d ]() {
+    //   visualizePoints( points_3d );
+    // } );
+    // visualizer_3d.detach();
+    publishPointCloud( pub, points_3d );
+
 
     time_consumed = timer.tocGetDuration();
     accumulate_average_timer.addValue( time_consumed );
     INFO( logger, "time consumed: {0} / {1}", time_consumed, accumulate_average_timer.getAverage() );
-    INFO( logger, "key points number: {0} / {1}", key_points_src.size(), key_points_dst.size() );
+    INFO( logger, "key points number: {0} / {1}", key_points_transformed_src.size(), key_points_transformed_dst.size() );
 
-    // visualizeKeyPoints( *iter_src, *iter_dst, key_points_src, key_points_dst );
-    visualizeMatches( *iter_src, *iter_dst, matches_pair, key_points_src, key_points_dst );
+    visualizeMatches( *iter_src, *iter_dst, matches_pair, key_points_transformed_src, key_points_transformed_dst );
   }
   return 0;
 }

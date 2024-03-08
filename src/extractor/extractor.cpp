@@ -51,7 +51,7 @@ int Extracotr::initOrtEnv( const Config& config )
 
     m_uptr_session = std::make_unique<Ort::Session>( m_env, config.extractor_path.c_str(), m_session_options );
 
-    INFO( logger, "Extractor model loaded" );
+    // INFO( logger, "Extractor model loaded" );
     extractNodesInfo( IO::INPUT, m_vec_input_names, m_vec_input_shapes, m_uptr_session, m_allocator );
     extractNodesInfo( IO::OUTPUT, m_vec_output_names, m_vec_output_shapes, m_uptr_session, m_allocator );
 
@@ -68,16 +68,16 @@ int Extracotr::initOrtEnv( const Config& config )
 
 cv::Mat Extracotr::prePorcess( const Config& config, const cv::Mat& image, float& scale )
 {
-  INFO( logger, "Preprocessing image" );
+  // INFO( logger, "Preprocessing image" );
 
   float   scale_temp = scale;
   cv::Mat image_temp = image.clone();
-  INFO( logger, "image_in size: [{0}, {1}]", image_temp.cols, image_temp.rows );
+  // INFO( logger, "image_in size: [{0}, {1}]", image_temp.cols, image_temp.rows );
 
   std::string fn{ "max" };
   std::string interp{ "area" };
   cv::Mat     image_result = normalizeImage( resizeImage( image_temp, config.image_size, scale, fn, interp ) );
-  INFO( logger, "image_out size: [{0}, {1}], scale from 1.0 to {3}", image_result.cols, image_result.rows, scale_temp, scale );
+  // INFO( logger, "image_out size: [{0}, {1}], scale from 1.0 to {3}", image_result.cols, image_result.rows, scale_temp, scale );
 
   m_width_transformed  = image_result.cols;
   m_height_transformed = image_result.rows;
@@ -87,7 +87,7 @@ cv::Mat Extracotr::prePorcess( const Config& config, const cv::Mat& image, float
 
 int Extracotr::inference( const Config& config, const cv::Mat& image )
 {
-  INFO( logger, "Inferencing image" );
+  // INFO( logger, "Inferencing image" );
 
   try
   {
@@ -136,14 +136,14 @@ int Extracotr::inference( const Config& config, const cv::Mat& image )
 
 Features Extracotr::postProcess( const Config& config, std::vector<Ort::Value> tensor )
 {
-  INFO( logger, "Transforming tensor to key points" );
+  // INFO( logger, "Transforming tensor to key points" );
   Features key_points_result;
 
   try
   {
     std::vector<int64_t> points_shape     = tensor[ 0 ].GetTensorTypeAndShapeInfo().GetShape();
     int64_t*             ptr_points_value = (int64_t*)tensor[ 0 ].GetTensorMutableData<int64_t>();
-    INFO( logger, "key points shape: [{0}, {1}, {2}], size: {3}", points_shape[ 0 ], points_shape[ 1 ], points_shape[ 2 ], points_shape.size() );
+    // INFO( logger, "key points shape: [{0}, {1}, {2}], size: {3}", points_shape[ 0 ], points_shape[ 1 ], points_shape[ 2 ], points_shape.size() );
 
     std::vector<cv::Point2f> vec_points;
     for ( int i = 0; i < points_shape[ 1 ] * 2; i += 2 )
@@ -155,7 +155,7 @@ Features Extracotr::postProcess( const Config& config, std::vector<Ort::Value> t
 
     std::vector<int64_t> score_shape     = tensor[ 1 ].GetTensorTypeAndShapeInfo().GetShape();
     float*               ptr_score_value = (float*)tensor[ 1 ].GetTensorMutableData<float>();
-    INFO( logger, "score shape: [{0}, {1}], size: {2}", score_shape[ 0 ], score_shape[ 1 ], score_shape.size() );
+    // INFO( logger, "score shape: [{0}, {1}], size: {2}", score_shape[ 0 ], score_shape[ 1 ], score_shape.size() );
 
     std::vector<float> vec_score;
     for ( int i = 0; i < score_shape[ 1 ]; i++ )
@@ -166,10 +166,10 @@ Features Extracotr::postProcess( const Config& config, std::vector<Ort::Value> t
 
     std::vector<int64_t> descriptor_shape     = tensor[ 2 ].GetTensorTypeAndShapeInfo().GetShape();
     float*               ptr_descriptor_value = (float*)tensor[ 2 ].GetTensorMutableData<float>();
-    INFO( logger, "descriptor shape: [{0}, {1}, {2}], size: {3}", descriptor_shape[ 0 ], descriptor_shape[ 1 ], descriptor_shape[ 2 ], descriptor_shape.size() );
+    // INFO( logger, "descriptor shape: [{0}, {1}, {2}], size: {3}", descriptor_shape[ 0 ], descriptor_shape[ 1 ], descriptor_shape[ 2 ], descriptor_shape.size() );
 
     cv::Mat mat_descriptor( descriptor_shape[ 1 ], descriptor_shape[ 2 ], CV_32FC1, ptr_descriptor_value );
-    INFO( logger, "descriptor size: [{0}, {1}]", mat_descriptor.cols, mat_descriptor.rows );
+    // INFO( logger, "descriptor size: [{0}, {1}]", mat_descriptor.cols, mat_descriptor.rows );
     key_points_result.setDescriptor( mat_descriptor );
   }
   catch ( const std::exception& e )
@@ -540,7 +540,7 @@ Features Extracotr::distributeKeyPoints( const Features& key_points, const cv::M
 
 Features Extracotr::inferenceImage( const Config& config, const cv::Mat& image )
 {
-  INFO( logger, "**** Inferencing image ****" );
+  // INFO( logger, "**** Inferencing image ****" );
 
 #ifdef DEBUG
   Timer timer;
@@ -552,7 +552,7 @@ Features Extracotr::inferenceImage( const Config& config, const cv::Mat& image )
   if ( inference( config, image_temp ) == EXIT_SUCCESS )
   {
 #ifdef DEBUG
-    INFO( logger, "inference image time consumed: {0}", timer.tocGetDuration() );
+    // INFO( logger, "inference image time consumed: {0}", timer.tocGetDuration() );
 #endif
     return getKeyPoints();
   }
