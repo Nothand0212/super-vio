@@ -82,7 +82,9 @@ int main()
 
 
     // Triangulate keypoints
-    Eigen::Matrix<double, 3, 4> pose_left, pose_right;
+    Eigen::Matrix<double, 3, 4> pose_left  = Eigen::Matrix<double, 3, 4>::Identity();
+    Eigen::Matrix<double, 3, 4> pose_right = Eigen::Matrix<double, 3, 4>::Identity();
+    pose_right( 0, 3 )                     = 0.12f;  // 120mm
     for ( const auto &match : matches_set )
     {
       Eigen::Vector3d point_3d;

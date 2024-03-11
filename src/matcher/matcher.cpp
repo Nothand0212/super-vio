@@ -98,7 +98,7 @@ std::vector<cv::Point2f> Matcher::preProcess( std::vector<cv::Point2f> key_point
 
 int Matcher::inference( const Config& config, const std::vector<cv::Point2f> key_points_src, const std::vector<cv::Point2f> key_points_dst, const cv::Mat& descriptor_src, const cv::Mat& descriptor_dst )
 {
-  INFO( logger, "Matcher inference start" );
+  // INFO( logger, "Matcher inference start" );
 
   try
   {
@@ -107,7 +107,7 @@ int Matcher::inference( const Config& config, const std::vector<cv::Point2f> key
     m_vec_input_shapes[ 2 ] = { 1, static_cast<int>( key_points_src.size() ), 256 };
     m_vec_input_shapes[ 3 ] = { 1, static_cast<int>( key_points_dst.size() ), 256 };
 
-    INFO( logger, "Input shapes initialized" );
+    // INFO( logger, "Input shapes initialized" );
     auto   memory_info_handler = Ort::MemoryInfo::CreateCpu( OrtAllocatorType::OrtDeviceAllocator, OrtMemType::OrtMemTypeCPU );
     float* key_points_src_data = new float[ key_points_src.size() * 2 ];
     float* key_points_dst_data = new float[ key_points_dst.size() * 2 ];
@@ -146,7 +146,7 @@ int Matcher::inference( const Config& config, const std::vector<cv::Point2f> key
       descriptor_dst_data     = const_cast<float*>( descriptor_dst.ptr<float>( 0 ) );
     }
 
-    INFO( logger, "Matcher inference input tensors created" );
+    // INFO( logger, "Matcher inference input tensors created" );
     std::vector<Ort::Value> input_tensors;
     input_tensors.push_back( Ort::Value::CreateTensor<float>( memory_info_handler, key_points_src_data, key_points_src.size() * 2, m_vec_input_shapes[ 0 ].data(), m_vec_input_shapes[ 0 ].size() ) );
     input_tensors.push_back( Ort::Value::CreateTensor<float>( memory_info_handler, key_points_dst_data, key_points_dst.size() * 2, m_vec_input_shapes[ 1 ].data(), m_vec_input_shapes[ 1 ].size() ) );
@@ -155,7 +155,7 @@ int Matcher::inference( const Config& config, const std::vector<cv::Point2f> key
 
     m_timer.tic();
     auto output_tensor_temp = m_uptr_session->Run( Ort::RunOptions{ nullptr }, m_vec_input_names.data(), input_tensors.data(), input_tensors.size(), m_vec_output_names.data(), m_vec_output_names.size() );
-    INFO( logger, "matcher inference time consumed: {0}", m_timer.tocGetDuration() );
+    // INFO( logger, "matcher inference time consumed: {0}", m_timer.tocGetDuration() );
 
     m_vec_output_tensor = std::move( output_tensor_temp );
   }
@@ -169,7 +169,7 @@ int Matcher::inference( const Config& config, const std::vector<cv::Point2f> key
 
 int Matcher::postProcess( const Config& config )
 {
-  INFO( logger, "Matcher post process start" );
+  // INFO( logger, "Matcher post process start" );
   try
   {
     std::vector<int64_t> matches_shape = m_vec_output_tensor[ 0 ].GetTensorTypeAndShapeInfo().GetShape();

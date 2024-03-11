@@ -1,6 +1,6 @@
 {
-    "device": 0,
-    "frame_rate": 30,
+    "port": 0,
+    "rate": 30,
     "resolution": {
         "width": 1280,
         "height": 720

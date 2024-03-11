@@ -10,6 +10,8 @@
  */
 
 #pragma once
+#include <pcl/point_types.h>
+#include <pcl/visualization/pcl_visualizer.h>
 
 #include <iostream>
 #include <numeric>
@@ -17,7 +19,7 @@
 
 #include "data/features.h"
 
-void visualizeMatches( const cv::Mat& src, const cv::Mat& dst, const std::pair<std::vector<cv::Point2f>, std::vector<cv::Point2f>>& key_points, const std::vector<cv::Point2f>& key_points_src, const std::vector<cv::Point2f>& key_points_dst )
+cv::Mat visualizeMatches( const cv::Mat& src, const cv::Mat& dst, const std::pair<std::vector<cv::Point2f>, std::vector<cv::Point2f>>& key_points, const std::vector<cv::Point2f>& key_points_src, const std::vector<cv::Point2f>& key_points_dst )
 {
   // Convert the points to cv::KeyPoint objects
   std::vector<cv::KeyPoint> key_points_1, key_points_2;
@@ -54,6 +56,7 @@ void visualizeMatches( const cv::Mat& src, const cv::Mat& dst, const std::pair<s
   // Display the matches
   cv::imshow( "Matches", img_matches );
   cv::waitKey( 0 );
+  return img_matches;
 }
 
 void visualizeKeyPoints( const cv::Mat& image_src, const cv::Mat& image_dst, const std::vector<cv::Point2f> key_points_src, const std::vector<cv::Point2f> key_points_dst )
@@ -115,4 +118,36 @@ void visualizeKeyPoints( const cv::Mat& image_src, const cv::Mat& image_dst,
   // Display the matches
   cv::imshow( "Keypoints", img_matches );
   cv::waitKey( 0 );
+}
+
+inline void visualizePoints( const std::vector<Eigen::Vector3d>& points )
+{
+  // Create a PointCloud object
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud( new pcl::PointCloud<pcl::PointXYZ> );
+
+  // Fill the PointCloud with the points
+  for ( const auto& point : points )
+  {
+    cloud->points.push_back( pcl::PointXYZ( point[ 0 ], point[ 1 ], point[ 2 ] ) );
+  }
+
+  // Create a viewer
+  pcl::visualization::PCLVisualizer viewer( "Cloud Viewer" );
+
+  // Set the background color
+  viewer.setBackgroundColor( 0, 0, 0 );
+
+  // Add the point cloud to the viewer
+  viewer.addPointCloud<pcl::PointXYZ>( cloud, "sample cloud" );
+
+  // Set the point size
+  viewer.setPointCloudRenderingProperties( pcl::visualization::PCL_VISUALIZER_POINT_SIZE, 1, "sample cloud" );
+
+  // Spin the viewer until the user closes the window
+
+  while ( !viewer.wasStopped() )
+  {
+    viewer.spinOnce( 100 );
+    std::this_thread::sleep_for( std::chrono::milliseconds( 100 ) );
+  }
 }

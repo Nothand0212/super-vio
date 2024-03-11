@@ -71,13 +71,13 @@ public:
 
     size_t num_nodes = ( io == IO::INPUT ) ? session_uptr->GetInputCount() : session_uptr->GetOutputCount();
 
-    INFO( logger, "num_nodes: {0}", num_nodes );
+    // INFO( logger, "num_nodes: {0}", num_nodes );
     node_names.reserve( num_nodes );
 
     auto processNode = [ & ]( size_t i ) {
       char* node_name_temp = new char[ std::strlen( ( io == IO::INPUT ? session_uptr->GetInputNameAllocated( i, allocator ) : session_uptr->GetOutputNameAllocated( i, allocator ) ).get() ) + 1 ];
       std::strcpy( node_name_temp, ( io == IO::INPUT ? session_uptr->GetInputNameAllocated( i, allocator ) : session_uptr->GetOutputNameAllocated( i, allocator ) ).get() );
-      INFO( logger, "extractor node name: {0}", node_name_temp );
+      // INFO( logger, "extractor node name: {0}", node_name_temp );
       node_names.push_back( node_name_temp );
       node_shapes.emplace_back( ( io == IO::INPUT ? session_uptr->GetInputTypeInfo( i ) : session_uptr->GetOutputTypeInfo( i ) ).GetTensorTypeAndShapeInfo().GetShape() );
     };
