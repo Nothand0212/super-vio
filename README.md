@@ -21,6 +21,10 @@ catkin_make
 roslaunch super_vio offline.launch
 ```
 
+## Doing
+
+- 1. how to optimize the triangulate precision?
+
 ## History
 
 - 2024-03-11:
