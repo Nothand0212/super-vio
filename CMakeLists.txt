@@ -53,6 +53,10 @@ find_package(PCL REQUIRED)
 message("PCL version: " ${PCL_VERSION})
 include_directories(${PCL_INCLUDE_DIRS})
 
+# fmt
+# find_package(fmt REQUIRED)
+# set (FMT_LIBRARIES fmt::fmt)
+
 # SOPHUS
 find_package(Sophus REQUIRED)
 message("Sophus version: " ${Sophus_VERSION})
@@ -82,9 +86,8 @@ target_link_libraries(frame ${OpenCV_LIBS} ${Sophus_LIBS} logger spdlog::spdlog)
 add_library(map_point src/data/mapPoint.cpp)
 target_link_libraries(map_point ${OpenCV_LIBS} ${Sophus_LIBS} logger spdlog::spdlog)
 
-
 add_executable(online_node node/online_node.cpp)
-target_link_libraries(online_node extractor matcher frame map_point ${OpenCV_LIBS} ${Sophus_LIBS} ${PCL_LIBRARIES}  ${catkin_LIBRARIES} logger spdlog::spdlog)
+target_link_libraries(online_node extractor matcher frame map_point ${OpenCV_LIBS} ${Sophus_LIBS} ${PCL_LIBRARIES}  ${catkin_LIBRARIES} logger spdlog::spdlog )
 
 add_executable(offline_node node/offline_node.cpp)
-target_link_libraries(offline_node extractor matcher frame map_point ${OpenCV_LIBS} ${Sophus_LIBS} ${PCL_LIBRARIES} ${catkin_LIBRARIES} logger spdlog::spdlog)
+target_link_libraries(offline_node extractor matcher frame map_point ${OpenCV_LIBS} ${Sophus_LIBS} ${PCL_LIBRARIES} ${catkin_LIBRARIES} logger spdlog::spdlog )
