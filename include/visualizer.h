@@ -119,7 +119,6 @@ void visualizeKeyPoints( const cv::Mat& image_src, const cv::Mat& image_dst,
   cv::waitKey( 0 );
 }
 
-
 inline void visualizePoints( const std::vector<Eigen::Vector3d>& points )
 {
   // Create a PointCloud object
