@@ -1,173 +1,59 @@
-[2024-03-07 23:05:51.830] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:65:65] Start
-[2024-03-07 23:05:51.939] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:7:7] Extractor is being constructed, threads_num: 6, point_num: 200
-[2024-03-07 23:05:51.939] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:17:17] Initializing extractor ort env
-[2024-03-07 23:05:51.939] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:31:31] Using 6 threads, with graph optimization level 99
-[2024-03-07 23:05:51.939] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:35:35] Using CUDA for extractor
-[2024-03-07 23:05:52.076] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:50:50] Loading extractor model from /home/lin/Projects/super-vio/models/superpoint.onnx
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:54:54] Extractor model loaded
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 1
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: image
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 3
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: keypoints
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: scores
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: descriptors
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:58:58] Extractor ort env initialized
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:7:7] Extractor is being constructed, threads_num: 6, point_num: 200
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:17:17] Initializing extractor ort env
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:31:31] Using 6 threads, with graph optimization level 99
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:35:35] Using CUDA for extractor
-[2024-03-07 23:05:52.544] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:50:50] Loading extractor model from /home/lin/Projects/super-vio/models/superpoint.onnx
-[2024-03-07 23:05:52.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:54:54] Extractor model loaded
-[2024-03-07 23:05:52.596] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 1
-[2024-03-07 23:05:52.596] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: image
-[2024-03-07 23:05:52.596] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 3
-[2024-03-07 23:05:52.596] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: keypoints
-[2024-03-07 23:05:52.597] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: scores
-[2024-03-07 23:05:52.597] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: descriptors
-[2024-03-07 23:05:52.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:58:58] Extractor ort env initialized
-[2024-03-07 23:05:52.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:19:19] Matcher is being created
-[2024-03-07 23:05:52.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:41:41] Initializing matcher ort env
-[2024-03-07 23:05:52.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:55:55] Using 0 threads, with graph optimization level 99
-[2024-03-07 23:05:52.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:59:59] Using CUDA for matcher
-[2024-03-07 23:05:52.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:74:74] Loading matcher model from /home/lin/Projects/super-vio/models/superpoint_lightglue_fused_fp16.onnx
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:78:78] Matcher model loaded
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 4
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: kpts0
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: kpts1
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: desc0
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: desc1
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 2
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: matches0
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: mscores0
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:82:82] Matcher ort env initialized
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:106:106] processing image /home/lin/Projects/super-vio/data/left/0.png / /home/lin/Projects/super-vio/data/right/0.png
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
-[2024-03-07 23:05:52.814] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
-[2024-03-07 23:05:52.815] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
-[2024-03-07 23:05:52.815] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
-[2024-03-07 23:05:52.817] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
-[2024-03-07 23:05:52.817] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
-[2024-03-07 23:05:52.818] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
-[2024-03-07 23:05:52.818] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 786.180018
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:139:139] Transforming tensor to key points
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:146:146] key points shape: [1, 458, 2], size: 3
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:158:158] score shape: [1, 458], size: 2
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 787.009004
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:169:169] descriptor shape: [1, 458, 256], size: 3
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:139:139] Transforming tensor to key points
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:172:172] descriptor size: [256, 458]
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:146:146] key points shape: [1, 364, 2], size: 3
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:158:158] score shape: [1, 364], size: 2
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:169:169] descriptor shape: [1, 364, 256], size: 3
-[2024-03-07 23:05:53.605] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:172:172] descriptor size: [256, 364]
-[2024-03-07 23:05:53.606] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:555:555] inference image time consumed: 791.328434
-[2024-03-07 23:05:53.606] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:555:555] inference image time consumed: 791.315448
-[2024-03-07 23:05:53.606] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:101:101] Matcher inference start
-[2024-03-07 23:05:53.606] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:110:110] Input shapes initialized
-[2024-03-07 23:05:53.606] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:149:149] Matcher inference input tensors created
-[2024-03-07 23:05:53.624] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:158:158] matcher inference time consumed: 17.944031
-[2024-03-07 23:05:53.624] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:172:172] Matcher post process start
-[2024-03-07 23:05:53.624] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:151:151] time consumed: 809.873778 / 809.873778
-[2024-03-07 23:05:53.624] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:152:152] key points number: 458 / 364
-[2024-03-07 23:05:55.562] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:106:106] processing image /home/lin/Projects/super-vio/data/left/1.png / /home/lin/Projects/super-vio/data/right/1.png
-[2024-03-07 23:05:55.562] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
-[2024-03-07 23:05:55.562] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
-[2024-03-07 23:05:55.562] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
-[2024-03-07 23:05:55.562] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
-[2024-03-07 23:05:55.563] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
-[2024-03-07 23:05:55.563] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
-[2024-03-07 23:05:55.565] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
-[2024-03-07 23:05:55.565] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
-[2024-03-07 23:05:55.567] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
-[2024-03-07 23:05:55.567] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 28.119998
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:139:139] Transforming tensor to key points
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:146:146] key points shape: [1, 501, 2], size: 3
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:158:158] score shape: [1, 501], size: 2
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 26.720466
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:139:139] Transforming tensor to key points
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:169:169] descriptor shape: [1, 501, 256], size: 3
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:146:146] key points shape: [1, 406, 2], size: 3
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:172:172] descriptor size: [256, 501]
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:158:158] score shape: [1, 406], size: 2
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:169:169] descriptor shape: [1, 406, 256], size: 3
-[2024-03-07 23:05:55.596] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:172:172] descriptor size: [256, 406]
-[2024-03-07 23:05:55.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:555:555] inference image time consumed: 34.555365
-[2024-03-07 23:05:55.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:555:555] inference image time consumed: 34.506333
-[2024-03-07 23:05:55.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:101:101] Matcher inference start
-[2024-03-07 23:05:55.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:110:110] Input shapes initialized
-[2024-03-07 23:05:55.597] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:149:149] Matcher inference input tensors created
-[2024-03-07 23:05:55.608] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:158:158] matcher inference time consumed: 10.718789
-[2024-03-07 23:05:55.608] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:172:172] Matcher post process start
-[2024-03-07 23:05:55.608] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:151:151] time consumed: 46.061963 / 427.9678705
-[2024-03-07 23:05:55.608] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:152:152] key points number: 501 / 406
-[2024-03-07 23:05:56.241] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:106:106] processing image /home/lin/Projects/super-vio/data/left/21.png / /home/lin/Projects/super-vio/data/right/21.png
-[2024-03-07 23:05:56.241] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
-[2024-03-07 23:05:56.241] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
-[2024-03-07 23:05:56.241] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
-[2024-03-07 23:05:56.241] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
-[2024-03-07 23:05:56.241] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
-[2024-03-07 23:05:56.242] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
-[2024-03-07 23:05:56.243] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
-[2024-03-07 23:05:56.243] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
-[2024-03-07 23:05:56.246] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
-[2024-03-07 23:05:56.246] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
-[2024-03-07 23:05:56.272] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 23.277101
-[2024-03-07 23:05:56.272] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:139:139] Transforming tensor to key points
-[2024-03-07 23:05:56.272] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:146:146] key points shape: [1, 282, 2], size: 3
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:158:158] score shape: [1, 282], size: 2
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:169:169] descriptor shape: [1, 282, 256], size: 3
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:172:172] descriptor size: [256, 282]
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:555:555] inference image time consumed: 31.679995
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 25.89433
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:139:139] Transforming tensor to key points
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:146:146] key points shape: [1, 218, 2], size: 3
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:158:158] score shape: [1, 218], size: 2
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:169:169] descriptor shape: [1, 218, 256], size: 3
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:172:172] descriptor size: [256, 218]
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:555:555] inference image time consumed: 31.750875
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:101:101] Matcher inference start
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:110:110] Input shapes initialized
-[2024-03-07 23:05:56.273] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:149:149] Matcher inference input tensors created
-[2024-03-07 23:05:56.280] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:158:158] matcher inference time consumed: 7.556414
-[2024-03-07 23:05:56.280] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:172:172] Matcher post process start
-[2024-03-07 23:05:56.281] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:151:151] time consumed: 39.957255 / 298.6309986666667
-[2024-03-07 23:05:56.281] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:152:152] key points number: 282 / 218
-[2024-03-07 23:05:56.756] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:106:106] processing image /home/lin/Projects/super-vio/data/left/22.png / /home/lin/Projects/super-vio/data/right/22.png
-[2024-03-07 23:05:56.756] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
-[2024-03-07 23:05:56.756] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
-[2024-03-07 23:05:56.756] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
-[2024-03-07 23:05:56.757] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
-[2024-03-07 23:05:56.757] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
-[2024-03-07 23:05:56.757] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
-[2024-03-07 23:05:56.759] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
-[2024-03-07 23:05:56.759] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
-[2024-03-07 23:05:56.761] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
-[2024-03-07 23:05:56.761] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 25.054516
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:139:139] Transforming tensor to key points
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:146:146] key points shape: [1, 294, 2], size: 3
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:158:158] score shape: [1, 294], size: 2
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:169:169] descriptor shape: [1, 294, 256], size: 3
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:172:172] descriptor size: [256, 294]
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:555:555] inference image time consumed: 30.922296
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 24.272919
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:139:139] Transforming tensor to key points
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:146:146] key points shape: [1, 224, 2], size: 3
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:158:158] score shape: [1, 224], size: 2
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:169:169] descriptor shape: [1, 224, 256], size: 3
-[2024-03-07 23:05:56.787] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:172:172] descriptor size: [256, 224]
-[2024-03-07 23:05:56.788] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:555:555] inference image time consumed: 30.99942
-[2024-03-07 23:05:56.788] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:101:101] Matcher inference start
-[2024-03-07 23:05:56.788] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:110:110] Input shapes initialized
-[2024-03-07 23:05:56.788] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:149:149] Matcher inference input tensors created
-[2024-03-07 23:05:56.796] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:158:158] matcher inference time consumed: 8.175587
-[2024-03-07 23:05:56.796] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:172:172] Matcher post process start
-[2024-03-07 23:05:56.796] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:151:151] time consumed: 39.688869 / 233.89546625
-[2024-03-07 23:05:56.796] [MineLog] [info] [/home/lin/Projects/super-vio/test/matcher_test.cpp:152:152] key points number: 294 / 224
-[2024-03-07 23:05:57.171] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:24:24] Matcher is being destroyed
-[2024-03-07 23:05:57.183] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:12:12] Extractor is being destructed
-[2024-03-07 23:05:57.196] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:12:12] Extractor is being destructed
+[2024-03-10 22:41:52.052] [MineLog] [info] [/home/lin/Projects/super-vio/test/offline_node.cpp:64:64] Start
+[2024-03-10 22:41:52.165] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:7:7] Extractor is being constructed, threads_num: 6, point_num: 200
+[2024-03-10 22:41:52.165] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:17:17] Initializing extractor ort env
+[2024-03-10 22:41:52.165] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:31:31] Using 6 threads, with graph optimization level 99
+[2024-03-10 22:41:52.165] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:35:35] Using CUDA for extractor
+[2024-03-10 22:41:52.295] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:50:50] Loading extractor model from /home/lin/Projects/super-vio/models/superpoint.onnx
+[2024-03-10 22:41:52.774] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:54:54] Extractor model loaded
+[2024-03-10 22:41:52.774] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 1
+[2024-03-10 22:41:52.774] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: image
+[2024-03-10 22:41:52.774] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 3
+[2024-03-10 22:41:52.774] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: keypoints
+[2024-03-10 22:41:52.774] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: scores
+[2024-03-10 22:41:52.774] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: descriptors
+[2024-03-10 22:41:52.774] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:58:58] Extractor ort env initialized
+[2024-03-10 22:41:52.774] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:7:7] Extractor is being constructed, threads_num: 6, point_num: 200
+[2024-03-10 22:41:52.774] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:17:17] Initializing extractor ort env
+[2024-03-10 22:41:52.774] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:31:31] Using 6 threads, with graph optimization level 99
+[2024-03-10 22:41:52.774] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:35:35] Using CUDA for extractor
+[2024-03-10 22:41:52.774] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:50:50] Loading extractor model from /home/lin/Projects/super-vio/models/superpoint.onnx
+[2024-03-10 22:41:52.828] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:54:54] Extractor model loaded
+[2024-03-10 22:41:52.828] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 1
+[2024-03-10 22:41:52.828] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: image
+[2024-03-10 22:41:52.828] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 3
+[2024-03-10 22:41:52.828] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: keypoints
+[2024-03-10 22:41:52.828] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: scores
+[2024-03-10 22:41:52.828] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: descriptors
+[2024-03-10 22:41:52.828] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:58:58] Extractor ort env initialized
+[2024-03-10 22:41:52.828] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:19:19] Matcher is being created
+[2024-03-10 22:41:52.828] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:41:41] Initializing matcher ort env
+[2024-03-10 22:41:52.828] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:55:55] Using 0 threads, with graph optimization level 99
+[2024-03-10 22:41:52.828] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:59:59] Using CUDA for matcher
+[2024-03-10 22:41:52.828] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:74:74] Loading matcher model from /home/lin/Projects/super-vio/models/superpoint_lightglue_fused_fp16.onnx
+[2024-03-10 22:41:53.054] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:78:78] Matcher model loaded
+[2024-03-10 22:41:53.054] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 4
+[2024-03-10 22:41:53.054] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: kpts0
+[2024-03-10 22:41:53.054] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: kpts1
+[2024-03-10 22:41:53.054] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: desc0
+[2024-03-10 22:41:53.054] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: desc1
+[2024-03-10 22:41:53.054] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:74:74] num_nodes: 2
+[2024-03-10 22:41:53.054] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: matches0
+[2024-03-10 22:41:53.054] [MineLog] [info] [/home/lin/Projects/super-vio/include/base_onnx_runner.h:80:80] extractor node name: mscores0
+[2024-03-10 22:41:53.054] [MineLog] [info] [/home/lin/Projects/super-vio/src/matcher/matcher.cpp:82:82] Matcher ort env initialized
+[2024-03-10 22:41:53.054] [MineLog] [info] [/home/lin/Projects/super-vio/test/offline_node.cpp:105:105] processing image /home/lin/Projects/super-vio/data/left/0.png / /home/lin/Projects/super-vio/data/right/0.png
+[2024-03-10 22:41:53.054] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
+[2024-03-10 22:41:53.054] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
+[2024-03-10 22:41:53.054] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:543:543] **** Inferencing image ****
+[2024-03-10 22:41:53.054] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:71:71] Preprocessing image
+[2024-03-10 22:41:53.054] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
+[2024-03-10 22:41:53.054] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:75:75] image_in size: [1280, 720]
+[2024-03-10 22:41:53.056] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
+[2024-03-10 22:41:53.056] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
+[2024-03-10 22:41:53.085] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:80:80] image_out size: [512, 288], scale from 1.0 to 0.4
+[2024-03-10 22:41:53.085] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:90:90] Inferencing image
+[2024-03-10 22:41:53.911] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:107:107] inference extractor time consumed: 853.799534
+[2024-03-10 22:41:53.911] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:139:139] Transforming tensor to key points
+[2024-03-10 22:41:53.911] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:146:146] key points shape: [1, 458, 2], size: 3
+[2024-03-10 22:41:53.911] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:158:158] score shape: [1, 458], size: 2
+[2024-03-10 22:41:53.911] [MineLog] [info] [/home/lin/Projects/super-vio/src/extractor/extractor.cpp:169:169] descriptor shape: [1, 458, 256], size: 3
+[2024-03-10 22:41
