@@ -62,7 +62,6 @@ public:
 
     matcher_path   = config[ "matcher_path" ];
     extractor_path = config[ "extractor_path" ];
-    combiner_path  = config[ "combiner_path" ];
 
     image_src_path = config[ "image_src_path" ];
     image_dst_path = config[ "image_dst_path" ];

@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="super_vio" type="offline_node" name="offline_node" output="screen"> </node>
+    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find super_vio)/config/visualize.rviz"></node>
+</launch>

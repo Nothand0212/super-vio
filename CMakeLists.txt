@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16) # 他妈的问题出在我只有/usr/share/cmake-3.16/Modules/FindCUDA.cmake，只能指定3.16.其他都错
-project(super-vio  LANGUAGES CXX CUDA)
+project(super_vio  LANGUAGES CXX CUDA)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -23,10 +23,6 @@ find_package(catkin REQUIRED COMPONENTS
     image_transport
     pcl_conversions
     pcl_ros
-    tf
-    tf_conversions
-    message_generation
-    message_runtime
     )
 
 # CUDA
@@ -61,10 +57,24 @@ include_directories(${PCL_INCLUDE_DIRS})
 find_package(Sophus REQUIRED)
 message("Sophus version: " ${Sophus_VERSION})
 
+catkin_package(
+    INCLUDE_DIRS include
+    DEPENDS PCL
+    CATKIN_DEPENDS 
+    roscpp
+    std_msgs
+    sensor_msgs
+    cv_bridge
+    image_transport
+    pcl_conversions
+    pcl_ros
+    )
+    
 # include
 include_directories(
     include
     ${Sophus_INCLUDE_DIRS}
+    ${catkin_INCLUDE_DIRS}
     )
 
 # logger lib

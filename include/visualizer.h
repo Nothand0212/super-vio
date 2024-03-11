@@ -19,7 +19,7 @@
 
 #include "data/features.h"
 
-void visualizeMatches( const cv::Mat& src, const cv::Mat& dst, const std::pair<std::vector<cv::Point2f>, std::vector<cv::Point2f>>& key_points, const std::vector<cv::Point2f>& key_points_src, const std::vector<cv::Point2f>& key_points_dst )
+cv::Mat visualizeMatches( const cv::Mat& src, const cv::Mat& dst, const std::pair<std::vector<cv::Point2f>, std::vector<cv::Point2f>>& key_points, const std::vector<cv::Point2f>& key_points_src, const std::vector<cv::Point2f>& key_points_dst )
 {
   // Convert the points to cv::KeyPoint objects
   std::vector<cv::KeyPoint> key_points_1, key_points_2;
@@ -56,6 +56,7 @@ void visualizeMatches( const cv::Mat& src, const cv::Mat& dst, const std::pair<s
   // Display the matches
   cv::imshow( "Matches", img_matches );
   cv::waitKey( 0 );
+  return img_matches;
 }
 
 void visualizeKeyPoints( const cv::Mat& image_src, const cv::Mat& image_dst, const std::vector<cv::Point2f> key_points_src, const std::vector<cv::Point2f> key_points_dst )

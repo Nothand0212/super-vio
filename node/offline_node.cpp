@@ -1,5 +1,8 @@
+#include <cv_bridge/cv_bridge.h>
+#include <image_transport/image_transport.h>
 #include <pcl_conversions/pcl_conversions.h>
 #include <ros/ros.h>
+#include <sensor_msgs/Image.h>
 #include <sensor_msgs/PointCloud2.h>
 
 #include <future>
@@ -18,6 +21,7 @@
 #include "utilities/reconstructor.h"
 #include "utilities/timer.h"
 #include "visualizer.h"
+
 std::vector<cv::Mat> readImage( std::vector<cv::String> image_file_vec, bool grayscale = false )
 {
   /*
@@ -62,16 +66,30 @@ void publishPointCloud( ros::Publisher& pub, const std::vector<Eigen::Vector3d>&
   // Convert the PointCloud to a sensor_msgs/PointCloud2
   sensor_msgs::PointCloud2 output;
   pcl::toROSMsg( *cloud, output );
-
+  output.header.frame_id = "camera_link";
+  output.header.stamp    = ros::Time::now();
   // Publish the data
   pub.publish( output );
 }
 
-int main( int argc, char const* argv[] )
+void publishImage( image_transport::Publisher& pub, const cv::Mat& image )
 {
-  ros::init( argc, argv, "offline_node" );
+  sensor_msgs::ImagePtr msg = cv_bridge::CvImage( std_msgs::Header(), "bgr8", image ).toImageMsg();
+  // msg.header.stamp          = ros::Time::now();
+
+  // msg.header.frame_id = "camera_link";
+  pub.publish( msg );
+}
+
+int main( int argc, char** argv )
+{
+  ros::init( argc, argv, "offline_node", ros::init_options::NoSigintHandler );
   ros::NodeHandle nh;
-  ros::Publisher  pub = nh.advertise<sensor_msgs::PointCloud2>( "/point_cloud", 1 );
+
+  ros::Publisher cloud_pub = nh.advertise<sensor_msgs::PointCloud2>( "/super_vio/point_cloud", 1 );
+
+  image_transport::ImageTransport it( nh );
+  image_transport::Publisher      image_pub = it.advertise( "/super_vio/image", 1 );
 
 
   std::string config_path;
@@ -79,7 +97,7 @@ int main( int argc, char const* argv[] )
   {
     std::cerr << "Usage: " << argv[ 0 ] << " <path_to_config>\n";
     std::cout << BOLDRED << "Using default config path: /home/lin/Projects/super-vio/config/param.json" << RESET << "\n";
-    config_path = "/home/lin/Projects/super-vio/config/param.json";
+    config_path = "/home/lin/Projects/catkin_ws/src/super-vio/config/param.json";
   }
   else
   {
@@ -204,7 +222,7 @@ int main( int argc, char const* argv[] )
     //   visualizePoints( points_3d );
     // } );
     // visualizer_3d.detach();
-    publishPointCloud( pub, points_3d );
+    publishPointCloud( cloud_pub, points_3d );
 
 
     time_consumed = timer.tocGetDuration();
@@ -212,7 +230,8 @@ int main( int argc, char const* argv[] )
     INFO( logger, "time consumed: {0} / {1}", time_consumed, accumulate_average_timer.getAverage() );
     INFO( logger, "key points number: {0} / {1}", key_points_transformed_src.size(), key_points_transformed_dst.size() );
 
-    visualizeMatches( *iter_src, *iter_dst, matches_pair, key_points_transformed_src, key_points_transformed_dst );
+    auto img = visualizeMatches( *iter_src, *iter_dst, matches_pair, key_points_transformed_src, key_points_transformed_dst );
+    publishImage( image_pub, img );
   }
   return 0;
 }
