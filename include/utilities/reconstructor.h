@@ -6,7 +6,7 @@
 
 #include "data/mapPoint.h"
 #include "frame.h"
-
+#define ERROR_THRESHOLD 1e-1
 /**
  * linear triangulation with SVD
  * @param poses     poses,
@@ -32,7 +32,7 @@ inline bool triangulate( const std::vector<Sophus::SE3d> &  poses,
   auto svd = A.bdcSvd( Eigen::ComputeThinU | Eigen::ComputeThinV );
   pt_world = ( svd.matrixV().col( 3 ) / svd.matrixV()( 3, 3 ) ).head<3>();
 
-  if ( svd.singularValues()[ 3 ] / svd.singularValues()[ 2 ] < 1e-1 )
+  if ( svd.singularValues()[ 3 ] / svd.singularValues()[ 2 ] < ERROR_THRESHOLD )
   {
     return true;
   }
@@ -53,7 +53,7 @@ inline bool triangulate( const Eigen::Matrix<double, 3, 4> &pose_left, const Eig
   auto svd = design_matrix.bdcSvd( Eigen::ComputeThinU | Eigen::ComputeThinV );
   point_3d = ( svd.matrixV().col( 3 ) / svd.matrixV()( 3, 3 ) ).head<3>();
 
-  if ( svd.singularValues()[ 3 ] / svd.singularValues()[ 2 ] < 1e-1 )
+  if ( svd.singularValues()[ 3 ] / svd.singularValues()[ 2 ] < ERROR_THRESHOLD )
   {
     return true;
   }
@@ -73,7 +73,7 @@ inline bool triangulate( const Eigen::Matrix<double, 3, 4> &pose_left, const Eig
   Eigen::JacobiSVD<Eigen::MatrixXd> svd( design_matrix, Eigen::ComputeThinU | Eigen::ComputeThinV );
   point_3d = ( svd.matrixV().col( 3 ) / svd.matrixV()( 3, 3 ) ).head<3>();
 
-  if ( svd.singularValues()[ 3 ] / svd.singularValues()[ 2 ] < 1e-1 )
+  if ( svd.singularValues()[ 3 ] / svd.singularValues()[ 2 ] < ERROR_THRESHOLD )
   {
     return true;
   }
