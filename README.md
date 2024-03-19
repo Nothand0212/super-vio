@@ -5,6 +5,12 @@ a simple vio project.
 1. Front-End: SuperPoint and SuperGlue
 2. Back-End: GTSAM
 
+## Result
+
+- 1. SuperPoint and SuperGlue, video on Bilibili: [click here](https://b23.tv/6eXpUU1)
+
+![SuperPoint and SuperGlue](doc/superpoint-lightglue.jpeg)
+
 ## Build
 
 ```sh
@@ -27,6 +33,9 @@ roslaunch super_vio offline.launch
 
 ## History
 
+- 2024-03-19:
+  - 1. add Triangulate test
+  - 2. add kitti dataset test
 - 2024-03-11:
   - 1. change to ROS rviz visualization
   - 2. fix exactor bugs
@@ -46,3 +55,4 @@ roslaunch super_vio offline.launch
 - [LightGlue-ONNX](https://github.com/fabio-sim/LightGlue-ONNX)
 - [LightGlue-Onnx-cpp](https://github.com/Nothand0212/LightGlue-OnnxRunner-cpp): C++版本的LightGlue-ONNX运行器，支持Ubuntu
 - [GTSAM](https://github.com/borglab/gtsam)
+
