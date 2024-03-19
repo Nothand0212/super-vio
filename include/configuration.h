@@ -30,7 +30,7 @@ public:
   cv::Mat     camera_matrix_right           = cv::Mat::eye( 3, 3, CV_32FC1 );
   // **** camera related ****
 
-
+  std::string kitti_path     = "/home/lin/Projects/super-vio/data/kitti";
   std::string matcher_path   = "/home/lin/CLionProjects/light_glue_onnx/models/superpoint_lightglue_fused.onnx";  // light_glue
   std::string extractor_path = "/home/lin/CLionProjects/light_glue_onnx/models/superpoint.onnx";                  // only super point
   std::string combiner_path  = "/home/lin/CLionProjects/light_glue_onnx/models/superpoint_2048_lightglue_end2end.onnx";
@@ -59,6 +59,8 @@ public:
     nlohmann::json config;
     config_file >> config;
     config_file.close();
+
+    kitti_path = config[ "kitti_path" ];
 
     matcher_path   = config[ "matcher_path" ];
     extractor_path = config[ "extractor_path" ];

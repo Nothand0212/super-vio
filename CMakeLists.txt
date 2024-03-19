@@ -101,3 +101,6 @@ target_link_libraries(online_node extractor matcher frame map_point ${OpenCV_LIB
 
 add_executable(offline_node node/offline_node.cpp)
 target_link_libraries(offline_node extractor matcher frame map_point ${OpenCV_LIBS} ${Sophus_LIBS} ${PCL_LIBRARIES} ${catkin_LIBRARIES} logger spdlog::spdlog )
+
+add_executable(offline_kitti_node node/offline_kitti_node.cpp)
+target_link_libraries(offline_kitti_node extractor matcher frame map_point ${OpenCV_LIBS} ${Sophus_LIBS} ${PCL_LIBRARIES} ${catkin_LIBRARIES} logger spdlog::spdlog )

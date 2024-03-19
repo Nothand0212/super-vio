@@ -201,12 +201,13 @@ int Matcher::postProcess( const Config& config )
 
 std::set<std::pair<int, int>> Matcher::inferenceDescriptorPair( const Config& config, const std::vector<cv::Point2f> key_points_src, const std::vector<cv::Point2f> key_points_dst, const cv::Mat& descriptor_src, const cv::Mat& descriptor_dst )
 {
+  this->m_timer.tic();
   auto key_points_src_norm = preProcess( key_points_src, m_height, m_width );
   auto key_points_dst_norm = preProcess( key_points_dst, m_height, m_width );
 
   inference( config, key_points_src_norm, key_points_dst_norm, descriptor_src, descriptor_dst );
   postProcess( config );
-
+  INFO( logger, "Matcher inference time consumed: {0}", m_timer.tocGetDuration() );
 
   return m_matched_indices;
 }

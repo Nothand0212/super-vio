@@ -4,6 +4,7 @@
     "extractor_path": "/home/lin/Projects/catkin_ws/src/super-vio/models/superpoint.onnx",
     "image_src_path": "/home/lin/Projects/catkin_ws/src/super-vio/data/left",
     "image_dst_path": "/home/lin/Projects/catkin_ws/src/super-vio/data/right",
+    "kitti_path": "/home/lin/Datasets/kitti/data_odometry_gray/00",
     "output_path": "/home/lin/Projects/catkin_ws/src/super-vio/output",
     "log_path": "/home/lin/Projects/catkin_ws/src/super-vio/log_data/tmp.log",
     "device": "cuda",

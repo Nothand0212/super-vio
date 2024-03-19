@@ -54,8 +54,8 @@ cv::Mat visualizeMatches( const cv::Mat& src, const cv::Mat& dst, const std::pai
   }
 
   // Display the matches
-  cv::imshow( "Matches", img_matches );
-  cv::waitKey( 0 );
+  // cv::imshow( "Matches", img_matches );
+  // cv::waitKey( 0 );
   return img_matches;
 }
 
@@ -128,7 +128,7 @@ inline void visualizePoints( const std::vector<Eigen::Vector3d>& points )
   // Fill the PointCloud with the points
   for ( const auto& point : points )
   {
-    cloud->points.push_back( pcl::PointXYZ( point[ 0 ], point[ 1 ], point[ 2 ] ) );
+    cloud->points.push_back( pcl::PointXYZ( point[ 0 ], point[ 2 ], -point[ 1 ] ) );
   }
 
   // Create a viewer
