@@ -1,6 +1,8 @@
 #pragma once
 #include <chrono>
 
+namespace utilities
+{
 class Timer
 {
 private:
@@ -34,3 +36,4 @@ public:
     return time_consumed_ms_double_;
   }
 };
+}  // namespace utilities

@@ -3,15 +3,15 @@
 #include <opencv2/opencv.hpp>
 #include <thread>
 
-#include "base_onnx_runner.h"
-#include "configuration.h"
-#include "extractor/extractor.h"
-#include "image_process.h"
 #include "logger/logger.h"
-#include "matcher/matcher.h"
+#include "super_vio/base_onnx_runner.h"
+#include "super_vio/extractor.h"
+#include "super_vio/matcher.h"
 #include "utilities/accumulate_average.h"
+#include "utilities/configuration.h"
+#include "utilities/image_process.h"
 #include "utilities/timer.h"
-#include "visualizer.h"
+#include "utilities/visualizer.h"
 
 std::vector<cv::Mat> readImage( std::vector<cv::String> image_file_vec, bool grayscale = false )
 {
@@ -58,14 +58,14 @@ int main( int argc, char const* argv[] )
     config_path = argv[ 1 ];
   }
 
-  Config cfg{};
-  cfg.readConfig( config_path );
+  utilities::Configuration cfg{};
+  cfg.readConfigFile( config_path );
 
-  InitLogger( cfg.log_path );
-  INFO( logger, "Start" );
+  super_vio::initLogger( cfg.log_path );
+  INFO( super_vio::logger, "Start" );
 
-  Timer             timer;
-  AccumulateAverage accumulate_average_timer;
+  utilities::Timer             timer;
+  utilities::AccumulateAverage accumulate_average_timer;
 
 
   std::vector<cv::String> image_file_src_vec;
@@ -78,8 +78,8 @@ int main( int argc, char const* argv[] )
   // Read image
   if ( image_file_src_vec.size() != image_file_dst_vec.size() )
   {
-    ERROR( logger, "image src number: {0}", image_file_src_vec.size() );
-    ERROR( logger, "image dst number: {0}", image_file_dst_vec.size() );
+    ERROR( super_vio::logger, "image src number: {0}", image_file_src_vec.size() );
+    ERROR( super_vio::logger, "image dst number: {0}", image_file_dst_vec.size() );
     throw std::runtime_error( "[ERROR] The number of images in the left and right folders is not equal" );
     return EXIT_FAILURE;
   }
@@ -103,7 +103,7 @@ int main( int argc, char const* argv[] )
   auto   iter_dst = image_dst_mat_vec.begin();
   for ( ; iter_src != image_src_mat_vec.end(); ++iter_src, ++iter_dst )
   {
-    INFO( logger, "processing image {0} / {1}", image_file_src_vec[ count ], image_file_dst_vec[ count ] );
+    INFO( super_vio::logger, "processing image {0} / {1}", image_file_src_vec[ count ], image_file_dst_vec[ count ] );
     count++;
     timer.tic();
 
@@ -139,8 +139,8 @@ int main( int argc, char const* argv[] )
 
     time_consumed = timer.tocGetDuration();
     accumulate_average_timer.addValue( time_consumed );
-    INFO( logger, "time consumed: {0} / {1}", time_consumed, accumulate_average_timer.getAverage() );
-    INFO( logger, "key points number: {0} / {1}", key_points_transformed_src.size(), key_points_transformed_dst.size() );
+    INFO( super_vio::logger, "time consumed: {0} / {1}", time_consumed, accumulate_average_timer.getAverage() );
+    INFO( super_vio::logger, "key points number: {0} / {1}", key_points_transformed_src.size(), key_points_transformed_dst.size() );
 
     // visualizeKeyPoints( *iter_src, *iter_dst, key_points_src, key_points_dst );
     visualizeMatches( *iter_src, *iter_dst, matches_pair, key_points_transformed_src, key_points_transformed_dst );

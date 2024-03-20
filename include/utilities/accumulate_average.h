@@ -4,6 +4,9 @@
 
 #include "logger/logger.h"
 #include "utilities/color.h"
+
+namespace utilities
+{
 class AccumulateAverage
 {
 public:
@@ -19,7 +22,7 @@ public:
     }
     else
     {
-      WARN( logger, "**** Adding NaN Value! ****" );
+      WARN( super_vio::logger, "**** Adding NaN Value! ****" );
     }
   }
 
@@ -38,3 +41,4 @@ private:
   double average_;
   double last_value_;
 };
+}  // namespace utilities

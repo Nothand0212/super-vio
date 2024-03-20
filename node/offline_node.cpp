@@ -10,17 +10,17 @@
 #include <opencv2/opencv.hpp>
 #include <thread>
 
-#include "base_onnx_runner.h"
-#include "configuration.h"
-#include "extractor/extractor.h"
-#include "frame.h"
-#include "image_process.h"
 #include "logger/logger.h"
-#include "matcher/matcher.h"
+#include "super_vio/base_onnx_runner.h"
+#include "super_vio/extractor.h"
+#include "super_vio/frame.h"
+#include "super_vio/matcher.h"
 #include "utilities/accumulate_average.h"
+#include "utilities/configuration.h"
+#include "utilities/image_process.h"
 #include "utilities/reconstructor.h"
 #include "utilities/timer.h"
-#include "visualizer.h"
+#include "utilities/visualizer.h"
 
 std::vector<cv::Mat> readImage( std::vector<cv::String> image_file_vec, bool grayscale = false )
 {
@@ -104,14 +104,14 @@ int main( int argc, char** argv )
     config_path = argv[ 1 ];
   }
 
-  Config cfg{};
-  cfg.readConfig( config_path );
+  utilities::Configuration cfg{};
+  cfg.readConfigFile( config_path );
 
-  InitLogger( cfg.log_path );
-  INFO( logger, "Start" );
+  super_vio::initLogger( cfg.log_path );
+  INFO( super_vio::logger, "Start" );
 
-  Timer             timer;
-  AccumulateAverage accumulate_average_timer;
+  utilities::Timer             timer;
+  utilities::AccumulateAverage accumulate_average_timer;
 
   std::vector<cv::String> image_file_src_vec;
   std::vector<cv::String> image_file_dst_vec;
@@ -123,8 +123,8 @@ int main( int argc, char** argv )
   // Read image
   if ( image_file_src_vec.size() != image_file_dst_vec.size() )
   {
-    ERROR( logger, "image src number: {0}", image_file_src_vec.size() );
-    ERROR( logger, "image dst number: {0}", image_file_dst_vec.size() );
+    ERROR( super_vio::logger, "image src number: {0}", image_file_src_vec.size() );
+    ERROR( super_vio::logger, "image dst number: {0}", image_file_dst_vec.size() );
     throw std::runtime_error( "[ERROR] The number of images in the left and right folders is not equal" );
     return EXIT_FAILURE;
   }
@@ -132,13 +132,13 @@ int main( int argc, char** argv )
   std::vector<cv::Mat> image_src_mat_vec = readImage( image_file_src_vec, cfg.gray_flag );
   std::vector<cv::Mat> image_dst_mat_vec = readImage( image_file_dst_vec, cfg.gray_flag );
 
-  std::shared_ptr<Extracotr> extractor_left_ptr = std::make_unique<Extracotr>( 6, 200 );
+  std::shared_ptr<super_vio::Extracotr> extractor_left_ptr = std::make_unique<super_vio::Extracotr>( 6, 200 );
   extractor_left_ptr->initOrtEnv( cfg );
-  std::shared_ptr<Extracotr> extractor_right_ptr = std::make_unique<Extracotr>( 6, 200 );
+  std::shared_ptr<super_vio::Extracotr> extractor_right_ptr = std::make_unique<super_vio::Extracotr>( 6, 200 );
   extractor_right_ptr->initOrtEnv( cfg );
 
   // matcher init
-  std::unique_ptr<Matcher> matcher_ptr = std::make_unique<Matcher>();
+  std::unique_ptr<super_vio::Matcher> matcher_ptr = std::make_unique<super_vio::Matcher>();
   matcher_ptr->initOrtEnv( cfg );
 
   // inference
@@ -197,23 +197,23 @@ int main( int argc, char** argv )
     {
       Eigen::Vector3d point_3d;
 
-      bool success = compute3DPoint( K_left, K_right, pose_left, pose_right, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
+      bool success = utilities::compute3DPoint( K_left, K_right, pose_left, pose_right, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
 
-      // bool success = triangulate( pose_left, pose_right, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
+      // bool success = utilities::triangulate( pose_left, pose_right, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
 
       if ( !success )
       {
-        WARN( logger, "Triangulate failed" );
+        WARN( super_vio::logger, "Triangulate failed" );
         continue;
       }
       else if ( point_3d[ 2 ] < 0 )
       {
-        WARN( logger, "Triangulate failed, point behind camera" );
+        WARN( super_vio::logger, "Triangulate failed, point behind camera" );
         continue;
       }
       else
       {
-        INFO( logger, "Triangulate success. Point: [{0}, {1}, {2}]", point_3d[ 0 ], point_3d[ 1 ], point_3d[ 2 ] );
+        INFO( super_vio::logger, "Triangulate success. Point: [{0}, {1}, {2}]", point_3d[ 0 ], point_3d[ 1 ], point_3d[ 2 ] );
         points_3d.push_back( point_3d );
       }
     }
@@ -227,8 +227,8 @@ int main( int argc, char** argv )
 
     time_consumed = timer.tocGetDuration();
     accumulate_average_timer.addValue( time_consumed );
-    INFO( logger, "time consumed: {0} / {1}", time_consumed, accumulate_average_timer.getAverage() );
-    INFO( logger, "key points number: {0} / {1}", key_points_transformed_src.size(), key_points_transformed_dst.size() );
+    INFO( super_vio::logger, "time consumed: {0} / {1}", time_consumed, accumulate_average_timer.getAverage() );
+    INFO( super_vio::logger, "key points number: {0} / {1}", key_points_transformed_src.size(), key_points_transformed_dst.size() );
 
     auto img = visualizeMatches( *iter_src, *iter_dst, matches_pair, key_points_transformed_src, key_points_transformed_dst );
     publishImage( image_pub, img );

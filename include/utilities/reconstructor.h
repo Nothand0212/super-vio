@@ -4,8 +4,12 @@
 #include <sophus/se3.hpp>
 #include <vector>
 
-#include "data/mapPoint.h"
-#include "frame.h"
+// #include "data/mapPoint.h"
+#include "super_vio/frame.h"
+#include "super_vio/mapPoint.h"
+
+namespace utilities
+{
 #define ERROR_THRESHOLD 1e-1
 /**
  * linear triangulation with SVD
@@ -105,3 +109,4 @@ bool compute3DPoint( const cv::Mat &K_left, const cv::Mat &K_right,
 
   return valid;
 }
+}  // namespace utilities

@@ -10,29 +10,18 @@
 #include <opencv2/opencv.hpp>
 #include <thread>
 
-#include "base_onnx_runner.h"
-#include "configuration.h"
-#include "extractor/extractor.h"
-#include "frame.h"
-#include "image_process.h"
 #include "logger/logger.h"
-#include "matcher/matcher.h"
+#include "super_vio/base_onnx_runner.h"
+#include "super_vio/extractor.h"
+#include "super_vio/frame.h"
+#include "super_vio/matcher.h"
 #include "utilities/accumulate_average.h"
+#include "utilities/configuration.h"
+#include "utilities/image_process.h"
 #include "utilities/read_kitii_dataset.hpp"
 #include "utilities/reconstructor.h"
 #include "utilities/timer.h"
-#include "visualizer.h"
-
-
-Features leftImageTask( Extracotr* extractor_left_ptr, const Config& cfg, const cv::Mat& img_left )
-{
-  return extractor_left_ptr->inferenceImage( cfg, img_left );
-}
-
-Features rightImageTask( Extracotr* extractor_right_ptr, const Config& cfg, const cv::Mat& img_right )
-{
-  return extractor_right_ptr->inferenceImage( cfg, img_right );
-}
+#include "utilities/visualizer.h"
 
 void publishPointCloud( ros::Publisher& pub, const std::vector<Eigen::Vector3d>& points )
 {
@@ -85,47 +74,47 @@ int main( int argc, char** argv )
     config_path = argv[ 1 ];
   }
 
-  Config cfg{};
-  cfg.readConfig( config_path );
+  utilities::Configuration cfg{};
+  cfg.readConfigFile( config_path );
 
   auto new_cfg = cfg;
 
-  InitLogger( cfg.log_path );
-  INFO( logger, "Start" );
+  super_vio::initLogger( cfg.log_path );
+  INFO( super_vio::logger, "Start" );
 
 
   /// load sequence frames
   std::vector<std::string> image_left_vec_path, image_right_vec_path;
   std::vector<double>      vec_timestamp;
 
-  INFO( logger, "Loading KITTI dataset from: {0}", cfg.kitti_path );
+  INFO( super_vio::logger, "Loading KITTI dataset from: {0}", cfg.kitti_path );
 
-  common::LoadKittiImagesTimestamps( cfg.kitti_path, image_left_vec_path, image_right_vec_path, vec_timestamp );
+  utilities::LoadKittiImagesTimestamps( cfg.kitti_path, image_left_vec_path, image_right_vec_path, vec_timestamp );
 
   const size_t num_images = image_left_vec_path.size();
-  INFO( logger, "Num Images: {0}", num_images );
+  INFO( super_vio::logger, "Num Images: {0}", num_images );
 
   if ( num_images != image_right_vec_path.size() || num_images != vec_timestamp.size() )
   {
-    ERROR( logger, "The number of right images is {0}, the number of timestamps is {1}.", image_right_vec_path.size(), vec_timestamp.size() );
+    ERROR( super_vio::logger, "The number of right images is {0}, the number of timestamps is {1}.", image_right_vec_path.size(), vec_timestamp.size() );
     return -1;
   }
 
-  std::shared_ptr<Extracotr> extractor_left_ptr = std::make_unique<Extracotr>( 6, 200 );
+  std::shared_ptr<super_vio::Extracotr> extractor_left_ptr = std::make_unique<super_vio::Extracotr>( 6, 200 );
   extractor_left_ptr->initOrtEnv( cfg );
-  std::shared_ptr<Extracotr> extractor_right_ptr = std::make_unique<Extracotr>( 6, 200 );
+  std::shared_ptr<super_vio::Extracotr> extractor_right_ptr = std::make_unique<super_vio::Extracotr>( 6, 200 );
   extractor_right_ptr->initOrtEnv( cfg );
 
   // matcher init
-  std::unique_ptr<Matcher> matcher_ptr = std::make_unique<Matcher>();
+  std::unique_ptr<super_vio::Matcher> matcher_ptr = std::make_unique<super_vio::Matcher>();
   matcher_ptr->initOrtEnv( cfg );
 
   // inference
-  int               count = 0;
-  double            time_consumed;
-  Timer             timer;
-  Timer             test_timer;
-  AccumulateAverage accumulate_average_timer;
+  int                          count = 0;
+  double                       time_consumed;
+  utilities::Timer             timer;
+  utilities::Timer             test_timer;
+  utilities::AccumulateAverage accumulate_average_timer;
 
   for ( std::size_t ni = 0; ni < num_images; ni++ )
   {
@@ -136,7 +125,7 @@ int main( int argc, char** argv )
     double  timestamp = vec_timestamp[ ni ];
     if ( img_left.empty() )
     {
-      SPDLOG_LOGGER_ERROR( logger, "Failed to load image at: {0}", image_left_vec_path[ ni ] );
+      SPDLOG_LOGGER_ERROR( super_vio::logger, "Failed to load image at: {0}", image_left_vec_path[ ni ] );
     }
 
     // async start
@@ -151,28 +140,8 @@ int main( int argc, char** argv )
 
     auto key_points_result_left  = left_future.get();
     auto key_points_result_right = right_future.get();
-    INFO( logger, "Both Inference time: {0}", test_timer.tocGetDuration() );
+    INFO( super_vio::logger, "Both Inference time: {0}", test_timer.tocGetDuration() );
     // async end
-
-    // // std::thread start
-    // std::promise<Features> left_promise;
-    // std::promise<Features> right_promise;
-
-    // auto left_future  = left_promise.get_future();
-    // auto right_future = right_promise.get_future();
-
-    // std::thread left_thread( leftImageTask, extractor_left_ptr.get(), cfg, img_left );
-    // std::thread right_thread( rightImageTask, extractor_right_ptr.get(), new_cfg, img_right );
-
-    // left_thread.detach();
-    // right_thread.detach();
-
-    // left_promise.set_value( extractor_left_ptr->inferenceImage( cfg, img_left ) );
-    // right_promise.set_value( extractor_right_ptr->inferenceImage( new_cfg, img_right ) );
-
-    // auto key_points_result_left  = left_future.get();
-    // auto key_points_result_right = right_future.get();
-    // // inference end
 
 
     auto key_points_src = key_points_result_left.getKeyPoints();
@@ -198,8 +167,8 @@ int main( int argc, char** argv )
 
     time_consumed = timer.tocGetDuration();
     accumulate_average_timer.addValue( time_consumed );
-    INFO( logger, "Pipline Time Consumed: {0} / {1}", time_consumed, accumulate_average_timer.getAverage() );
-    INFO( logger, "Key Points Number: {0} / {1}", key_points_transformed_src.size(), key_points_transformed_dst.size() );
+    INFO( super_vio::logger, "Pipline Time Consumed: {0} / {1}", time_consumed, accumulate_average_timer.getAverage() );
+    INFO( super_vio::logger, "Key Points Number: {0} / {1}", key_points_transformed_src.size(), key_points_transformed_dst.size() );
 
 
     // Triangulate keypoints
@@ -217,27 +186,27 @@ int main( int argc, char** argv )
     {
       Eigen::Vector3d point_3d;
 
-      bool success = compute3DPoint( K_left, K_right, pose_left, pose_right, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
+      bool success = utilities::compute3DPoint( K_left, K_right, pose_left, pose_right, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
 
-      // bool success = triangulate( pose_left, pose_right, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
+      // bool success = utilities::triangulate( pose_left, pose_right, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
 
       if ( !success )
       {
-        WARN( logger, "Triangulate failed" );
+        WARN( super_vio::logger, "Triangulate failed" );
         continue;
       }
       else if ( point_3d[ 2 ] < 0 )
       {
-        WARN( logger, "Triangulate failed, point behind camera" );
+        WARN( super_vio::logger, "Triangulate failed, point behind camera" );
         continue;
       }
       else
       {
-        // INFO( logger, "Triangulate success. Point: [{0}, {1}, {2}]", point_3d[ 0 ], point_3d[ 1 ], point_3d[ 2 ] );
+        // INFO( super_vio::logger, "Triangulate success. Point: [{0}, {1}, {2}]", point_3d[ 0 ], point_3d[ 1 ], point_3d[ 2 ] );
         points_3d.push_back( point_3d );
       }
     }
-    INFO( logger, "Triangulate time: {0}", test_timer.tocGetDuration() );
+    INFO( super_vio::logger, "Triangulate time: {0}", test_timer.tocGetDuration() );
 
     // std::thread visualizer_3d( [ points_3d ]() {
     //   visualizePoints( points_3d );
@@ -251,7 +220,7 @@ int main( int argc, char** argv )
     auto img = visualizeMatches( img_left, img_right, matches_pair, key_points_transformed_src, key_points_transformed_dst );
     publishImage( image_pub, img );
     test_timer.toc();
-    INFO( logger, "visualize time: {0}", test_timer.tocGetDuration() );
+    INFO( super_vio::logger, "visualize time: {0}", test_timer.tocGetDuration() );
   }
   return 0;
 }

@@ -11,17 +11,19 @@
 
 #pragma once
 
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/spdlog.h>
-
+#include "spdlog/sinks/basic_file_sink.h"
+#include "spdlog/sinks/stdout_color_sinks.h"
+#include "spdlog/spdlog.h"
+// using namespace spdlog;
 #define INFO  SPDLOG_LOGGER_INFO
 #define WARN  SPDLOG_LOGGER_WARN
 #define ERROR SPDLOG_LOGGER_ERROR
 #define DEBUG SPDLOG_LOGGER_DEBUG
 #define TRACE SPDLOG_LOGGER_TRACE
 
-// 创建一个全局的spdlog对象
+namespace super_vio
+{  // 创建一个全局的spdlog对象
 extern std::shared_ptr<spdlog::logger> logger;
 
-void InitLogger( const std::string& log_path );
+void initLogger( const std::string& log_path );
+}  // namespace super_vio

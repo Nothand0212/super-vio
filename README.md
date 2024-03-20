@@ -3,7 +3,7 @@
 a simple vio project.
 
 1. Front-End: SuperPoint and SuperGlue
-2. Back-End: GTSAM
+2. Back-End: g2o
 
 ## Result
 
@@ -26,13 +26,20 @@ catkin_make
 ```sh
 roslaunch super_vio offline.launch
 ```
+or
+```sh
+roslaunch super_vio run_kitti.launch
+```
+
 
 ## Doing
 
-- 1. how to optimize the triangulate precision?
+- 1. Mapping with SuperPoint and SuperGlue
 
 ## History
 
+- 2024-03-20:
+  - 1. reconstruct project structure
 - 2024-03-19:
   - 1. add Triangulate test
   - 2. add kitti dataset test

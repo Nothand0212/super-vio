@@ -5,7 +5,7 @@
 #include "vector"
 
 /// for KITTI gray database
-namespace common
+namespace utilities
 {
 using namespace std;
 inline void LoadKittiImagesTimestamps( const string &  str_path_to_sequence,
@@ -19,7 +19,7 @@ inline void LoadKittiImagesTimestamps( const string &  str_path_to_sequence,
 
   if ( !fTimes.is_open() )
   {
-    ERROR( logger, "Open Failed" );
+    ERROR( super_vio::logger, "Open Failed" );
   }
   while ( !fTimes.eof() )
   {
@@ -51,4 +51,4 @@ inline void LoadKittiImagesTimestamps( const string &  str_path_to_sequence,
   }
   fTimes.close();
 }
-}  // namespace common
+}  // namespace utilities
