@@ -29,7 +29,8 @@ inline std::vector<cv::Point2f> getKeyPointsInOriginalImage( const std::vector<c
   std::vector<cv::Point2f> key_points_in_original_image;
   for ( const auto& key_point : key_points )
   {
-    key_points_in_original_image.emplace_back( cv::Point2f( ( key_point.x + 0.5f ) / scale, ( key_point.y + 0.5f ) / scale ) );
+    key_points_in_original_image.emplace_back( cv::Point2f( ( key_point.x ) / scale, ( key_point.y ) / scale ) );
+    // key_points_in_original_image.emplace_back( cv::Point2f( ( key_point.x + 0.5f ) / scale, ( key_point.y + 0.5f ) / scale ) );
   }
   return key_points_in_original_image;
 }

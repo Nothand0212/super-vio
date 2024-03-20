@@ -26,12 +26,12 @@
 
 Features leftImageTask( Extracotr* extractor_left_ptr, const Config& cfg, const cv::Mat& img_left )
 {
-  extractor_left_ptr->inferenceImage( cfg, img_left );
+  return extractor_left_ptr->inferenceImage( cfg, img_left );
 }
 
 Features rightImageTask( Extracotr* extractor_right_ptr, const Config& cfg, const cv::Mat& img_right )
 {
-  extractor_right_ptr->inferenceImage( cfg, img_right );
+  return extractor_right_ptr->inferenceImage( cfg, img_right );
 }
 
 void publishPointCloud( ros::Publisher& pub, const std::vector<Eigen::Vector3d>& points )
@@ -124,6 +124,7 @@ int main( int argc, char** argv )
   int               count = 0;
   double            time_consumed;
   Timer             timer;
+  Timer             test_timer;
   AccumulateAverage accumulate_average_timer;
 
   for ( std::size_t ni = 0; ni < num_images; ni++ )
@@ -139,6 +140,7 @@ int main( int argc, char** argv )
     }
 
     // async start
+    test_timer.tic();
     auto left_future = std::async( std::launch::async, [ extractor_left_ptr, &cfg, &img_left ]() {
       return extractor_left_ptr->inferenceImage( cfg, img_left );
     } );
@@ -149,6 +151,7 @@ int main( int argc, char** argv )
 
     auto key_points_result_left  = left_future.get();
     auto key_points_result_right = right_future.get();
+    INFO( logger, "Both Inference time: {0}", test_timer.tocGetDuration() );
     // async end
 
     // // std::thread start
@@ -193,8 +196,15 @@ int main( int argc, char** argv )
     std::pair<std::vector<cv::Point2f>, std::vector<cv::Point2f>> matches_pair = std::make_pair( matches_src, matches_dst );
 
 
+    time_consumed = timer.tocGetDuration();
+    accumulate_average_timer.addValue( time_consumed );
+    INFO( logger, "Pipline Time Consumed: {0} / {1}", time_consumed, accumulate_average_timer.getAverage() );
+    INFO( logger, "Key Points Number: {0} / {1}", key_points_transformed_src.size(), key_points_transformed_dst.size() );
+
+
     // Triangulate keypoints
     // pixel to camera
+    test_timer.tic();
     cv::Mat K_left  = cfg.camera_matrix_left;
     cv::Mat K_right = cfg.camera_matrix_right;
 
@@ -227,21 +237,21 @@ int main( int argc, char** argv )
         points_3d.push_back( point_3d );
       }
     }
+    INFO( logger, "Triangulate time: {0}", test_timer.tocGetDuration() );
 
     // std::thread visualizer_3d( [ points_3d ]() {
     //   visualizePoints( points_3d );
     // } );
     // visualizer_3d.detach();
+
+    test_timer.tic();
     publishPointCloud( cloud_pub, points_3d );
 
 
-    time_consumed = timer.tocGetDuration();
-    accumulate_average_timer.addValue( time_consumed );
-    INFO( logger, "time consumed: {0} / {1}", time_consumed, accumulate_average_timer.getAverage() );
-    INFO( logger, "key points number: {0} / {1}", key_points_transformed_src.size(), key_points_transformed_dst.size() );
-
     auto img = visualizeMatches( img_left, img_right, matches_pair, key_points_transformed_src, key_points_transformed_dst );
     publishImage( image_pub, img );
+    test_timer.toc();
+    INFO( logger, "visualize time: {0}", test_timer.tocGetDuration() );
   }
   return 0;
 }
