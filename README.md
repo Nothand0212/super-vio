@@ -9,7 +9,7 @@ a simple vio project.
 
 - 1. SuperPoint and SuperGlue, video on Bilibili: [click here](https://b23.tv/6eXpUU1)
 
-![SuperPoint and SuperGlue](doc/superpoint-lightglue.jpeg)
+![SuperPoint and SuperGlue](doc/Video_20240320_033318_171.gif)
 
 ## Build
 
