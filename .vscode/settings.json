@@ -83,7 +83,17 @@
         "regex": "cpp",
         "source_location": "cpp",
         "dense": "cpp",
-        "__mutex_base": "cpp"
+        "__mutex_base": "cpp",
+        "core": "cpp",
+        "__functional_base": "cpp",
+        "locale": "cpp",
+        "span": "cpp",
+        "__tree": "cpp",
+        "__split_buffer": "cpp",
+        "__node_handle": "cpp",
+        "queue": "cpp",
+        "stack": "cpp",
+        "__hash_table": "cpp"
     },
     "python.autoComplete.extraPaths": [
         "/home/lin/Projects/catkin_ws/devel/lib/python3/dist-packages",

@@ -18,7 +18,7 @@
 #include <opencv2/opencv.hpp>
 
 // #include "data/features.h"
-#include "super_vio/feature.h"
+#include "super_vio/feature.hpp"
 
 using namespace super_vio;
 cv::Mat visualizeMatches( const cv::Mat& src, const cv::Mat& dst, const std::pair<std::vector<cv::Point2f>, std::vector<cv::Point2f>>& key_points, const std::vector<cv::Point2f>& key_points_src, const std::vector<cv::Point2f>& key_points_dst )

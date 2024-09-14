@@ -1,4 +1,4 @@
-#include "super_vio/feature.h"
+#include "super_vio/feature.hpp"
 
 namespace super_vio
 {

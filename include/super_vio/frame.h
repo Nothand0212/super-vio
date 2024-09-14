@@ -8,7 +8,7 @@
 #include <sophus/se3.hpp>
 #include <vector>
 
-#include "super_vio/feature.h"
+#include "super_vio/feature.hpp"
 #include "super_vio/mapPoint.h"
 
 namespace super_vio

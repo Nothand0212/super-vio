@@ -1,3 +1,14 @@
+/**
+ * @file feature.hpp
+ * @author LinZeshi (linzeshi@foxmail.com)
+ * @brief A feature poins class for Super-VIO.
+ * @version 0.1
+ * @date 2024-09-14
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
 #pragma once
 
 #include <opencv2/opencv.hpp>

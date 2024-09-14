@@ -27,10 +27,10 @@ int main()
   cfg.readConfigFile( "/home/lin/Projects/super-vio/config/param.json" );
 
   //intialize extractor
-  super_vio::Extracotr *extractor_left_ptr, *extractor_right_ptr;
-  extractor_left_ptr = new super_vio::Extracotr{ 6, 200 };
+  super_vio::Extractor *extractor_left_ptr, *extractor_right_ptr;
+  extractor_left_ptr = new super_vio::Extractor{ 6, 200 };
   extractor_left_ptr->initOrtEnv( cfg );
-  extractor_right_ptr = new super_vio::Extracotr{ 6, 200 };
+  extractor_right_ptr = new super_vio::Extractor{ 6, 200 };
   extractor_right_ptr->initOrtEnv( cfg );
 
   // matcher init

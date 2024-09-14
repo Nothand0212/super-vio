@@ -87,9 +87,9 @@ int main( int argc, char const* argv[] )
   std::vector<cv::Mat> image_src_mat_vec = readImage( image_file_src_vec, cfg.gray_flag );
   std::vector<cv::Mat> image_dst_mat_vec = readImage( image_file_dst_vec, cfg.gray_flag );
 
-  std::shared_ptr<Extracotr> extractor_left_ptr = std::make_unique<Extracotr>( 6, 200 );
+  std::shared_ptr<Extractor> extractor_left_ptr = std::make_unique<Extractor>( 6, 200 );
   extractor_left_ptr->initOrtEnv( cfg );
-  std::shared_ptr<Extracotr> extractor_right_ptr = std::make_unique<Extracotr>( 6, 200 );
+  std::shared_ptr<Extractor> extractor_right_ptr = std::make_unique<Extractor>( 6, 200 );
   extractor_right_ptr->initOrtEnv( cfg );
 
   // matcher init

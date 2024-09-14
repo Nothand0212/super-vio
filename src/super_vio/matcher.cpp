@@ -54,7 +54,7 @@ int Matcher::initOrtEnv( const utilities::Configuration& config )
 
     m_session_options.SetIntraOpNumThreads( m_threads_num );
     m_session_options.SetGraphOptimizationLevel( GraphOptimizationLevel::ORT_ENABLE_ALL );
-    INFO( super_vio::logger, "Using {0} threads, with graph optimization level {1}", m_threads_num, GraphOptimizationLevel::ORT_ENABLE_ALL );
+    INFO( super_vio::logger, "Using {0} threads, with graph optimization level {1}", m_threads_num, static_cast<int>( GraphOptimizationLevel::ORT_ENABLE_ALL ) );
 
     if ( config.device == "cuda" )
     {

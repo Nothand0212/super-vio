@@ -32,3 +32,12 @@ message(STATUS "OpenCV libraries: ${OpenCV_LIBS}")
 find_package(PCL REQUIRED)
 message("PCL version: " ${PCL_VERSION})
 include_directories(${PCL_INCLUDE_DIRS})
+
+# g2o
+set(g2o_LIBRARIES
+    /usr/local/lib/libg2o_core.so
+    /usr/local/lib/libg2o_stuff.so
+    /usr/local/lib/libg2o_solver_csparse.so
+    /usr/local/lib/libg2o_csparse_extension.so
+)
+include_directories(${g2o_INCLUDE_DIRS})

@@ -132,9 +132,9 @@ int main( int argc, char** argv )
   std::vector<cv::Mat> image_src_mat_vec = readImage( image_file_src_vec, cfg.gray_flag );
   std::vector<cv::Mat> image_dst_mat_vec = readImage( image_file_dst_vec, cfg.gray_flag );
 
-  std::shared_ptr<super_vio::Extracotr> extractor_left_ptr = std::make_unique<super_vio::Extracotr>( 6, 200 );
+  std::shared_ptr<super_vio::Extractor> extractor_left_ptr = std::make_unique<super_vio::Extractor>( 6, 200 );
   extractor_left_ptr->initOrtEnv( cfg );
-  std::shared_ptr<super_vio::Extracotr> extractor_right_ptr = std::make_unique<super_vio::Extracotr>( 6, 200 );
+  std::shared_ptr<super_vio::Extractor> extractor_right_ptr = std::make_unique<super_vio::Extractor>( 6, 200 );
   extractor_right_ptr->initOrtEnv( cfg );
 
   // matcher init

@@ -16,7 +16,7 @@
 #include <opencv2/opencv.hpp>
 
 #include "super_vio/base_onnx_runner.h"
-#include "super_vio/feature.h"
+#include "super_vio/feature.hpp"
 #include "utilities/configuration.h"
 // #include "data/features.h"
 
@@ -38,7 +38,7 @@ inline std::vector<cv::Point2f> getKeyPointsInOriginalImage( const std::vector<c
   return key_points_in_original_image;
 }
 
-class Extracotr : public BaseOnnxRunner
+class Extractor : public BaseOnnxRunner
 {
 private:
   unsigned int m_threads_num;
@@ -73,8 +73,8 @@ private:
 
 
 public:
-  explicit Extracotr( unsigned int threads_num = 0, unsigned int point_num = 0 );
-  ~Extracotr();
+  explicit Extractor( unsigned int threads_num = 0, unsigned int point_num = 0 );
+  ~Extractor();
 
   int initOrtEnv( const utilities::Configuration& config ) override;
 

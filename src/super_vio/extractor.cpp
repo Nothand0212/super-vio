@@ -3,18 +3,18 @@
 
 namespace super_vio
 {
-Extracotr::Extracotr( unsigned int threads_num, unsigned int point_num )
+Extractor::Extractor( unsigned int threads_num, unsigned int point_num )
     : m_threads_num{ threads_num }, m_point_num{ point_num }
 {
   INFO( super_vio::logger, "Extractor is being constructed, threads_num: {0}, point_num: {1}", threads_num, point_num );
 }
 
-Extracotr::~Extracotr()
+Extractor::~Extractor()
 {
   INFO( super_vio::logger, "Extractor is being destructed" );
 }
 
-int Extracotr::initOrtEnv( const utilities::Configuration& config )
+int Extractor::initOrtEnv( const utilities::Configuration& config )
 {
   INFO( super_vio::logger, "Initializing extractor ort env" );
 
@@ -30,7 +30,7 @@ int Extracotr::initOrtEnv( const utilities::Configuration& config )
 
     m_session_options.SetIntraOpNumThreads( m_threads_num );
     m_session_options.SetGraphOptimizationLevel( GraphOptimizationLevel::ORT_ENABLE_ALL );
-    INFO( super_vio::logger, "Using {0} threads, with graph optimization level {1}", m_threads_num, GraphOptimizationLevel::ORT_ENABLE_ALL );
+    INFO( super_vio::logger, "Using {0} threads, with graph optimization level {1}", m_threads_num, static_cast<int>( GraphOptimizationLevel::ORT_ENABLE_ALL ) );
 
     if ( config.device == "cuda" )
     {
@@ -68,7 +68,7 @@ int Extracotr::initOrtEnv( const utilities::Configuration& config )
   return EXIT_SUCCESS;
 }
 
-cv::Mat Extracotr::prePorcess( const utilities::Configuration& config, const cv::Mat& image, float& scale )
+cv::Mat Extractor::prePorcess( const utilities::Configuration& config, const cv::Mat& image, float& scale )
 {
   // INFO( super_vio::logger, "Preprocessing image" );
 
@@ -87,7 +87,7 @@ cv::Mat Extracotr::prePorcess( const utilities::Configuration& config, const cv:
   return image_result;
 }
 
-int Extracotr::inference( const utilities::Configuration& config, const cv::Mat& image )
+int Extractor::inference( const utilities::Configuration& config, const cv::Mat& image )
 {
   // INFO( super_vio::logger, "Inferencing image" );
 
@@ -136,7 +136,7 @@ int Extracotr::inference( const utilities::Configuration& config, const cv::Mat&
   return EXIT_SUCCESS;
 }
 
-Features Extracotr::postProcess( const utilities::Configuration& config, std::vector<Ort::Value> tensor )
+Features Extractor::postProcess( const utilities::Configuration& config, std::vector<Ort::Value> tensor )
 {
   // INFO( super_vio::logger, "Transforming tensor to key points" );
   Features key_points_result;
@@ -184,7 +184,7 @@ Features Extracotr::postProcess( const utilities::Configuration& config, std::ve
 }
 
 
-std::pair<Features, std::vector<Region>> Extracotr::distributeKeyPointsDebug( const Features& key_points, const cv::Mat& image )
+std::pair<Features, std::vector<Region>> Extractor::distributeKeyPointsDebug( const Features& key_points, const cv::Mat& image )
 {
   INFO( super_vio::logger, "Distributing key points" );
 
@@ -372,7 +372,7 @@ std::pair<Features, std::vector<Region>> Extracotr::distributeKeyPointsDebug( co
   return std::pair<Features, std::vector<Region>>{ key_points_result, vec_regions };
 }
 
-Features Extracotr::distributeKeyPoints( const Features& key_points, const cv::Mat& image )
+Features Extractor::distributeKeyPoints( const Features& key_points, const cv::Mat& image )
 {
   INFO( super_vio::logger, "Distributing key points" );
 
@@ -540,7 +540,7 @@ Features Extracotr::distributeKeyPoints( const Features& key_points, const cv::M
 }
 
 
-Features Extracotr::inferenceImage( const utilities::Configuration& config, const cv::Mat& image )
+Features Extractor::inferenceImage( const utilities::Configuration& config, const cv::Mat& image )
 {
   // INFO( super_vio::logger, "**** Inferencing image ****" );
 
@@ -565,22 +565,22 @@ Features Extracotr::inferenceImage( const utilities::Configuration& config, cons
   }
 }
 
-Features Extracotr::getKeyPoints() const
+Features Extractor::getKeyPoints() const
 {
   return m_key_points;
 }
 
-float Extracotr::getScale() const
+float Extractor::getScale() const
 {
   return m_scale;
 }
 
-int Extracotr::getWidthTransformed() const
+int Extractor::getWidthTransformed() const
 {
   return m_width_transformed;
 }
 
-int Extracotr::getHeightTransformed() const
+int Extractor::getHeightTransformed() const
 {
   return m_height_transformed;
 }

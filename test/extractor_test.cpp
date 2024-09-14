@@ -74,10 +74,10 @@ int main( int argc, char const* argv[] )
   std::vector<cv::Mat> image_dst_mat_vec = readImage( image_file_dst_vec, cfg.gray_flag );
 
   // end2end
-  Extracotr *extractor_left_ptr, *extractor_right_ptr;
-  extractor_left_ptr = new Extracotr{ 6, 200 };
+  Extractor *extractor_left_ptr, *extractor_right_ptr;
+  extractor_left_ptr = new Extractor{ 6, 200 };
   extractor_left_ptr->initOrtEnv( cfg );
-  extractor_right_ptr = new Extracotr{ 6, 200 };
+  extractor_right_ptr = new Extractor{ 6, 200 };
   extractor_right_ptr->initOrtEnv( cfg );
 
 
