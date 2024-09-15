@@ -18,6 +18,7 @@
 #include "super_vio/camera.hpp"
 #include "super_vio/extractor.h"
 #include "super_vio/frame.h"
+#include "super_vio/map_point.hpp"
 #include "super_vio/matcher.h"
 #include "super_vio/pose_estimator_3d3d.h"
 #include "utilities/accumulate_average.h"
@@ -139,7 +140,7 @@ int main( int argc, char** argv )
   float                       base_line_calculated = 386.1448 / 718.856;
   Eigen::Matrix<double, 3, 4> pose_left_tmp        = Eigen::Matrix<double, 3, 4>::Identity();
   Eigen::Matrix<double, 3, 4> pose_right_tmp       = Eigen::Matrix<double, 3, 4>::Identity();
-  pose_right_tmp( 0, 3 )                           = -base_line_calculated;
+  pose_right_tmp( 0, 3 )                           = -base_line_calculated;  // OpenCV is Left-Hand coordinate system, so the baseline is negative
   camera_left_ptr->setPose( pose_left_tmp );
   camera_right_ptr->setPose( pose_right_tmp );
 
@@ -281,6 +282,11 @@ int main( int argc, char** argv )
     std::vector<bool>                triangular_success( matches_set.size(), false );
     std::vector<Eigen::Vector3d>     points_3d{ matches_set.size() };
 
+    // for test
+    std::vector<cv::Point2f> pixel_left, pixel_right;
+
+    // end for test
+
     test_timer.tic();
     std::size_t match_idx{ 0 };
     for ( const auto& match : matches_set )
@@ -299,7 +305,11 @@ int main( int argc, char** argv )
       else
       {
         triangular_success[ match_idx ] = true;
-        INFO( super_vio::logger, "Triangulate success. Point: [{0}, {1}, {2}]", point_3d[ 0 ], point_3d[ 1 ], point_3d[ 2 ] );
+        pixel_left.push_back( key_points_transformed_src[ match.first ] );
+        pixel_right.push_back( key_points_transformed_dst[ match.second ] );
+        // triangular_matches.push_back( match );
+        INFO( super_vio::logger, "Triangulate success. {2} KeyPoint: [{0}, {1}]", key_points_transformed_src[ match.first ].x, key_points_transformed_src[ match.first ].y, match_idx );
+        INFO( super_vio::logger, "Point: [{0}, {1}, {2}]", point_3d[ 0 ], point_3d[ 1 ], point_3d[ 2 ] );
       }
 
       points_3d[ match_idx ] = point_3d;
@@ -307,6 +317,25 @@ int main( int argc, char** argv )
       match_idx++;
     }
 
+    // std::vector<Eigen::Vector3d> point_3d_test;
+    // utilities::compute3DPoints( camera_params_left, camera_params_right, pose_left, pose_right, pixel_left, pixel_right, point_3d_test );
+    // for ( std::size_t i = 0; i < point_3d_test.size(); i++ )
+    // {
+    //   INFO( super_vio::logger, "Point3D-Test: {0} {1} {2}", point_3d_test[ i ][ 0 ], point_3d_test[ i ][ 1 ], point_3d_test[ i ][ 2 ] );
+    //   INFO( super_vio::logger, "Point3D:      {0} {1} {2}", points_3d[ i ][ 0 ], points_3d[ i ][ 1 ], points_3d[ i ][ 2 ] );
+    // }
+
+    // TODO:
+    // 1. 特征和3D点的对应关系
+    // 2. Feature和Features分不清了
+    // for ( std::size_t i = 0; i < triangular_matches.size(); i++ )
+    // {
+    //   // 假设每一对特征点都能成功匹配到3D点
+    //   std::shared_ptr<super_vio::MapPoint> map_point_ptr( new super_vio::MapPoint );
+    //   map_point_ptr->setPosition( point_3d_test[ i ] );
+    //   features_on_left_img[ triangular_matches[ i ].first ].setMapPoint( map_point_ptr );
+    //   features_on_right_img[ triangular_matches[ i ].second ].setMapPoint( map_point_ptr );
+    // }
 
     INFO( super_vio::logger, "Triangulate {0} Points consumed time: {1}", triangular_matches.size(), test_timer.tocGetDuration() );
     if ( triangular_matches.size() != matches_set.size() )
@@ -326,15 +355,28 @@ int main( int argc, char** argv )
       if ( triangular_success[ i ] == true )
       {
         key_points_left_triangular.emplace_back( key_points_left[ triangular_matches[ i ].first ] );
-        points_3d_cv_triangular.emplace_back( cv::Point3f( points_3d[ triangular_matches[ i ].first ][ 0 ], points_3d[ triangular_matches[ i ].first ][ 1 ], points_3d[ triangular_matches[ i ].first ][ 2 ] ) );
+        // points_3d_cv_triangular.emplace_back( cv::Point3f( points_3d[ triangular_matches[ i ].first ][ 0 ],
+        //                                                    points_3d[ triangular_matches[ i ].first ][ 1 ],
+        //                                                    points_3d[ triangular_matches[ i ].first ][ 2 ] ) );
+        points_3d_cv_triangular.emplace_back( cv::Point3f( points_3d[ i ][ 0 ],
+                                                           points_3d[ i ][ 1 ],
+                                                           points_3d[ i ][ 2 ] ) );
         descriptors_left_triangular.push_back( descriptors_left.row( triangular_matches[ i ].first ) );
         keypoint_3dpoint_oss << "\n\nIndex: " << i;
         keypoint_3dpoint_oss << "\nKeyPoint: " << key_points_transformed_src[ triangular_matches[ i ].first ].x << " " << key_points_transformed_src[ triangular_matches[ i ].first ].y;
-        keypoint_3dpoint_oss << "\nPoint3D: " << points_3d[ triangular_matches[ i ].first ][ 0 ] << " " << points_3d[ triangular_matches[ i ].first ][ 1 ] << " " << points_3d[ triangular_matches[ i ].first ][ 2 ];
+        keypoint_3dpoint_oss << "\nPoint3D: " << points_3d_cv_triangular.back().[ 0 ] << " " << points_3d_cv_triangular.back().[ 1 ] << " " << points_3d_cv_triangular.back().[ 2 ];
       }
     }
     INFO( super_vio::logger, keypoint_3dpoint_oss.str() );
     INFO( super_vio::logger, "Descriptors Number: {0} / {1}", descriptors_left_triangular.rows, descriptors_left.rows );
+
+    // for ( std::size_t i = 0; i < features_on_left_img.size(); i++ )
+    // {
+    //   if ( features_on_left_img[ i ].getMapPoint() != nullptr )
+    //   {
+    //     key_points_left_triangular.emplace_back( features_on_left_img[ i ].get );
+    //   }
+    // }
 
 
     // std::size_t test_1{ 0 };

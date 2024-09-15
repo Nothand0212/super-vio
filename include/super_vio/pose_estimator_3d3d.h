@@ -273,8 +273,8 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::optimizePose()
   INFO( super_vio::logger, "Last image: [{0} x {1}], Current image: [{2} x {3}]", this->last_image_.cols, this->last_image_.rows, this->current_image_.cols, this->current_image_.rows );
   auto img = visualizeMatches( this->last_image_, this->current_image_, matches_2d_pair, key_points_transformed_src, key_points_transformed_dst );
 
-  cv::imshow( "Last-Current Matches", img );
-  cv::waitKey( 0 );
+  // cv::imshow( "Last-Current Matches", img );
+  // cv::waitKey( 0 );
 
   // 3. Estimate the pose using the 3D-3D correspondences
   // return this->getPoseSVD( matches_3d_src, matches_3d_dst );

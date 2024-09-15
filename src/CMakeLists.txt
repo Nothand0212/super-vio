@@ -1,14 +1,13 @@
 add_library(logger SHARED logger/logger.cpp)
 target_link_libraries(logger)
 
-add_library(utilities SHARED 
+add_library(utilities SHARED
     utilities/configuration.cpp
     utilities/image_process.cpp
 )
 
-
 add_library(super_vio SHARED
-    super_vio/mapPoint.cpp
+    super_vio/map_point.cpp
     super_vio/extractor.cpp
     super_vio/matcher.cpp
     super_vio/frame.cpp

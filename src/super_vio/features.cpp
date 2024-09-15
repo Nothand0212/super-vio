@@ -14,6 +14,16 @@ void Features::setKeyPoints( const std::vector<cv::Point2f>& key_points )
   m_v_key_points = key_points;
 }
 
+void Features::setMapPoint( const std::shared_ptr<MapPoint>& map_point )
+{
+  m_wp_map_point = map_point;
+}
+
+std::shared_ptr<MapPoint> Features::getMapPoint()
+{
+  return m_wp_map_point.lock();
+}
+
 
 void Features::setScores( const std::vector<float>& scores )
 {

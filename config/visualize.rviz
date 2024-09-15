@@ -76,7 +76,7 @@ Visualization Manager:
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
-      Size (Pixels): 3
+      Size (Pixels): 1
       Size (m): 0.5
       Style: Points
       Topic: /super_vio/point_cloud
@@ -116,9 +116,9 @@ Visualization Manager:
       Position Transformer: XYZ
       Queue Size: 10
       Selectable: true
-      Size (Pixels): 3
+      Size (Pixels): 1
       Size (m): 0.5
-      Style: Flat Squares
+      Style: Points
       Topic: /super_vio/point_cloud_2
       Unreliable: false
       Use Fixed Frame: true

@@ -9,11 +9,12 @@
 #include <vector>
 
 #include "super_vio/feature.hpp"
-#include "super_vio/mapPoint.h"
+#include "super_vio/map_point.hpp"
 
 namespace super_vio
 {
 class MapPoint;  // forward declaration
+class Features;
 class Frame
 {
 private:

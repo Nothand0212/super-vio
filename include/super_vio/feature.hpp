@@ -11,10 +11,13 @@
 
 #pragma once
 
+#include <eigen3/Eigen/Core>
 #include <opencv2/opencv.hpp>
 
+#include "super_vio/map_point.hpp"
 namespace super_vio
 {
+class MapPoint;
 class Region
 {
 public:
@@ -28,6 +31,7 @@ private:
   std::vector<cv::Point2f> m_v_key_points;
   std::vector<float>       m_v_scores;
   cv::Mat                  m_mat_descriptor;
+  std::weak_ptr<MapPoint>  m_wp_map_point;
 
 public:
   Features()  = default;
@@ -37,6 +41,8 @@ public:
 
   void setKeyPoints( const std::vector<cv::Point2f>& key_points );
 
+  void                      setMapPoint( const std::shared_ptr<MapPoint>& map_point );
+  std::shared_ptr<MapPoint> getMapPoint();
 
   void setScores( const std::vector<float>& scores );
 

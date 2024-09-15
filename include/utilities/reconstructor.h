@@ -4,14 +4,14 @@
 #include <sophus/se3.hpp>
 #include <vector>
 
-// #include "data/mapPoint.h"
+// #include "data/map_point.hpp"
 #include "super_vio/camera.hpp"
 #include "super_vio/frame.h"
-#include "super_vio/mapPoint.h"
+#include "super_vio/map_point.hpp"
 
 namespace utilities
 {
-#define ERROR_THRESHOLD 1e-2
+#define ERROR_THRESHOLD 1e-1
 /**
  * linear triangulation with SVD
  * @param poses     poses,
@@ -187,4 +187,58 @@ bool compute3DPoint( const cv::Mat &K_left, const float &base_line, const cv::Po
 
   return true;
 }
+
+inline void eigenMatrixToCvMat( const Eigen::Matrix<double, 3, 4> &eigen_mat, cv::Mat &cv_mat )
+{
+  // 创建一个 3 行 4 列的 cv::Mat，并确保类型为 float
+  cv_mat.create( 3, 4, CV_32F );
+  for ( int i = 0; i < 3; ++i )
+  {
+    for ( int j = 0; j < 4; ++j )
+    {
+      cv_mat.at<float>( i, j ) = static_cast<float>( eigen_mat( i, j ) );
+    }
+  }
+}
+
+void compute3DPoints( const super_vio::CameraParams &camera_params_left, const super_vio::CameraParams &camera_params_right,
+                      const Eigen::Matrix<double, 3, 4> &pose_left, const Eigen::Matrix<double, 3, 4> &pose_right,
+                      const std::vector<cv::Point2f> &pixel_left, const std::vector<cv::Point2f> &pixel_right, std::vector<Eigen::Vector3d> &point_3d )
+{
+  std::cout << "Transforming points to camera coordinates...\n";
+  std::vector<cv::Point2f> pt_cam_left, pt_cam_right;
+  for ( size_t i = 0; i < pixel_left.size(); ++i )
+  {
+    cv::Point2f pt_cam_left_i  = pixelToCamera( pixel_left[ i ], camera_params_left );
+    cv::Point2f pt_cam_right_i = pixelToCamera( pixel_right[ i ], camera_params_right );
+    pt_cam_left.push_back( pt_cam_left_i );
+    pt_cam_right.push_back( pt_cam_right_i );
+  }
+
+  std::cout << "Transforming Eigen to CV Mat...\n";
+  cv::Mat T_left, T_right;
+  // eigenMatrixToCvMat( pose_left, T_left );
+  // eigenMatrixToCvMat( pose_right, T_right );
+  T_left  = ( cv::Mat_<float>( 3, 4 ) << pose_left( 0, 0 ), pose_left( 0, 1 ), pose_left( 0, 2 ), pose_left( 0, 3 ),
+             pose_left( 1, 0 ), pose_left( 1, 1 ), pose_left( 1, 2 ), pose_left( 1, 3 ),
+             pose_left( 2, 0 ), pose_left( 2, 1 ), pose_left( 2, 2 ), pose_left( 2, 3 ) );
+  T_right = ( cv::Mat_<float>( 3, 4 ) << pose_right( 0, 0 ), pose_right( 0, 1 ), pose_right( 0, 2 ), pose_right( 0, 3 ),
+              pose_right( 1, 0 ), pose_right( 1, 1 ), pose_right( 1, 2 ), pose_right( 1, 3 ),
+              pose_right( 2, 0 ), pose_right( 2, 1 ), pose_right( 2, 2 ), pose_right( 2, 3 ) );
+
+  std::cout << "Triangulating points...\n";
+  cv::Mat points_4d;
+  cv::triangulatePoints( T_left, T_right, pt_cam_left, pt_cam_right, points_4d );
+
+  std::cout << "Extracting 3D points...\n";
+  for ( int i = 0; i < points_4d.cols; i++ )
+  {
+    cv::Mat x = points_4d.col( i );
+    x /= x.at<float>( 3, 0 );
+    Eigen::Vector3d point_3d_i( x.at<float>( 0, 0 ), x.at<float>( 1, 0 ), x.at<float>( 2, 0 ) );
+    point_3d.push_back( point_3d_i );
+  }
+}
+
+
 }  // namespace utilities
