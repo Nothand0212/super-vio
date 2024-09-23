@@ -207,7 +207,6 @@ int main( int argc, char** argv )
 
 
   // inference
-  int                          count = 0;
   double                       time_consumed;
   utilities::Timer             timer;
   utilities::Timer             test_timer;
@@ -235,8 +234,8 @@ int main( int argc, char** argv )
       return extractor_left_ptr->inferenceImage( cfg, img_left );
     } );
 
-    auto right_future = std::async( std::launch::async, [ extractor_right_ptr, &new_cfg, &img_right ]() {
-      return extractor_right_ptr->inferenceImage( new_cfg, img_right );
+    auto right_future = std::async( std::launch::async, [ extractor_right_ptr, &cfg, &img_right ]() {
+      return extractor_right_ptr->inferenceImage( cfg, img_right );
     } );
 
     auto features_on_left_img  = left_future.get();
@@ -275,7 +274,7 @@ int main( int argc, char** argv )
     time_consumed = timer.tocGetDuration();
     accumulate_average_timer.addValue( time_consumed );
     INFO( super_vio::logger, "Pipline Time Consumed: {0} / {1}", time_consumed, accumulate_average_timer.getAverage() );
-    INFO( super_vio::logger, "Key Points Number: {0} / {1}", key_points_transformed_src.size(), key_points_transformed_dst.size() );
+    INFO( super_vio::logger, "Key Points Number Left-Right: {0} / {1}", key_points_transformed_src.size(), key_points_transformed_dst.size() );
 
 
     std::vector<std::pair<int, int>> triangular_matches;
@@ -294,7 +293,8 @@ int main( int argc, char** argv )
       Eigen::Vector3d point_3d = Eigen::Vector3d::Zero();
 
 
-      bool success = utilities::compute3DPoint( camera_params_left, camera_params_right, pose_left, pose_right, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
+      // bool success = utilities::compute3DPoint( camera_params_left, camera_params_right, pose_left, pose_right, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
+      bool success = utilities::compute3DPoint( camera_params_left, base_line_calculated, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
 
 
       if ( !success )
@@ -308,14 +308,15 @@ int main( int argc, char** argv )
         pixel_left.push_back( key_points_transformed_src[ match.first ] );
         pixel_right.push_back( key_points_transformed_dst[ match.second ] );
         // triangular_matches.push_back( match );
-        INFO( super_vio::logger, "Triangulate success. {2} KeyPoint: [{0}, {1}]", key_points_transformed_src[ match.first ].x, key_points_transformed_src[ match.first ].y, match_idx );
-        INFO( super_vio::logger, "Point: [{0}, {1}, {2}]", point_3d[ 0 ], point_3d[ 1 ], point_3d[ 2 ] );
+        // INFO( super_vio::logger, "Triangulate success. {2} KeyPoint: [{0}, {1}]", key_points_transformed_src[ match.first ].x, key_points_transformed_src[ match.first ].y, match_idx );
+        // INFO( super_vio::logger, "Point: [{0}, {1}, {2}]", point_3d[ 0 ], point_3d[ 1 ], point_3d[ 2 ] );
       }
 
       points_3d[ match_idx ] = point_3d;
       triangular_matches.push_back( match );
       match_idx++;
     }
+
 
     // std::vector<Eigen::Vector3d> point_3d_test;
     // utilities::compute3DPoints( camera_params_left, camera_params_right, pose_left, pose_right, pixel_left, pixel_right, point_3d_test );
@@ -355,54 +356,28 @@ int main( int argc, char** argv )
       if ( triangular_success[ i ] == true )
       {
         key_points_left_triangular.emplace_back( key_points_left[ triangular_matches[ i ].first ] );
-        // points_3d_cv_triangular.emplace_back( cv::Point3f( points_3d[ triangular_matches[ i ].first ][ 0 ],
-        //                                                    points_3d[ triangular_matches[ i ].first ][ 1 ],
-        //                                                    points_3d[ triangular_matches[ i ].first ][ 2 ] ) );
         points_3d_cv_triangular.emplace_back( cv::Point3f( points_3d[ i ][ 0 ],
                                                            points_3d[ i ][ 1 ],
                                                            points_3d[ i ][ 2 ] ) );
         descriptors_left_triangular.push_back( descriptors_left.row( triangular_matches[ i ].first ) );
-        keypoint_3dpoint_oss << "\n\nIndex: " << i;
-        keypoint_3dpoint_oss << "\nKeyPoint: " << key_points_transformed_src[ triangular_matches[ i ].first ].x << " " << key_points_transformed_src[ triangular_matches[ i ].first ].y;
-        keypoint_3dpoint_oss << "\nPoint3D: " << points_3d_cv_triangular.back().[ 0 ] << " " << points_3d_cv_triangular.back().[ 1 ] << " " << points_3d_cv_triangular.back().[ 2 ];
+        // keypoint_3dpoint_oss << "\n\nIndex: " << i;
+        // keypoint_3dpoint_oss << "\nKeyPoint: " << key_points_transformed_src[ triangular_matches[ i ].first ].x << " " << key_points_transformed_src[ triangular_matches[ i ].first ].y;
+        // keypoint_3dpoint_oss << "\nPoint3D: " << points_3d_cv_triangular.back().x << " " << points_3d_cv_triangular.back().y << " " << points_3d_cv_triangular.back().z;
       }
     }
-    INFO( super_vio::logger, keypoint_3dpoint_oss.str() );
+    // INFO( super_vio::logger, keypoint_3dpoint_oss.str() );
     INFO( super_vio::logger, "Descriptors Number: {0} / {1}", descriptors_left_triangular.rows, descriptors_left.rows );
 
-    // for ( std::size_t i = 0; i < features_on_left_img.size(); i++ )
-    // {
-    //   if ( features_on_left_img[ i ].getMapPoint() != nullptr )
-    //   {
-    //     key_points_left_triangular.emplace_back( features_on_left_img[ i ].get );
-    //   }
-    // }
+    // 将计算出的3D点重投影到图像上
+    // auto re_projected_points_left = utilities::projection3DPointToPixel( points_3d_cv_triangular, camera_params_left );
+    // auto img_projection           = visualizeReProjection( img_left, key_points_transformed_src, re_projected_points_left );
 
+    // auto re_projected_points_right = utilities::projection3DPointToPixel( points_3d_cv_triangular, camera_params_right );
+    // auto img_projection_2          = visualizeReProjection( img_right, key_points_transformed_dst, re_projected_points_right );
+    // cv::imshow( "Re-Projected Points", img_projection );
+    // cv::imshow( "Re-Projected Points 2", img_projection_2 );
+    // cv::waitKey( 0 );
 
-    // std::size_t test_1{ 0 };
-    // for ( std::size_t i = 0; i < triangular_matches.size(); i++ )
-    // {
-    //   std::ostringstream oss;
-    //   if ( triangular_success[ i ] == true )
-    //   {
-    //     oss << BOLDGREEN << "\nTriangular Descriptor: ";
-    //     for ( std::size_t j = 0; j < descriptors_left_triangular.row( test_1 ).cols; j++ )
-    //     {
-    //       oss << descriptors_left_triangular.at<float>( test_1, j ) << " ";
-    //     }
-    //     oss << RESET;
-
-    //     test_1++;
-
-    //     oss << BOLDCYAN << "\nOriginal Descriptor: ";
-    //     for ( std::size_t j = 0; j < descriptors_left.row( triangular_matches[ i ].first ).cols; j++ )
-    //     {
-    //       oss << descriptors_left.at<float>( triangular_matches[ i ].first, j ) << " ";
-    //     }
-    //     oss << RESET;
-    //     INFO( super_vio::logger, oss.str() );
-    //   }
-    // }
 
     auto [ rotation, translation, success ] = pose_estimator_ptr->setData( img_left, key_points_left_triangular, points_3d_cv_triangular, descriptors_left_triangular );
     if ( ni != 0 )

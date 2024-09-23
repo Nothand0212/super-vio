@@ -188,6 +188,30 @@ bool compute3DPoint( const cv::Mat &K_left, const float &base_line, const cv::Po
   return true;
 }
 
+bool compute3DPoint( const super_vio::CameraParams &camera_params_left, const float &base_line, const cv::Point2f &pixel_left, const cv::Point2f &pixel_right, Eigen::Vector3d &point_3d )
+{
+  // std::cout << "Disparity calculation...\n";
+  // calculate disparity
+  float disparity = pixel_left.x - pixel_right.x;
+
+  // calculate 3D point
+  if ( disparity <= 0.1f )
+  {
+    return false;
+  }
+
+  float depth = base_line * camera_params_left.fx / disparity;
+
+  float x = ( ( pixel_left.x - camera_params_left.cx ) * depth ) / camera_params_left.fx;
+  float y = ( ( pixel_left.y - camera_params_left.cy ) * depth ) / camera_params_left.fy;
+  float z = depth;
+
+
+  point_3d = Eigen::Vector3d( x, y, z );
+
+  return true;
+}
+
 inline void eigenMatrixToCvMat( const Eigen::Matrix<double, 3, 4> &eigen_mat, cv::Mat &cv_mat )
 {
   // 创建一个 3 行 4 列的 cv::Mat，并确保类型为 float
@@ -238,6 +262,35 @@ void compute3DPoints( const super_vio::CameraParams &camera_params_left, const s
     Eigen::Vector3d point_3d_i( x.at<float>( 0, 0 ), x.at<float>( 1, 0 ), x.at<float>( 2, 0 ) );
     point_3d.push_back( point_3d_i );
   }
+}
+
+inline std::vector<cv::Point2f> projection3DPointToPixel( const std::vector<cv::Point3f> &points_3d, const super_vio::CameraParams &camera_params )
+{
+  std::vector<cv::Point2f> points2D;
+  points2D.reserve( points_3d.size() );
+
+  cv::Mat K = ( cv::Mat_<float>( 3, 3 ) << camera_params.fx, 0, camera_params.cx, 0, camera_params.fy, camera_params.cy, 0, 0, 1 );
+  std::cout << "K:\n"
+            << K << std::endl;
+  cv::Mat distortion_coefficients = ( cv::Mat_<float>( 1, 5 ) << camera_params.k1, camera_params.k2, camera_params.p1, camera_params.p2, camera_params.k3 );
+  std::cout << "distortion_coefficients:\n"
+            << distortion_coefficients << std::endl;
+
+
+  for ( size_t i = 0; i < points_3d.size(); ++i )
+  {
+    cv::Mat pointHomogeneous = ( cv::Mat_<float>( 3, 1 ) << points_3d[ i ].x, points_3d[ i ].y, points_3d[ i ].z );
+    cv::Mat pointProjected   = K * pointHomogeneous;
+    if ( pointProjected.at<float>( 2 ) != 0 )
+    {  // 避免除以0
+      cv::Point2f point2D(
+          pointProjected.at<float>( 0 ) / pointProjected.at<float>( 2 ),
+          pointProjected.at<float>( 1 ) / pointProjected.at<float>( 2 ) );
+      points2D.push_back( point2D );
+    }
+  }
+
+  return points2D;
 }
 
 

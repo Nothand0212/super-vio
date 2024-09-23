@@ -1,5 +1,5 @@
 {
-    "camera_json_path": "/home/lin/Projects/catkin_ws/src/super-vio/config/camera.json",
+    "camera_json_path": "/home/lin/Projects/ss_ws/src/super-vio/config/camera.json",
     "matcher_path": "/home/lin/Projects/catkin_ws/src/super-vio/models/superpoint_lightglue_fused_fp16.onnx",
     "extractor_path": "/home/lin/Projects/catkin_ws/src/super-vio/models/superpoint.onnx",
     "image_src_path": "/home/lin/Projects/catkin_ws/src/super-vio/data/left",
@@ -10,5 +10,5 @@
     "device": "cuda",
     "gray_flag": true,
     "image_size": 512,
-    "threshold": 0.5
+    "threshold": 0.3
 }

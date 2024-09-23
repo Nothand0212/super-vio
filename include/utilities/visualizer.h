@@ -21,6 +21,29 @@
 #include "super_vio/feature.hpp"
 
 using namespace super_vio;
+
+cv::Mat visualizeReProjection( const cv::Mat& src, const std::vector<cv::Point2f>& keypoints, const std::vector<cv::Point2f>& projection_keypoints )
+{
+  // 复制并转换为RGB图像
+  cv::Mat dst;
+  cv::cvtColor( src.clone(), dst, cv::COLOR_BGR2RGB );
+
+  // 绘制红色中空圆（keypoints）
+  for ( const auto& pixel : keypoints )
+  {
+    cv::circle( dst, pixel, 5, cv::Scalar( 255, 0, 0 ), 2 );  // 红色，线宽为2
+  }
+
+  // 绘制绿色中空圆（projection_keypoints）
+  for ( const auto& keypoint : projection_keypoints )
+  {
+    cv::circle( dst, keypoint, 3, cv::Scalar( 0, 255, 0 ), 2 );  // 绿色，线宽为2
+  }
+
+  return dst;
+}
+
+
 cv::Mat visualizeMatches( const cv::Mat& src, const cv::Mat& dst, const std::pair<std::vector<cv::Point2f>, std::vector<cv::Point2f>>& key_points, const std::vector<cv::Point2f>& key_points_src, const std::vector<cv::Point2f>& key_points_dst )
 {
   // Convert the points to cv::KeyPoint objects

@@ -6,3 +6,6 @@ target_link_libraries(offline_node super_vio ${ONNX_LIBS} ${OpenCV_LIBS} ${Sophu
 
 add_executable(offline_kitti_node offline_kitti_node.cpp)
 target_link_libraries(offline_kitti_node super_vio ${ONNX_LIBS} ${OpenCV_LIBS} ${Sophus_LIBS} ${PCL_LIBRARIES} ${catkin_LIBRARIES} ${g2o_LIBRARIES} logger utilities )
+
+add_executable(triangle_test triangle_test.cpp)
+target_link_libraries(triangle_test super_vio ${ONNX_LIBS} ${OpenCV_LIBS} ${Sophus_LIBS} ${PCL_LIBRARIES} ${catkin_LIBRARIES} ${g2o_LIBRARIES} logger utilities)

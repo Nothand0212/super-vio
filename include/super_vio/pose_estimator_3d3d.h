@@ -21,11 +21,15 @@
 #include "super_vio/matcher.h"
 #include "utilities/accumulate_average.h"
 #include "utilities/configuration.h"
+#include "utilities/timer.h"
 #include "utilities/visualizer.h"
-
 namespace super_vio
 {
 #define DISTANCE_THRES 3.0f
+
+using BlockSolverType  = g2o::BlockSolverX;
+using LinearSolverType = g2o::LinearSolverDense<BlockSolverType::PoseMatrixType>;
+
 
 cv::Point3f calculateCentroid( const std::vector<cv::Point3f>& points )
 {
@@ -104,12 +108,12 @@ public:
 };
 
 /// g2o edge
-class EdgeProjectXYZRGBDPoseOnly : public g2o::BaseUnaryEdge<3, Eigen::Vector3d, VertexPose>
+class EdgeProjectXYZPoseOnly : public g2o::BaseUnaryEdge<3, Eigen::Vector3d, VertexPose>
 {
 public:
   EIGEN_MAKE_ALIGNED_OPERATOR_NEW;
 
-  EdgeProjectXYZRGBDPoseOnly( const Eigen::Vector3d& point ) : _point( point ) {}
+  EdgeProjectXYZPoseOnly( const Eigen::Vector3d& point ) : _point( point ) {}
 
   virtual void computeError() override
   {
@@ -156,6 +160,14 @@ private:
 
   bool is_initialized_{ false };
 
+  // g2o related
+  g2o::SparseOptimizer optimizer_;  // 图模型
+  Sophus::SE3d         last_pose_;
+
+  // for debug
+  utilities::Timer timer_;
+  cv::Mat          debug_image_;
+
 public:
   PoseEstimator3D3D() = delete;
   PoseEstimator3D3D( std::shared_ptr<Matcher> matcher_sptr, std::shared_ptr<utilities::Configuration> config_sptr, float scale = 1.0f );
@@ -167,17 +179,22 @@ public:
   std::tuple<Eigen::Matrix3d, Eigen::Vector3d>       getPoseSVD( const std::vector<cv::Point3f>& points_last, const std::vector<cv::Point3f>& points_current );
   std::tuple<Eigen::Matrix3d, Eigen::Vector3d>       getPoseG2O( const std::vector<cv::Point3f>& points_last, const std::vector<cv::Point3f>& points_current );
 
-  bool getInitializedFlag() const;
+  bool    getInitializedFlag() const;
+  cv::Mat getDebugImage() const;
 };
 
 PoseEstimator3D3D::PoseEstimator3D3D( std::shared_ptr<Matcher> matcher_sptr, std::shared_ptr<utilities::Configuration> config_sptr, float scale )
 {
-  matcher_sptr_ = matcher_sptr;
-  config_sptr_  = config_sptr;
-  scale_        = scale;
-
-
+  matcher_sptr_   = matcher_sptr;
+  config_sptr_    = config_sptr;
+  scale_          = scale;
   is_initialized_ = false;
+
+  // g2o related
+  // auto solver = new g2o::OptimizationAlgorithmDogleg( std::make_unique<BlockSolverType>( std::make_unique<LinearSolverType>() ) );
+  auto solver = new g2o::OptimizationAlgorithmLevenberg( std::make_unique<BlockSolverType>( std::make_unique<LinearSolverType>() ) );
+  optimizer_.setAlgorithm( solver );  // 设置求解器
+  optimizer_.setVerbose( true );      // 打开调试输出
   INFO( super_vio::logger, "PoseEstimator3D3D initialized" );
 }
 
@@ -199,6 +216,7 @@ bool PoseEstimator3D3D::getInitializedFlag() const
 
 std::tuple<Eigen::Matrix3d, Eigen::Vector3d, bool> PoseEstimator3D3D::setData( const cv::Mat& img, const std::vector<cv::Point2f>& keypoints, const std::vector<cv::Point3f>& points3d, const cv::Mat& descriptors )
 {
+  this->timer_.tic();
   INFO( super_vio::logger, "Received new frame, keypoints: {0}, points3d: {1}, descriptors: {2}", keypoints.size(), points3d.size(), descriptors.rows );
   if ( this->is_initialized_ == true )
   {
@@ -213,6 +231,7 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d, bool> PoseEstimator3D3D::setData( c
     this->current_descriptors_ = descriptors;
 
     auto [ rotation, translation ] = this->optimizePose();
+    INFO( super_vio::logger, "Get Pose Time Consumed: {}", this->timer_.tocGetDuration() );
     return std::make_tuple( rotation, translation, true );
   }
   else
@@ -253,38 +272,42 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::optimizePose()
     {
       matches_3d_src.emplace_back( this->last_points3d_[ match.first ] );
       matches_3d_dst.emplace_back( this->current_points3d_[ match.second ] );
-      oss << "\n\nMatch: " << match.first << " " << match.second;
-      oss << "\nLast";
-      oss << "\nKeyPoint: " << key_points_transformed_src[ match.first ].x << " " << key_points_transformed_src[ match.first ].y;
-      oss << "\nPoint3D: " << this->last_points3d_[ match.first ].x << " " << this->last_points3d_[ match.first ].y << " " << this->last_points3d_[ match.first ].z;
-      oss << "\nCurrent";
-      oss << "\nKeyPoint: " << key_points_transformed_dst[ match.second ].x << " " << key_points_transformed_dst[ match.second ].y;
-      oss << "\nPoint3D: " << this->current_points3d_[ match.second ].x << " " << this->current_points3d_[ match.second ].y << " " << this->current_points3d_[ match.second ].z;
+      // oss << "\n\nMatch: " << match.first << " " << match.second;
+      // oss << "\nLast";
+      // oss << "\nKeyPoint: " << key_points_transformed_src[ match.first ].x << " " << key_points_transformed_src[ match.first ].y;
+      // oss << "\nPoint3D: " << this->last_points3d_[ match.first ].x << " " << this->last_points3d_[ match.first ].y << " " << this->last_points3d_[ match.first ].z;
+      // oss << "\nCurrent";
+      // oss << "\nKeyPoint: " << key_points_transformed_dst[ match.second ].x << " " << key_points_transformed_dst[ match.second ].y;
+      // oss << "\nPoint3D: " << this->current_points3d_[ match.second ].x << " " << this->current_points3d_[ match.second ].y << " " << this->current_points3d_[ match.second ].z;
     }
 
     matches_2d_src.emplace_back( key_points_transformed_src[ match.first ] );
     matches_2d_dst.emplace_back( key_points_transformed_dst[ match.second ] );
   }
-  INFO( super_vio::logger, oss.str() );
+  // INFO( super_vio::logger, oss.str() );
   std::pair<std::vector<cv::Point2f>, std::vector<cv::Point2f>> matches_2d_pair = std::make_pair( matches_2d_src, matches_2d_dst );
 
 
-  INFO( super_vio::logger, "Matches: {0}, key points: {1}", matches_2d_pair.first.size(), key_points_transformed_src.size() );
-  INFO( super_vio::logger, "Last image: [{0} x {1}], Current image: [{2} x {3}]", this->last_image_.cols, this->last_image_.rows, this->current_image_.cols, this->current_image_.rows );
-  auto img = visualizeMatches( this->last_image_, this->current_image_, matches_2d_pair, key_points_transformed_src, key_points_transformed_dst );
+  INFO( super_vio::logger, "Matches: {0}, key points: {1}(last) / {2}(current)", matches_2d_pair.first.size(), key_points_transformed_src.size(), key_points_transformed_dst.size() );
+  // INFO( super_vio::logger, "Last image: [{0} x {1}], Current image: [{2} x {3}]", this->last_image_.cols, this->last_image_.rows, this->current_image_.cols, this->current_image_.rows );
+  debug_image_ = visualizeMatches( this->last_image_, this->current_image_, matches_2d_pair, key_points_transformed_src, key_points_transformed_dst );
 
   // cv::imshow( "Last-Current Matches", img );
   // cv::waitKey( 0 );
 
   // 3. Estimate the pose using the 3D-3D correspondences
-  // return this->getPoseSVD( matches_3d_src, matches_3d_dst );
-  return this->getPoseG2O( matches_3d_src, matches_3d_dst );
+  return this->getPoseSVD( matches_3d_src, matches_3d_dst );
+  // return this->getPoseG2O( matches_3d_src, matches_3d_dst );
 }
 
 
 std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::getPoseSVD( const std::vector<cv::Point3f>& points_last, const std::vector<cv::Point3f>& points_current )
 {
+  utilities::Timer timer;
+  timer.tic();
+
   std::ostringstream oss;
+
   // 1. Calculate the centroids of the two sets of points
   std::size_t num_points = points_last.size();
 
@@ -312,26 +335,26 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::getPoseSVD( cons
     W += Eigen::Vector3d( points_last_centered[ i ].x, points_last_centered[ i ].y, points_last_centered[ i ].z ) * Eigen::Vector3d( points_current_centered[ i ].x, points_current_centered[ i ].y, points_current_centered[ i ].z ).transpose();
   }
 
-  oss << "\nW = ";
-  oss << "\n\t" << W( 0, 0 ) << " " << W( 0, 1 ) << " " << W( 0, 2 );
-  oss << "\n\t" << W( 1, 0 ) << " " << W( 1, 1 ) << " " << W( 1, 2 );
-  oss << "\n\t" << W( 2, 0 ) << " " << W( 2, 1 ) << " " << W( 2, 2 );
-
+  // oss << "\nW = ";
+  // oss << "\n\t" << W( 0, 0 ) << " " << W( 0, 1 ) << " " << W( 0, 2 );
+  // oss << "\n\t" << W( 1, 0 ) << " " << W( 1, 1 ) << " " << W( 1, 2 );
+  // oss << "\n\t" << W( 2, 0 ) << " " << W( 2, 1 ) << " " << W( 2, 2 );
 
   // 4. Compute SVD of W
   Eigen::JacobiSVD<Eigen::Matrix3d> svd( W, Eigen::ComputeFullU | Eigen::ComputeFullV );
 
   Eigen::Matrix3d U = svd.matrixU();
   Eigen::Matrix3d V = svd.matrixV();
-  oss << "\nU = ";
-  oss << "\n\t" << U( 0, 0 ) << " " << U( 0, 1 ) << " " << U( 0, 2 );
-  oss << "\n\t" << U( 1, 0 ) << " " << U( 1, 1 ) << " " << U( 1, 2 );
-  oss << "\n\t" << U( 2, 0 ) << " " << U( 2, 1 ) << " " << U( 2, 2 );
 
-  oss << "\nV = ";
-  oss << "\n\t" << V( 0, 0 ) << " " << V( 0, 1 ) << " " << V( 0, 2 );
-  oss << "\n\t" << V( 1, 0 ) << " " << V( 1, 1 ) << " " << V( 1, 2 );
-  oss << "\n\t" << V( 2, 0 ) << " " << V( 2, 1 ) << " " << V( 2, 2 );
+  // oss << "\nU = ";
+  // oss << "\n\t" << U( 0, 0 ) << " " << U( 0, 1 ) << " " << U( 0, 2 );
+  // oss << "\n\t" << U( 1, 0 ) << " " << U( 1, 1 ) << " " << U( 1, 2 );
+  // oss << "\n\t" << U( 2, 0 ) << " " << U( 2, 1 ) << " " << U( 2, 2 );
+  // oss << "\nV = ";
+  // oss << "\n\t" << V( 0, 0 ) << " " << V( 0, 1 ) << " " << V( 0, 2 );
+  // oss << "\n\t" << V( 1, 0 ) << " " << V( 1, 1 ) << " " << V( 1, 2 );
+  // oss << "\n\t" << V( 2, 0 ) << " " << V( 2, 1 ) << " " << V( 2, 2 );
+
 
   Eigen::Matrix3d rotation = U * ( V.transpose() );
   if ( rotation.determinant() < 0 )
@@ -340,11 +363,9 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::getPoseSVD( cons
   }
   // transform to euler angle(roll, pitch, yaw)
   Eigen::Vector3d euler_angles = rotation.eulerAngles( 0, 1, 2 );
+  Eigen::Vector3d translation  = Eigen::Vector3d( centroid_last.x, centroid_last.y, centroid_last.z ) - rotation * Eigen::Vector3d( centroid_current.x, centroid_current.y, centroid_current.z );
 
-
-  Eigen::Vector3d translation = Eigen::Vector3d( centroid_last.x, centroid_last.y, centroid_last.z ) - rotation * Eigen::Vector3d( centroid_current.x, centroid_current.y, centroid_current.z );
-
-
+  oss << "\nPose Estimation(SVD) Time Consumed: " << timer.tocGetDuration();
   oss << "\nRotation = ";
   oss << "\n\t" << rotation( 0, 0 ) << " " << rotation( 0, 1 ) << " " << rotation( 0, 2 );
   oss << "\n\t" << rotation( 1, 0 ) << " " << rotation( 1, 1 ) << " " << rotation( 1, 2 );
@@ -359,39 +380,47 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::getPoseSVD( cons
 
 std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::getPoseG2O( const std::vector<cv::Point3f>& points_last, const std::vector<cv::Point3f>& points_current )
 {
-  // 构建图优化，先设定g2o
-  typedef g2o::BlockSolverX                                       BlockSolverType;
-  typedef g2o::LinearSolverDense<BlockSolverType::PoseMatrixType> LinearSolverType;  // 线性求解器类型
-  // 梯度下降方法，可以从GN, LM, DogLeg 中选
-  auto                 solver = new g2o::OptimizationAlgorithmDogleg( std::make_unique<BlockSolverType>( std::make_unique<LinearSolverType>() ) );
-  g2o::SparseOptimizer optimizer;    // 图模型
-  optimizer.setAlgorithm( solver );  // 设置求解器
-  optimizer.setVerbose( true );      // 打开调试输出
+  utilities::Timer timer;
+  timer.tic();
+
 
   // vertex
   VertexPose* pose = new VertexPose();  // camera pose
   pose->setId( 0 );
-  pose->setEstimate( Sophus::SE3d() );
-  optimizer.addVertex( pose );
+  pose->setEstimate( this->last_pose_ );
+  optimizer_.addVertex( pose );
+
+  cv::Point3f centroid_last    = calculateCentroid( points_last );
+  cv::Point3f centroid_current = calculateCentroid( points_current );
+
+  EdgeProjectXYZPoseOnly* edge = new EdgeProjectXYZPoseOnly( Eigen::Vector3d( centroid_current.x, centroid_current.y, centroid_current.z ) );
+  edge->setVertex( 0, pose );
+  edge->setMeasurement( Eigen::Vector3d( centroid_last.x, centroid_last.y, centroid_last.z ) );
+  edge->setInformation( Eigen::Matrix3d::Identity() );
+  optimizer_.addEdge( edge );
 
   // edges
   for ( size_t i = 0; i < points_last.size(); i++ )
   {
-    EdgeProjectXYZRGBDPoseOnly* edge = new EdgeProjectXYZRGBDPoseOnly( Eigen::Vector3d( points_current[ i ].x, points_current[ i ].y, points_current[ i ].z ) );
+    EdgeProjectXYZPoseOnly* edge = new EdgeProjectXYZPoseOnly( Eigen::Vector3d( points_current[ i ].x, points_current[ i ].y, points_current[ i ].z ) );
     edge->setVertex( 0, pose );
     edge->setMeasurement( Eigen::Vector3d( points_last[ i ].x, points_last[ i ].y, points_last[ i ].z ) );
     edge->setInformation( Eigen::Matrix3d::Identity() );
-    optimizer.addEdge( edge );
+    optimizer_.addEdge( edge );
   }
 
-  optimizer.initializeOptimization();
-  optimizer.optimize( 100 );
+  optimizer_.initializeOptimization();
+  optimizer_.optimize( 10 );
 
+  this->last_pose_             = pose->estimate();
   Eigen::Matrix3d rotation     = pose->estimate().rotationMatrix();
   Eigen::Vector3d translation  = pose->estimate().translation();
   Eigen::Vector3d euler_angles = rotation.eulerAngles( 0, 1, 2 );
 
+  optimizer_.clear();
+
   std::ostringstream oss;
+  oss << "\nPose Estimation(g2o) Time Consumed: " << timer.tocGetDuration();
   oss << "\nRotation = ";
   oss << "\n\t" << rotation( 0, 0 ) << " " << rotation( 0, 1 ) << " " << rotation( 0, 2 );
   oss << "\n\t" << rotation( 1, 0 ) << " " << rotation( 1, 1 ) << " " << rotation( 1, 2 );
@@ -400,6 +429,11 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::getPoseG2O( cons
   oss << "\nTranslation = " << translation( 0 ) << " " << translation( 1 ) << " " << translation( 2 );
   INFO( super_vio::logger, oss.str() );
   return std::make_tuple( rotation, translation );
+}
+
+cv::Mat PoseEstimator3D3D::getDebugImage() const
+{
+  return debug_image_;
 }
 
 }  // namespace super_vio

@@ -41,3 +41,4 @@ set(g2o_LIBRARIES
     /usr/local/lib/libg2o_csparse_extension.so
 )
 include_directories(${g2o_INCLUDE_DIRS})
+
