@@ -25,33 +25,51 @@ public:
   std::deque<int> indexs;
 };
 
+class Feature
+{
+private:
+  float m_score;
+
+  cv::Point2f             m_key_point;
+  cv::Mat                 m_descriptor;
+  std::weak_ptr<MapPoint> m_wp_map_point;
+
+public:
+  Feature()    = default;
+  ~Feature()   = default;
+  void operator=( const Feature& feature );
+
+  void setScore( const float& score );
+  void setKeyPoint( const cv::Point2f& key_point );
+  void setDescriptor( const cv::Mat& descriptor );
+  void setMapPoint( const std::shared_ptr<MapPoint>& map_point );
+
+  float                     getScore() const;
+  cv::Point2f               getKeyPoint() const;
+  cv::Mat                   getDescriptor() const;
+  std::shared_ptr<MapPoint> getMapPoint() const;
+};
+
+
 class Features
 {
 private:
-  std::vector<cv::Point2f> m_v_key_points;
-  std::vector<float>       m_v_scores;
-  cv::Mat                  m_mat_descriptor;
-  std::weak_ptr<MapPoint>  m_wp_map_point;
+  std::vector<Feature> m_v_features;
 
 public:
-  Features()  = default;
+  Features() = default;
+  Features( std::vector<float> scores, std::vector<cv::Point2f> key_points, cv::Mat descriptors );
+
   ~Features() = default;
 
-  void operator=( const Features& features );
 
-  void setKeyPoints( const std::vector<cv::Point2f>& key_points );
-
-  void                      setMapPoint( const std::shared_ptr<MapPoint>& map_point );
-  std::shared_ptr<MapPoint> getMapPoint();
-
-  void setScores( const std::vector<float>& scores );
-
-  void setDescriptor( const cv::Mat& descriptor );
-
+  std::vector<Feature>     getFeatures() const;
+  std::vector<float>       getScores() const;
   std::vector<cv::Point2f> getKeyPoints() const;
+  cv::Mat                  getDescriptors() const;
 
-  std::vector<float> getScores() const;
-
-  cv::Mat getDescriptor() const;
+  float       getSingleScore( const std::size_t& idx ) const;
+  cv::Point2f getSingleKeyPoint( const std::size_t& idx ) const;
+  cv::Mat     getSingleDescriptor( const std::size_t& idx ) const;
 };
 }  // namespace super_vio

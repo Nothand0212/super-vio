@@ -2,51 +2,144 @@
 
 namespace super_vio
 {
-void Features::operator=( const Features& features )
+// ===============================================
+// ==== ==== ==== ==== Feature ==== ==== ==== ====
+// ===============================================
+
+void Feature::operator=( const Feature& other )
 {
-  m_v_key_points   = features.m_v_key_points;
-  m_v_scores       = features.m_v_scores;
-  m_mat_descriptor = features.m_mat_descriptor.clone();
+  m_score        = other.m_score;
+  m_key_point    = other.m_key_point;
+  m_descriptor   = other.m_descriptor;
+  m_wp_map_point = other.m_wp_map_point;
 }
 
-void Features::setKeyPoints( const std::vector<cv::Point2f>& key_points )
+void Feature::setScore( const float& score )
 {
-  m_v_key_points = key_points;
+  m_score = score;
 }
 
-void Features::setMapPoint( const std::shared_ptr<MapPoint>& map_point )
+void Feature::setKeyPoint( const cv::Point2f& key_point )
+{
+  m_key_point = key_point;
+}
+
+void Feature::setDescriptor( const cv::Mat& descriptor )
+{
+  m_descriptor = descriptor;
+}
+
+void Feature::setMapPoint( const std::shared_ptr<MapPoint>& map_point )
 {
   m_wp_map_point = map_point;
 }
 
-std::shared_ptr<MapPoint> Features::getMapPoint()
+float Feature::getScore() const
+{
+  return m_score;
+}
+
+cv::Point2f Feature::getKeyPoint() const
+{
+  return m_key_point;
+}
+
+cv::Mat Feature::getDescriptor() const
+{
+  return m_descriptor;
+}
+
+std::shared_ptr<MapPoint> Feature::getMapPoint() const
 {
   return m_wp_map_point.lock();
 }
 
+// ================================================
+// ==== ==== ==== ==== Features ==== ==== ==== ====
+// ================================================
 
-void Features::setScores( const std::vector<float>& scores )
+Features::Features( std::vector<float> scores, std::vector<cv::Point2f> key_points, cv::Mat descriptors )
 {
-  m_v_scores = scores;
+  if ( scores.size() == key_points.size() && key_points.size() == descriptors.rows )
+  {
+    for ( int i = 0; i < scores.size(); i++ )
+    {
+      Feature feature;
+      feature.setScore( scores[ i ] );
+      feature.setKeyPoint( key_points[ i ] );
+      feature.setDescriptor( descriptors.row( i ) );
+      m_v_features.push_back( feature );
+      // std::cout << "Construct a Feature with score: " << scores[ i ] << std::endl;
+      // std::cout << "Construct a Feature with key_point: " << key_points[ i ] << std::endl;
+      // std::cout << "Construct a Feature with descriptor: " << descriptors.row( i ) << std::endl;
+    }
+    // std::cout << "Construct a Features with " << m_v_features.size() << " features." << std::endl;
+  }
+  else
+  {
+    std::cerr << "Error: scores, key_points and descriptors size not match. Construct a Null Features." << std::endl;
+    m_v_features = std::vector<Feature>();
+  }
 }
 
-void Features::setDescriptor( const cv::Mat& descriptor )
+std::vector<Feature> Features::getFeatures() const
 {
-  m_mat_descriptor = descriptor.clone();
-}
-
-std::vector<cv::Point2f> Features::getKeyPoints() const
-{
-  return m_v_key_points;
+  return m_v_features;
 }
 
 std::vector<float> Features::getScores() const
 {
-  return m_v_scores;
+  std::vector<float> scores;
+  for ( const auto& feature : m_v_features )
+  {
+    scores.push_back( feature.getScore() );
+  }
+  return scores;
 }
 
-cv::Mat Features::getDescriptor() const
+std::vector<cv::Point2f> Features::getKeyPoints() const
 {
-  return m_mat_descriptor;
+  // std::cout << "Features: " << m_v_features.size() << "\n";
+  std::vector<cv::Point2f> key_points;
+  for ( const auto& feature : m_v_features )
+  {
+    key_points.push_back( feature.getKeyPoint() );
+  }
+  // std::cout << "key_points size: " << key_points.size() << std::endl;
+  return key_points;
 }
+
+cv::Mat Features::getDescriptors() const
+{
+  // std::cout << "Features: " << m_v_features.size() << "\n";
+
+  cv::Mat descriptors;
+  descriptors.reserve( m_v_features.size() );
+  for ( const auto& feature : m_v_features )
+  {
+    descriptors.push_back( feature.getDescriptor() );
+  }
+  // std::cout << "descriptors size: " << descriptors.rows << std::endl;
+  return descriptors;
+}
+
+float Features::getSingleScore( const std::size_t& idx ) const
+{
+  assert( idx < m_v_features.size() );
+  return m_v_features[ idx ].getScore();
+}
+
+cv::Point2f Features::getSingleKeyPoint( const std::size_t& idx ) const
+{
+  assert( idx < m_v_features.size() );
+  return m_v_features[ idx ].getKeyPoint();
+}
+
+cv::Mat Features::getSingleDescriptor( const std::size_t& idx ) const
+{
+  assert( idx < m_v_features.size() );
+  return m_v_features[ idx ].getDescriptor();
+}
+
+
 }  // namespace super_vio

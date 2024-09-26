@@ -40,10 +40,10 @@ void Frame::setData( const Features& features_left, const Features& features_rig
 {
   m_key_points_left   = features_left.getKeyPoints();
   m_scores_left       = features_left.getScores();
-  m_descriptors_left  = features_left.getDescriptor();
+  m_descriptors_left  = features_left.getDescriptors();
   m_key_points_right  = features_right.getKeyPoints();
   m_scores_right      = features_right.getScores();
-  m_descriptors_right = features_right.getDescriptor();
+  m_descriptors_right = features_right.getDescriptors();
 }
 
 // ****** Relate with Features ********

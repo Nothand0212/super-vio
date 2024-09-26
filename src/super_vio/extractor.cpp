@@ -126,6 +126,11 @@ int Extractor::inference( const utilities::Configuration& config, const cv::Mat&
     }
 
     m_key_points = postProcess( config, std::move( output_tensors ) );
+    if ( m_key_points.getScores().size() == 0 )
+    {
+      std::cout << "No key points detected" << std::endl;
+      exit( 0 );
+    }
   }
   catch ( const std::exception& e )
   {
@@ -139,7 +144,7 @@ int Extractor::inference( const utilities::Configuration& config, const cv::Mat&
 Features Extractor::postProcess( const utilities::Configuration& config, std::vector<Ort::Value> tensor )
 {
   // INFO( super_vio::logger, "Transforming tensor to key points" );
-  Features key_points_result;
+
 
   try
   {
@@ -153,7 +158,7 @@ Features Extractor::postProcess( const utilities::Configuration& config, std::ve
       // vec_points.emplace_back( cv::Point2f( ( ptr_points_value[ i ] + 0.5f ) / m_scale - 0.5f, ( ptr_points_value[ i + 1 ] + 0.5f ) / m_scale - 0.5f ) );
       vec_points.emplace_back( cv::Point2f( ptr_points_value[ i ], ptr_points_value[ i + 1 ] ) );
     }
-    key_points_result.setKeyPoints( vec_points );
+    // key_points_result.setKeyPoints( vec_points );
 
     std::vector<int64_t> score_shape     = tensor[ 1 ].GetTensorTypeAndShapeInfo().GetShape();
     float*               ptr_score_value = (float*)tensor[ 1 ].GetTensorMutableData<float>();
@@ -164,7 +169,7 @@ Features Extractor::postProcess( const utilities::Configuration& config, std::ve
     {
       vec_score.emplace_back( ptr_score_value[ i ] );
     }
-    key_points_result.setScores( vec_score );
+    // key_points_result.setScores( vec_score );
 
     std::vector<int64_t> descriptor_shape     = tensor[ 2 ].GetTensorTypeAndShapeInfo().GetShape();
     float*               ptr_descriptor_value = (float*)tensor[ 2 ].GetTensorMutableData<float>();
@@ -172,15 +177,16 @@ Features Extractor::postProcess( const utilities::Configuration& config, std::ve
 
     cv::Mat mat_descriptor( descriptor_shape[ 1 ], descriptor_shape[ 2 ], CV_32FC1, ptr_descriptor_value );
     // INFO( super_vio::logger, "descriptor size: [{0}, {1}]", mat_descriptor.cols, mat_descriptor.rows );
-    key_points_result.setDescriptor( mat_descriptor );
+    // key_points_result.setDescriptor( mat_descriptor );
+    // Features key_points_result( vec_score, vec_points, mat_descriptor );
+    Features key_points_resul{ vec_score, vec_points, mat_descriptor };
+    return key_points_resul;
   }
   catch ( const std::exception& e )
   {
     ERROR( super_vio::logger, "Failed to transform tensor to key points: {0}", e.what() );
     return Features{};
   }
-
-  return key_points_result;
 }
 
 
@@ -359,15 +365,12 @@ std::pair<Features, std::vector<Region>> Extractor::distributeKeyPointsDebug( co
 
   for ( const auto& index : best_indexs )
   {
-    vec_points.emplace_back( key_points.getKeyPoints()[ index ] );
-    vec_score.emplace_back( key_points.getScores()[ index ] );
-    mat_descriptor.push_back( key_points.getDescriptor().row( index ) );
+    vec_points.emplace_back( key_points.getSingleKeyPoint( index ) );
+    vec_score.emplace_back( key_points.getSingleScore( index ) );
+    mat_descriptor.push_back( key_points.getSingleDescriptor( index ) );
   }
 
-  Features key_points_result{};
-  key_points_result.setKeyPoints( vec_points );
-  key_points_result.setScores( vec_score );
-  key_points_result.setDescriptor( mat_descriptor );
+  Features key_points_result{ vec_score, vec_points, mat_descriptor };
 
   return std::pair<Features, std::vector<Region>>{ key_points_result, vec_regions };
 }
@@ -526,15 +529,12 @@ Features Extractor::distributeKeyPoints( const Features& key_points, const cv::M
 
   for ( const auto& index : best_indexs )
   {
-    vec_points.emplace_back( key_points.getKeyPoints()[ index ] );
-    vec_score.emplace_back( key_points.getScores()[ index ] );
-    mat_descriptor.push_back( key_points.getDescriptor().row( index ) );
+    vec_points.emplace_back( key_points.getSingleKeyPoint( index ) );
+    vec_score.emplace_back( key_points.getSingleScore( index ) );
+    mat_descriptor.push_back( key_points.getSingleDescriptor( index ) );
   }
 
-  Features key_points_result{};
-  key_points_result.setKeyPoints( vec_points );
-  key_points_result.setScores( vec_score );
-  key_points_result.setDescriptor( mat_descriptor );
+  Features key_points_result{ vec_score, vec_points, mat_descriptor };
 
   return key_points_result;
 }

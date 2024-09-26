@@ -203,6 +203,19 @@ int Matcher::postProcess( const utilities::Configuration& config )
 
 std::set<std::pair<int, int>> Matcher::inferenceDescriptorPair( const utilities::Configuration& config, const std::vector<cv::Point2f> key_points_src, const std::vector<cv::Point2f> key_points_dst, const cv::Mat& descriptor_src, const cv::Mat& descriptor_dst )
 {
+  if ( ( key_points_src.size() != descriptor_src.rows ) || ( key_points_src.size() == 0 ) || ( descriptor_src.rows == 0 ) )
+  {
+    ERROR( super_vio::logger, "**** key_points_src size: {} or descriptor_src rows: {} is not valid ****", key_points_src.size(), descriptor_src.rows );
+    return {};
+  }
+
+  if ( ( key_points_dst.size() != descriptor_dst.rows ) || ( key_points_dst.size() == 0 ) || ( descriptor_dst.rows == 0 ) )
+  {
+    ERROR( super_vio::logger, "**** key_points_dst size: {} or descriptor_dst rows: {} is not valid ****", key_points_dst.size(), descriptor_dst.rows );
+    return {};
+  }
+
+
   this->m_timer.tic();
   auto key_points_src_norm = preProcess( key_points_src, m_height, m_width );
   auto key_points_dst_norm = preProcess( key_points_dst, m_height, m_width );

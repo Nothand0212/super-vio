@@ -246,8 +246,8 @@ int main( int argc, char** argv )
 
     auto key_points_left   = features_on_left_img.getKeyPoints();
     auto key_points_right  = features_on_right_img.getKeyPoints();
-    auto descriptors_left  = features_on_left_img.getDescriptor();
-    auto descriptors_right = features_on_right_img.getDescriptor();
+    auto descriptors_left  = features_on_left_img.getDescriptors();
+    auto descriptors_right = features_on_right_img.getDescriptors();
 
     float scale_temp = extractor_left_ptr->getScale();
     INFO( super_vio::logger, "Scale: {0}", scale_temp );
@@ -255,6 +255,10 @@ int main( int argc, char** argv )
     pose_estimator_ptr->setScale( scale_temp );
     matcher_ptr->setParams( std::vector<float>( scale_temp, scale_temp ), extractor_left_ptr->getHeightTransformed(), extractor_left_ptr->getWidthTransformed(), 0.0f );
     std::set<std::pair<int, int>> matches_set = matcher_ptr->inferenceDescriptorPair( cfg, key_points_left, key_points_right, descriptors_left, descriptors_right );
+    if ( matches_set.size() == 0 )
+    {
+      exit( 0 );
+    }
 
 
     std::vector<cv::Point2f> key_points_transformed_src = getKeyPointsInOriginalImage( key_points_left, scale_temp );
@@ -293,8 +297,8 @@ int main( int argc, char** argv )
       Eigen::Vector3d point_3d = Eigen::Vector3d::Zero();
 
 
-      // bool success = utilities::compute3DPoint( camera_params_left, camera_params_right, pose_left, pose_right, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
-      bool success = utilities::compute3DPoint( camera_params_left, base_line_calculated, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
+      bool success = utilities::compute3DPoint( camera_params_left, camera_params_right, pose_left, pose_right, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
+      // bool success = utilities::compute3DPoint( camera_params_left, base_line_calculated, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
 
 
       if ( !success )
@@ -307,9 +311,6 @@ int main( int argc, char** argv )
         triangular_success[ match_idx ] = true;
         pixel_left.push_back( key_points_transformed_src[ match.first ] );
         pixel_right.push_back( key_points_transformed_dst[ match.second ] );
-        // triangular_matches.push_back( match );
-        // INFO( super_vio::logger, "Triangulate success. {2} KeyPoint: [{0}, {1}]", key_points_transformed_src[ match.first ].x, key_points_transformed_src[ match.first ].y, match_idx );
-        // INFO( super_vio::logger, "Point: [{0}, {1}, {2}]", point_3d[ 0 ], point_3d[ 1 ], point_3d[ 2 ] );
       }
 
       points_3d[ match_idx ] = point_3d;
@@ -317,14 +318,6 @@ int main( int argc, char** argv )
       match_idx++;
     }
 
-
-    // std::vector<Eigen::Vector3d> point_3d_test;
-    // utilities::compute3DPoints( camera_params_left, camera_params_right, pose_left, pose_right, pixel_left, pixel_right, point_3d_test );
-    // for ( std::size_t i = 0; i < point_3d_test.size(); i++ )
-    // {
-    //   INFO( super_vio::logger, "Point3D-Test: {0} {1} {2}", point_3d_test[ i ][ 0 ], point_3d_test[ i ][ 1 ], point_3d_test[ i ][ 2 ] );
-    //   INFO( super_vio::logger, "Point3D:      {0} {1} {2}", points_3d[ i ][ 0 ], points_3d[ i ][ 1 ], points_3d[ i ][ 2 ] );
-    // }
 
     // TODO:
     // 1. 特征和3D点的对应关系
@@ -360,12 +353,9 @@ int main( int argc, char** argv )
                                                            points_3d[ i ][ 1 ],
                                                            points_3d[ i ][ 2 ] ) );
         descriptors_left_triangular.push_back( descriptors_left.row( triangular_matches[ i ].first ) );
-        // keypoint_3dpoint_oss << "\n\nIndex: " << i;
-        // keypoint_3dpoint_oss << "\nKeyPoint: " << key_points_transformed_src[ triangular_matches[ i ].first ].x << " " << key_points_transformed_src[ triangular_matches[ i ].first ].y;
-        // keypoint_3dpoint_oss << "\nPoint3D: " << points_3d_cv_triangular.back().x << " " << points_3d_cv_triangular.back().y << " " << points_3d_cv_triangular.back().z;
       }
     }
-    // INFO( super_vio::logger, keypoint_3dpoint_oss.str() );
+
     INFO( super_vio::logger, "Descriptors Number: {0} / {1}", descriptors_left_triangular.rows, descriptors_left.rows );
 
     // 将计算出的3D点重投影到图像上
