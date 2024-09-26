@@ -30,9 +30,9 @@ class Feature
 private:
   float m_score;
 
-  cv::Point2f             m_key_point;
-  cv::Mat                 m_descriptor;
-  std::weak_ptr<MapPoint> m_wp_map_point;
+  cv::Point2f               m_key_point;
+  cv::Mat                   m_descriptor;
+  std::shared_ptr<MapPoint> m_wp_map_point;
 
 public:
   Feature()    = default;
@@ -63,13 +63,21 @@ public:
   ~Features() = default;
 
 
-  std::vector<Feature>     getFeatures() const;
-  std::vector<float>       getScores() const;
-  std::vector<cv::Point2f> getKeyPoints() const;
-  cv::Mat                  getDescriptors() const;
+  std::vector<Feature> getFeatures() const;
 
-  float       getSingleScore( const std::size_t& idx ) const;
-  cv::Point2f getSingleKeyPoint( const std::size_t& idx ) const;
-  cv::Mat     getSingleDescriptor( const std::size_t& idx ) const;
+  std::vector<float>                     getScores() const;
+  std::vector<cv::Point2f>               getKeyPoints() const;
+  cv::Mat                                getDescriptors() const;
+  std::vector<std::shared_ptr<MapPoint>> getMapPoints() const;
+
+  float                     getSingleScore( const std::size_t& idx ) const;
+  cv::Point2f               getSingleKeyPoint( const std::size_t& idx ) const;
+  cv::Mat                   getSingleDescriptor( const std::size_t& idx ) const;
+  std::shared_ptr<MapPoint> getSingleMapPoint( const std::size_t& idx ) const;
+
+  void setSingleScore( const std::size_t& idx, const float& score );
+  void setSingleKeyPoint( const std::size_t& idx, const cv::Point2f& key_point );
+  void setSingleDescriptor( const std::size_t& idx, const cv::Mat& descriptor );
+  void setSingleMapPoint( const std::size_t& idx, const std::shared_ptr<MapPoint>& map_point );
 };
 }  // namespace super_vio

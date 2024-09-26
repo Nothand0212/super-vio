@@ -230,13 +230,8 @@ int main( int argc, char** argv )
 
     // async start
     test_timer.tic();
-    auto left_future = std::async( std::launch::async, [ extractor_left_ptr, &cfg, &img_left ]() {
-      return extractor_left_ptr->inferenceImage( cfg, img_left );
-    } );
-
-    auto right_future = std::async( std::launch::async, [ extractor_right_ptr, &cfg, &img_right ]() {
-      return extractor_right_ptr->inferenceImage( cfg, img_right );
-    } );
+    auto left_future  = std::async( std::launch::async, [ extractor_left_ptr, &cfg, &img_left ]() { return extractor_left_ptr->inferenceImage( cfg, img_left ); } );
+    auto right_future = std::async( std::launch::async, [ extractor_right_ptr, &cfg, &img_right ]() { return extractor_right_ptr->inferenceImage( cfg, img_right ); } );
 
     auto features_on_left_img  = left_future.get();
     auto features_on_right_img = right_future.get();
@@ -255,11 +250,6 @@ int main( int argc, char** argv )
     pose_estimator_ptr->setScale( scale_temp );
     matcher_ptr->setParams( std::vector<float>( scale_temp, scale_temp ), extractor_left_ptr->getHeightTransformed(), extractor_left_ptr->getWidthTransformed(), 0.0f );
     std::set<std::pair<int, int>> matches_set = matcher_ptr->inferenceDescriptorPair( cfg, key_points_left, key_points_right, descriptors_left, descriptors_right );
-    if ( matches_set.size() == 0 )
-    {
-      exit( 0 );
-    }
-
 
     std::vector<cv::Point2f> key_points_transformed_src = getKeyPointsInOriginalImage( key_points_left, scale_temp );
     std::vector<cv::Point2f> key_points_transformed_dst = getKeyPointsInOriginalImage( key_points_right, scale_temp );
@@ -277,7 +267,7 @@ int main( int argc, char** argv )
 
     time_consumed = timer.tocGetDuration();
     accumulate_average_timer.addValue( time_consumed );
-    INFO( super_vio::logger, "Pipline Time Consumed: {0} / {1}", time_consumed, accumulate_average_timer.getAverage() );
+    INFO( super_vio::logger, "Pipline Time Consumed:        {0} / {1}", time_consumed, accumulate_average_timer.getAverage() );
     INFO( super_vio::logger, "Key Points Number Left-Right: {0} / {1}", key_points_transformed_src.size(), key_points_transformed_dst.size() );
 
 
@@ -298,7 +288,6 @@ int main( int argc, char** argv )
 
 
       bool success = utilities::compute3DPoint( camera_params_left, camera_params_right, pose_left, pose_right, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
-      // bool success = utilities::compute3DPoint( camera_params_left, base_line_calculated, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
 
 
       if ( !success )
@@ -311,11 +300,39 @@ int main( int argc, char** argv )
         triangular_success[ match_idx ] = true;
         pixel_left.push_back( key_points_transformed_src[ match.first ] );
         pixel_right.push_back( key_points_transformed_dst[ match.second ] );
+
+        // Test Map Point
+        std::shared_ptr<super_vio::MapPoint> map_point_ptr( new super_vio::MapPoint );
+        map_point_ptr->setPosition( point_3d );
+        // std::cout << "Map Point: " << map_point_ptr->getId() << "\n";
+        features_on_left_img.setSingleMapPoint( match.first, map_point_ptr );
+        features_on_right_img.setSingleMapPoint( match.second, map_point_ptr );
+
+        // if ( features_on_left_img.getSingleMapPoint( match.first ) != nullptr )
+        // {
+        //   std::cout << "Map Point: " << match.first << " " << features_on_left_img.getSingleMapPoint( match.first )->getPosition() << "\n";
+        // }
+        // else
+        // {
+        //   std::cout << "Map Point: " << match.first << " nullptr\n";
+        // }
       }
 
       points_3d[ match_idx ] = point_3d;
       triangular_matches.push_back( match );
       match_idx++;
+    }
+
+    for ( std::size_t i = 0; i < features_on_left_img.getFeatures().size(); i++ )
+    {
+      if ( features_on_left_img.getSingleMapPoint( i ) != nullptr )
+      {
+        std::cout << "Map Point: " << i << features_on_left_img.getSingleMapPoint( i )->getPosition() << "\n";
+      }
+      else
+      {
+        std::cout << "Map Point: " << i << "nullptr\n";
+      }
     }
 
 
@@ -331,12 +348,6 @@ int main( int argc, char** argv )
     //   features_on_right_img[ triangular_matches[ i ].second ].setMapPoint( map_point_ptr );
     // }
 
-    INFO( super_vio::logger, "Triangulate {0} Points consumed time: {1}", triangular_matches.size(), test_timer.tocGetDuration() );
-    if ( triangular_matches.size() != matches_set.size() )
-    {
-      ERROR( super_vio::logger, "triangular_matches.size(){0} !=  matches_set.size(){1}", triangular_matches.size(), matches_set.size() );
-      return -1;
-    }
 
     // extract keypoints and descriptors from triangular matches
     std::vector<cv::Point2f> key_points_left_triangular;
@@ -358,18 +369,9 @@ int main( int argc, char** argv )
 
     INFO( super_vio::logger, "Descriptors Number: {0} / {1}", descriptors_left_triangular.rows, descriptors_left.rows );
 
-    // 将计算出的3D点重投影到图像上
-    // auto re_projected_points_left = utilities::projection3DPointToPixel( points_3d_cv_triangular, camera_params_left );
-    // auto img_projection           = visualizeReProjection( img_left, key_points_transformed_src, re_projected_points_left );
 
-    // auto re_projected_points_right = utilities::projection3DPointToPixel( points_3d_cv_triangular, camera_params_right );
-    // auto img_projection_2          = visualizeReProjection( img_right, key_points_transformed_dst, re_projected_points_right );
-    // cv::imshow( "Re-Projected Points", img_projection );
-    // cv::imshow( "Re-Projected Points 2", img_projection_2 );
-    // cv::waitKey( 0 );
-
-
-    auto [ rotation, translation, success ] = pose_estimator_ptr->setData( img_left, key_points_left_triangular, points_3d_cv_triangular, descriptors_left_triangular );
+    // auto [ rotation, translation, success ] = pose_estimator_ptr->setData( img_left, key_points_left_triangular, points_3d_cv_triangular, descriptors_left_triangular );
+    auto [ rotation, translation, success ] = pose_estimator_ptr->setData( img_left, features_on_left_img );
     if ( ni != 0 )
     {
       cumulative_rotation    = cumulative_rotation * rotation;

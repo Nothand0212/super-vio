@@ -14,7 +14,8 @@ class Frame;  // forward declaration
 class MapPoint
 {
 private:
-  std::size_t m_id;
+  static std::size_t factory_id;
+  std::size_t        m_id;
 
   std::mutex      m_mutex_position;
   Eigen::Vector3d m_position;
@@ -25,11 +26,13 @@ private:
   std::map<Frame*, std::size_t> m_observations;
 
 public:
-  MapPoint( /* args */ );
+  MapPoint();
   ~MapPoint();
 
+  std::size_t     getId() const;
   void            setPosition( const Eigen::Vector3d& position );
   Eigen::Vector3d getPosition();
+
 
   void addObservation( Frame* frame, std::size_t idx );
 };

@@ -139,6 +139,15 @@ protected:
 };
 
 
+cv::Point3f transFromEigen( const Eigen::Vector3d& vec )
+{
+  cv::Point3f point;
+  point.x = vec[ 0 ];
+  point.y = vec[ 1 ];
+  point.z = vec[ 2 ];
+  return point;
+}
+
 class PoseEstimator3D3D
 {
 private:
@@ -175,6 +184,7 @@ public:
 
   void                                               setScale( float scale );
   std::tuple<Eigen::Matrix3d, Eigen::Vector3d, bool> setData( const cv::Mat& img, const std::vector<cv::Point2f>& keypoints, const std::vector<cv::Point3f>& points3d, const cv::Mat& descriptors );
+  std::tuple<Eigen::Matrix3d, Eigen::Vector3d, bool> setData( const cv::Mat& img, const Features& features );
   std::tuple<Eigen::Matrix3d, Eigen::Vector3d>       optimizePose();
   std::tuple<Eigen::Matrix3d, Eigen::Vector3d>       getPoseSVD( const std::vector<cv::Point3f>& points_last, const std::vector<cv::Point3f>& points_current );
   std::tuple<Eigen::Matrix3d, Eigen::Vector3d>       getPoseG2O( const std::vector<cv::Point3f>& points_last, const std::vector<cv::Point3f>& points_current );
@@ -248,6 +258,73 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d, bool> PoseEstimator3D3D::setData( c
   }
 }
 
+std::tuple<Eigen::Matrix3d, Eigen::Vector3d, bool> PoseEstimator3D3D::setData( const cv::Mat& img, const Features& features )
+{
+  this->timer_.tic();
+
+  INFO( super_vio::logger, "Received new frame, features: {0}", features.getFeatures().size() );
+
+  if ( this->is_initialized_ == true )
+  {
+    this->last_image_       = this->current_image_;
+    this->last_keypoints_   = this->current_keypoints_;
+    this->last_points3d_    = this->current_points3d_;
+    this->last_descriptors_ = this->current_descriptors_;
+
+    this->current_image_ = img;
+    this->current_keypoints_.clear();
+    this->current_points3d_.clear();
+    this->current_descriptors_.release();
+
+    std::size_t num = features.getFeatures().size();
+    for ( std::size_t i = 0; i < num; ++i )
+    {
+      if ( features.getSingleMapPoint( i ) != nullptr )
+      {
+        this->current_keypoints_.emplace_back( features.getSingleKeyPoint( i ) );
+        this->current_points3d_.emplace_back( transFromEigen( features.getSingleMapPoint( i )->getPosition() ) );
+        this->current_descriptors_.push_back( features.getSingleDescriptor( i ) );
+      }
+      else
+      {
+        WARN( super_vio::logger, "Feature without map point" );
+      }
+    }
+
+    auto [ rotation, translation ] = this->optimizePose();
+    INFO( super_vio::logger, "Get Pose Time Consumed: {}", this->timer_.tocGetDuration() );
+    return std::make_tuple( rotation, translation, true );
+  }
+  else
+  {
+    INFO( super_vio::logger, "Receiving the first frame" );
+
+    this->current_image_ = img;
+    this->current_keypoints_.clear();
+    this->current_points3d_.clear();
+    this->current_descriptors_.release();
+
+    std::size_t num = features.getFeatures().size();
+    for ( std::size_t i = 0; i < num; ++i )
+    {
+      if ( features.getSingleMapPoint( i ) != nullptr )
+      {
+        this->current_keypoints_.emplace_back( features.getSingleKeyPoint( i ) );
+        this->current_points3d_.emplace_back( transFromEigen( features.getSingleMapPoint( i )->getPosition() ) );
+        this->current_descriptors_.push_back( features.getSingleDescriptor( i ) );
+      }
+      else
+      {
+        WARN( super_vio::logger, "Feature without map point" );
+      }
+    }
+
+    this->is_initialized_ = true;
+    return std::make_tuple( Eigen::Matrix3d::Identity(), Eigen::Vector3d::Zero(), false );
+  }
+}
+
+
 std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::optimizePose()
 {
   // 1. Match the keypoints between the last and current frame
@@ -272,13 +349,6 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::optimizePose()
     {
       matches_3d_src.emplace_back( this->last_points3d_[ match.first ] );
       matches_3d_dst.emplace_back( this->current_points3d_[ match.second ] );
-      // oss << "\n\nMatch: " << match.first << " " << match.second;
-      // oss << "\nLast";
-      // oss << "\nKeyPoint: " << key_points_transformed_src[ match.first ].x << " " << key_points_transformed_src[ match.first ].y;
-      // oss << "\nPoint3D: " << this->last_points3d_[ match.first ].x << " " << this->last_points3d_[ match.first ].y << " " << this->last_points3d_[ match.first ].z;
-      // oss << "\nCurrent";
-      // oss << "\nKeyPoint: " << key_points_transformed_dst[ match.second ].x << " " << key_points_transformed_dst[ match.second ].y;
-      // oss << "\nPoint3D: " << this->current_points3d_[ match.second ].x << " " << this->current_points3d_[ match.second ].y << " " << this->current_points3d_[ match.second ].z;
     }
 
     matches_2d_src.emplace_back( key_points_transformed_src[ match.first ] );

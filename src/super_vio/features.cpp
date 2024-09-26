@@ -31,7 +31,20 @@ void Feature::setDescriptor( const cv::Mat& descriptor )
 
 void Feature::setMapPoint( const std::shared_ptr<MapPoint>& map_point )
 {
+  // 判断传入的指针是否为 nullptr
+  // if ( map_point )
+  // {
+  //   std::cout << "Setting MapPoint: " << map_point.get() << std::endl;
+  // }
+  // else
+  // {
+  //   std::cout << "Received a nullptr for MapPoint" << std::endl;
+  // }
+
   m_wp_map_point = map_point;
+
+  // 打印 m_wp_map_point 的引用计数
+  // std::cout << "Current reference count after setting: " << m_wp_map_point.use_count() << std::endl;
 }
 
 float Feature::getScore() const
@@ -51,7 +64,8 @@ cv::Mat Feature::getDescriptor() const
 
 std::shared_ptr<MapPoint> Feature::getMapPoint() const
 {
-  return m_wp_map_point.lock();
+  std::cout << "Feature::getMapPoint() use_count: " << m_wp_map_point.use_count() << std::endl;
+  return m_wp_map_point;
 }
 
 // ================================================
@@ -69,11 +83,7 @@ Features::Features( std::vector<float> scores, std::vector<cv::Point2f> key_poin
       feature.setKeyPoint( key_points[ i ] );
       feature.setDescriptor( descriptors.row( i ) );
       m_v_features.push_back( feature );
-      // std::cout << "Construct a Feature with score: " << scores[ i ] << std::endl;
-      // std::cout << "Construct a Feature with key_point: " << key_points[ i ] << std::endl;
-      // std::cout << "Construct a Feature with descriptor: " << descriptors.row( i ) << std::endl;
     }
-    // std::cout << "Construct a Features with " << m_v_features.size() << " features." << std::endl;
   }
   else
   {
@@ -99,29 +109,35 @@ std::vector<float> Features::getScores() const
 
 std::vector<cv::Point2f> Features::getKeyPoints() const
 {
-  // std::cout << "Features: " << m_v_features.size() << "\n";
   std::vector<cv::Point2f> key_points;
   for ( const auto& feature : m_v_features )
   {
     key_points.push_back( feature.getKeyPoint() );
   }
-  // std::cout << "key_points size: " << key_points.size() << std::endl;
   return key_points;
 }
 
 cv::Mat Features::getDescriptors() const
 {
-  // std::cout << "Features: " << m_v_features.size() << "\n";
-
   cv::Mat descriptors;
   descriptors.reserve( m_v_features.size() );
   for ( const auto& feature : m_v_features )
   {
     descriptors.push_back( feature.getDescriptor() );
   }
-  // std::cout << "descriptors size: " << descriptors.rows << std::endl;
   return descriptors;
 }
+
+std::vector<std::shared_ptr<MapPoint>> Features::getMapPoints() const
+{
+  std::vector<std::shared_ptr<MapPoint>> map_points;
+  for ( const auto& feature : m_v_features )
+  {
+    map_points.push_back( feature.getMapPoint() );
+  }
+  return map_points;
+}
+
 
 float Features::getSingleScore( const std::size_t& idx ) const
 {
@@ -139,6 +155,37 @@ cv::Mat Features::getSingleDescriptor( const std::size_t& idx ) const
 {
   assert( idx < m_v_features.size() );
   return m_v_features[ idx ].getDescriptor();
+}
+
+std::shared_ptr<MapPoint> Features::getSingleMapPoint( const std::size_t& idx ) const
+{
+  assert( idx < m_v_features.size() );
+  return m_v_features[ idx ].getMapPoint();
+}
+
+
+void Features::setSingleScore( const std::size_t& idx, const float& score )
+{
+  assert( idx < m_v_features.size() );
+  return m_v_features[ idx ].setScore( score );
+}
+
+void Features::setSingleKeyPoint( const std::size_t& idx, const cv::Point2f& key_point )
+{
+  assert( idx < m_v_features.size() );
+  return m_v_features[ idx ].setKeyPoint( key_point );
+}
+
+void Features::setSingleDescriptor( const std::size_t& idx, const cv::Mat& descriptor )
+{
+  assert( idx < m_v_features.size() );
+  return m_v_features[ idx ].setDescriptor( descriptor );
+}
+
+void Features::setSingleMapPoint( const std::size_t& idx, const std::shared_ptr<MapPoint>& map_point )
+{
+  assert( idx < m_v_features.size() );
+  return m_v_features[ idx ].setMapPoint( map_point );
 }
 
 
