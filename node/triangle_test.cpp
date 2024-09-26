@@ -21,7 +21,7 @@
 #include "super_vio/frame.h"
 #include "super_vio/map_point.hpp"
 #include "super_vio/matcher.h"
-#include "super_vio/pose_estimator_3d3d.h"
+#include "super_vio/pose_estimator_3d3d.hpp"
 #include "utilities/accumulate_average.h"
 #include "utilities/color.h"
 #include "utilities/configuration.h"

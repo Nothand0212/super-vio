@@ -20,7 +20,7 @@
 #include "super_vio/frame.h"
 #include "super_vio/map_point.hpp"
 #include "super_vio/matcher.h"
-#include "super_vio/pose_estimator_3d3d.h"
+#include "super_vio/pose_estimator_3d3d.hpp"
 #include "utilities/accumulate_average.h"
 #include "utilities/color.h"
 #include "utilities/configuration.h"
@@ -277,7 +277,6 @@ int main( int argc, char** argv )
 
     // for test
     std::vector<cv::Point2f> pixel_left, pixel_right;
-
     // end for test
 
     test_timer.tic();
@@ -286,9 +285,7 @@ int main( int argc, char** argv )
     {
       Eigen::Vector3d point_3d = Eigen::Vector3d::Zero();
 
-
       bool success = utilities::compute3DPoint( camera_params_left, camera_params_right, pose_left, pose_right, key_points_transformed_src[ match.first ], key_points_transformed_dst[ match.second ], point_3d );
-
 
       if ( !success )
       {
@@ -304,18 +301,9 @@ int main( int argc, char** argv )
         // Test Map Point
         std::shared_ptr<super_vio::MapPoint> map_point_ptr( new super_vio::MapPoint );
         map_point_ptr->setPosition( point_3d );
-        // std::cout << "Map Point: " << map_point_ptr->getId() << "\n";
+
         features_on_left_img.setSingleMapPoint( match.first, map_point_ptr );
         features_on_right_img.setSingleMapPoint( match.second, map_point_ptr );
-
-        // if ( features_on_left_img.getSingleMapPoint( match.first ) != nullptr )
-        // {
-        //   std::cout << "Map Point: " << match.first << " " << features_on_left_img.getSingleMapPoint( match.first )->getPosition() << "\n";
-        // }
-        // else
-        // {
-        //   std::cout << "Map Point: " << match.first << " nullptr\n";
-        // }
       }
 
       points_3d[ match_idx ] = point_3d;
@@ -323,29 +311,16 @@ int main( int argc, char** argv )
       match_idx++;
     }
 
-    for ( std::size_t i = 0; i < features_on_left_img.getFeatures().size(); i++ )
-    {
-      if ( features_on_left_img.getSingleMapPoint( i ) != nullptr )
-      {
-        std::cout << "Map Point: " << i << features_on_left_img.getSingleMapPoint( i )->getPosition() << "\n";
-      }
-      else
-      {
-        std::cout << "Map Point: " << i << "nullptr\n";
-      }
-    }
-
-
-    // TODO:
-    // 1. 特征和3D点的对应关系
-    // 2. Feature和Features分不清了
-    // for ( std::size_t i = 0; i < triangular_matches.size(); i++ )
+    // for ( std::size_t i = 0; i < features_on_left_img.getFeatures().size(); i++ )
     // {
-    //   // 假设每一对特征点都能成功匹配到3D点
-    //   std::shared_ptr<super_vio::MapPoint> map_point_ptr( new super_vio::MapPoint );
-    //   map_point_ptr->setPosition( point_3d_test[ i ] );
-    //   features_on_left_img[ triangular_matches[ i ].first ].setMapPoint( map_point_ptr );
-    //   features_on_right_img[ triangular_matches[ i ].second ].setMapPoint( map_point_ptr );
+    //   if ( features_on_left_img.getSingleMapPoint( i ) != nullptr )
+    //   {
+    //     std::cout << "Map Point: " << i << features_on_left_img.getSingleMapPoint( i )->getPosition() << "\n";
+    //   }
+    //   else
+    //   {
+    //     std::cout << "Map Point: " << i << "nullptr\n";
+    //   }
     // }
 
 
@@ -370,7 +345,6 @@ int main( int argc, char** argv )
     INFO( super_vio::logger, "Descriptors Number: {0} / {1}", descriptors_left_triangular.rows, descriptors_left.rows );
 
 
-    // auto [ rotation, translation, success ] = pose_estimator_ptr->setData( img_left, key_points_left_triangular, points_3d_cv_triangular, descriptors_left_triangular );
     auto [ rotation, translation, success ] = pose_estimator_ptr->setData( img_left, features_on_left_img );
     if ( ni != 0 )
     {

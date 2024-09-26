@@ -31,20 +31,7 @@ void Feature::setDescriptor( const cv::Mat& descriptor )
 
 void Feature::setMapPoint( const std::shared_ptr<MapPoint>& map_point )
 {
-  // 判断传入的指针是否为 nullptr
-  // if ( map_point )
-  // {
-  //   std::cout << "Setting MapPoint: " << map_point.get() << std::endl;
-  // }
-  // else
-  // {
-  //   std::cout << "Received a nullptr for MapPoint" << std::endl;
-  // }
-
   m_wp_map_point = map_point;
-
-  // 打印 m_wp_map_point 的引用计数
-  // std::cout << "Current reference count after setting: " << m_wp_map_point.use_count() << std::endl;
 }
 
 float Feature::getScore() const
@@ -64,7 +51,6 @@ cv::Mat Feature::getDescriptor() const
 
 std::shared_ptr<MapPoint> Feature::getMapPoint() const
 {
-  std::cout << "Feature::getMapPoint() use_count: " << m_wp_map_point.use_count() << std::endl;
   return m_wp_map_point;
 }
 

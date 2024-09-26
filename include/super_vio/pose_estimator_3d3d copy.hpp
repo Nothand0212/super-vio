@@ -33,22 +33,18 @@ using LinearSolverType = g2o::LinearSolverDense<BlockSolverType::PoseMatrixType>
 
 cv::Point3f calculateCentroid( const std::vector<cv::Point3f>& points )
 {
-  // std::ostringstream oss;
-
-  int         size = points.size();
   cv::Point3f centroid( 0, 0, 0 );
-  // oss << "\nSie: " << size;
-  // oss << "\nCentroid: " << centroid.x << " " << centroid.y << " " << centroid.z;
+
   for ( const auto& point : points )
   {
-    // oss << "\nCurrent Point: " << point.x << " " << point.y << " " << point.z;
     centroid += point;
   }
+
+  int size = points.size();
   centroid.x /= size;
   centroid.y /= size;
   centroid.z /= size;
-  // oss << "\nFinal Centroid: " << centroid.x << " " << centroid.y << " " << centroid.z;
-  // INFO( super_vio::logger, oss.str() );
+
   return centroid;
 };
 

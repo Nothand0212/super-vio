@@ -17,7 +17,6 @@
 #include <numeric>
 #include <opencv2/opencv.hpp>
 
-// #include "data/features.h"
 #include "super_vio/feature.hpp"
 
 using namespace super_vio;
