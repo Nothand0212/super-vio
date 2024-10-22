@@ -5,7 +5,7 @@
 #include <mutex>
 #include <vector>
 
-#include "super_vio/frame.h"
+#include "super_vio/frame.hpp"
 
 namespace super_vio
 {

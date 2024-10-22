@@ -13,22 +13,22 @@
 #include <opencv2/opencv.hpp>
 #include <thread>
 
-#include "logger/logger.h"
-#include "super_vio/base_onnx_runner.h"
+#include "logger/mine_logger.hpp"
+#include "super_vio/base_onnx_runner.hpp"
 #include "super_vio/camera.hpp"
-#include "super_vio/extractor.h"
-#include "super_vio/frame.h"
+#include "super_vio/extractor.hpp"
+#include "super_vio/frame.hpp"
 #include "super_vio/map_point.hpp"
-#include "super_vio/matcher.h"
+#include "super_vio/matcher.hpp"
 #include "super_vio/pose_estimator_3d3d.hpp"
-#include "utilities/accumulate_average.h"
-#include "utilities/color.h"
-#include "utilities/configuration.h"
-#include "utilities/image_process.h"
+#include "utilities/accumulate_average.hpp"
+#include "utilities/color.hpp"
+#include "utilities/configuration.hpp"
+#include "utilities/image_process.hpp"
 #include "utilities/read_kitii_dataset.hpp"
-#include "utilities/reconstructor.h"
-#include "utilities/timer.h"
-#include "utilities/visualizer.h"
+#include "utilities/reconstructor.hpp"
+#include "utilities/timer.hpp"
+#include "utilities/visualizer.hpp"
 
 void publishPointCloud( ros::Publisher& pub, const std::vector<Eigen::Vector3d>& points, const Eigen::Matrix3d& cumulative_rotation, const Eigen::Vector3d& cumulative_translation )
 {

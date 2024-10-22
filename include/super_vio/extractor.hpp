@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file           : include/extractor/extractor.h
+ * @file           : include/extractor/extractor.hpp
  * @author         : lin
  * @email          : linzeshi@foxmail.com
  * @brief          : The key points extractor with onnx model
@@ -15,16 +15,16 @@
 
 #include <opencv2/opencv.hpp>
 
-#include "super_vio/base_onnx_runner.h"
+#include "super_vio/base_onnx_runner.hpp"
 #include "super_vio/feature.hpp"
-#include "utilities/configuration.h"
+#include "utilities/configuration.hpp"
 // #include "data/features.h"
 
-#include "super_vio/frame.h"
-#include "utilities/accumulate_average.h"
-#include "utilities/color.h"
-#include "utilities/image_process.h"
-#include "utilities/timer.h"
+#include "super_vio/frame.hpp"
+#include "utilities/accumulate_average.hpp"
+#include "utilities/color.hpp"
+#include "utilities/image_process.hpp"
+#include "utilities/timer.hpp"
 namespace super_vio
 {
 inline std::vector<cv::Point2f> getKeyPointsInOriginalImage( const std::vector<cv::Point2f>& key_points, const float scale )

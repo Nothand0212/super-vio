@@ -8,7 +8,7 @@
 #include <opencv4/opencv2/imgproc/imgproc.hpp>
 #include <opencv4/opencv2/opencv.hpp>
 
-#include "logger/logger.h"
+#include "logger/mine_logger.hpp"
 #include "nlohmann/json.hpp"
 
 namespace utilities

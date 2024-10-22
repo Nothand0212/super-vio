@@ -6,7 +6,7 @@
 
 // #include "data/map_point.hpp"
 #include "super_vio/camera.hpp"
-#include "super_vio/frame.h"
+#include "super_vio/frame.hpp"
 #include "super_vio/map_point.hpp"
 
 namespace utilities

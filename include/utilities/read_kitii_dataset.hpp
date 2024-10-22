@@ -1,7 +1,7 @@
 #pragma once
 #include "fstream"
 #include "iomanip"
-#include "logger/logger.h"
+#include "logger/mine_logger.hpp"
 #include "vector"
 
 /// for KITTI gray database

@@ -1,6 +1,6 @@
 /**
  ******************************************************************************
- * @file           : configuration.h
+ * @file           : configuration.hpp
  * @author         : lin
  * @email          : linzeshi@foxmail.com
  * @brief          : None
@@ -16,7 +16,7 @@
 
 #include "nlohmann/json.hpp"
 #include "string"
-#include "utilities/color.h"
+#include "utilities/color.hpp"
 
 //Config
 namespace utilities

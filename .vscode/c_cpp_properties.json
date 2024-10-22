@@ -8,7 +8,8 @@
                 "/usr/local/include/opencv4/**",
                 "/home/lin/Projects/onnxruntime-linux-x64-gpu-1.16.3/include/**",
                 "/usr/local/include/eigen3",
-                "/usr/include/pcl-1.10"
+                "/usr/include/pcl-1.10",
+                "/usr/include/vtk-7.1"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/gcc",

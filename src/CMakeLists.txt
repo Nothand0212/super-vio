@@ -1,4 +1,4 @@
-add_library(logger SHARED logger/logger.cpp)
+add_library(logger SHARED logger/mine_logger.cpp)
 target_link_libraries(logger)
 
 add_library(utilities SHARED

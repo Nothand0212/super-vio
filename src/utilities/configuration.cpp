@@ -1,4 +1,4 @@
-#include "utilities/configuration.h"
+#include "utilities/configuration.hpp"
 
 namespace utilities
 {

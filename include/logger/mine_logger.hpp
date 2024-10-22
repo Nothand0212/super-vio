@@ -14,7 +14,7 @@
 #include "spdlog/sinks/basic_file_sink.h"
 #include "spdlog/sinks/stdout_color_sinks.h"
 #include "spdlog/spdlog.h"
-// using namespace spdlog;
+
 #define INFO  SPDLOG_LOGGER_INFO
 #define WARN  SPDLOG_LOGGER_WARN
 #define ERROR SPDLOG_LOGGER_ERROR

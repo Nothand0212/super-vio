@@ -2,8 +2,8 @@
 
 #include <cmath>
 
-#include "logger/logger.h"
-#include "utilities/color.h"
+#include "logger/mine_logger.hpp"
+#include "utilities/color.hpp"
 
 namespace utilities
 {

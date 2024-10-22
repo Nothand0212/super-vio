@@ -16,13 +16,13 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 
-#include "logger/logger.h"
-#include "super_vio/extractor.h"
-#include "super_vio/matcher.h"
-#include "utilities/accumulate_average.h"
-#include "utilities/configuration.h"
-#include "utilities/timer.h"
-#include "utilities/visualizer.h"
+#include "logger/mine_logger.hpp"
+#include "super_vio/extractor.hpp"
+#include "super_vio/matcher.hpp"
+#include "utilities/accumulate_average.hpp"
+#include "utilities/configuration.hpp"
+#include "utilities/timer.hpp"
+#include "utilities/visualizer.hpp"
 namespace super_vio
 {
 #define DISTANCE_THRES 3.0f
