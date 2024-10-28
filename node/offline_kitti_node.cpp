@@ -311,19 +311,6 @@ int main( int argc, char** argv )
       match_idx++;
     }
 
-    // for ( std::size_t i = 0; i < features_on_left_img.getFeatures().size(); i++ )
-    // {
-    //   if ( features_on_left_img.getSingleMapPoint( i ) != nullptr )
-    //   {
-    //     std::cout << "Map Point: " << i << features_on_left_img.getSingleMapPoint( i )->getPosition() << "\n";
-    //   }
-    //   else
-    //   {
-    //     std::cout << "Map Point: " << i << "nullptr\n";
-    //   }
-    // }
-
-
     // extract keypoints and descriptors from triangular matches
     std::vector<cv::Point2f> key_points_left_triangular;
     std::vector<cv::Point3f> points_3d_cv_triangular;

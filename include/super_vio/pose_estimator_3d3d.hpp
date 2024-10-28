@@ -1,3 +1,17 @@
+/**
+ * @file pose_estimator_3d3d.hpp
+ * @author LinZeshi (linzeshi@foxmail.com)
+ * @brief This header file defines the PoseEstimator3D3D class and related structures
+ *        and algorithms for pose estimation in 3D space. It utilizes the g2o library
+ *        for optimization and incorporates feature matching and timing functionalities.
+ * @version 0.1
+ * @date 2024-10-23
+ * 
+ * @copyright Copyright (c) 2024
+ * 
+ */
+
+
 #pragma once
 
 #include <g2o/core/base_unary_edge.h>
