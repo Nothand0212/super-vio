@@ -21,6 +21,7 @@
 #include "super_vio/map_point.hpp"
 #include "super_vio/matcher.hpp"
 #include "super_vio/pose_estimator_3d3d.hpp"
+#include "super_vio/pose_graph_optimizer.hpp"
 #include "utilities/accumulate_average.hpp"
 #include "utilities/color.hpp"
 #include "utilities/configuration.hpp"
@@ -29,6 +30,46 @@
 #include "utilities/reconstructor.hpp"
 #include "utilities/timer.hpp"
 #include "utilities/visualizer.hpp"
+
+void publishPointCloud( ros::Publisher& pub, const std::vector<std::vector<Eigen::Vector3d>>& point_cloud_buffer, const std::vector<Sophus::SE3d>& poses )
+{
+  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud( new pcl::PointCloud<pcl::PointXYZ> );
+
+  // Transform each point to the first frame coordinate system
+  // for ( const auto& point : points )
+  // {
+  //   // Apply the cumulative rotation and translation
+  //   Eigen::Vector3d transformed_point = cumulative_rotation * point + cumulative_translation;
+  //   cloud->points.push_back( pcl::PointXYZ( transformed_point[ 0 ], transformed_point[ 1 ], transformed_point[ 2 ] ) );
+  // }
+
+  if ( point_cloud_buffer.size() != poses.size() )
+  {
+    WARN( super_vio::logger, "Point Cloud Buffer size {0} does not match pose size {1}!", point_cloud_buffer.size(), poses.size() );
+    return;
+  }
+
+  std::size_t num = poses.size();
+  for ( std::size_t i = 0; i < num; i++ )
+  {
+    Eigen::Matrix3d rotation    = poses[ i ].rotationMatrix();
+    Eigen::Vector3d translation = poses[ i ].translation();
+    for ( const auto& point : point_cloud_buffer[ i ] )
+    {
+      Eigen::Vector3d transformed_point = rotation * point + translation;
+      cloud->points.push_back( pcl::PointXYZ( transformed_point[ 0 ], transformed_point[ 1 ], transformed_point[ 2 ] ) );
+    }
+  }
+
+  // Convert the PointCloud to a sensor_msgs/PointCloud2
+  sensor_msgs::PointCloud2 output;
+  pcl::toROSMsg( *cloud, output );
+  output.header.frame_id = "camera_link";
+  output.header.stamp    = ros::Time::now();
+
+  // Publish the data
+  pub.publish( output );
+}
 
 void publishPointCloud( ros::Publisher& pub, const std::vector<Eigen::Vector3d>& points, const Eigen::Matrix3d& cumulative_rotation, const Eigen::Vector3d& cumulative_translation )
 {
@@ -92,6 +133,10 @@ int main( int argc, char** argv )
   image_transport::ImageTransport it( nh );
   image_transport::Publisher      image_pub = it.advertise( "/super_vio/image", 1 );
 
+
+  std::vector<std::vector<Eigen::Vector3d>> point_cloud_buffer;
+  std::vector<Sophus::SE3d>                 pose_buffer;
+  super_vio::PoseGraphOptimizer             pose_graph_optimizer;
 
   std::string config_path;
   if ( argc != 2 )
@@ -342,12 +387,44 @@ int main( int argc, char** argv )
     test_timer.tic();
     publishPointCloud( cloud_pub, points_3d, cumulative_rotation, cumulative_translation );
     publishPointCloud( cloud_pub_2, points_3d );
+    point_cloud_buffer.push_back( points_3d );
 
+    Sophus::SE3d current_pose = Sophus::SE3d( cumulative_rotation, cumulative_translation );
+    pose_buffer.push_back( current_pose );
 
     auto img = visualizeMatches( img_left, img_right, matches_pair, key_points_transformed_src, key_points_transformed_dst );
     publishImage( image_pub, img );
     test_timer.toc();
     INFO( super_vio::logger, "visualize time: {0}", test_timer.tocGetDuration() );
   }
+
+  utilities::Timer timer_pose_graph_optimizer;
+  timer_pose_graph_optimizer.tic();
+  INFO( super_vio::logger, "Pose Graph Optimizer initializing with Pose size: {}", pose_buffer.size() );
+  for ( std::size_t i = 0; i < pose_buffer.size(); i++ )
+  {
+    pose_graph_optimizer.addVertex( pose_buffer[ i ] );
+    if ( i >= 1 )
+    {
+      pose_graph_optimizer.addEdge( i - 1, i );
+    }
+  }
+
+  INFO( super_vio::logger, "Pose Graph Optimizer running" );
+  pose_graph_optimizer.optimize();
+  std::vector<Sophus::SE3d> poses = pose_graph_optimizer.getOptimizedPoses();
+  timer_pose_graph_optimizer.toc();
+  INFO( super_vio::logger, "Pose Graph Optimizer Time Consumed: {0}", timer_pose_graph_optimizer.tocGetDuration() );
+
+  ros::Publisher cloud_pub_3 = nh.advertise<sensor_msgs::PointCloud2>( "/super_vio/global_map", 1 );
+  publishPointCloud( cloud_pub_3, point_cloud_buffer, poses );
+  INFO( super_vio::logger, "Global Map Published" );
+
+  while ( true )
+  {
+    publishPointCloud( cloud_pub_3, point_cloud_buffer, poses );
+    std::this_thread::sleep_for( std::chrono::milliseconds( 1000 ) );
+  }
+
   return 0;
 }
