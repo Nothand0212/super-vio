@@ -9,7 +9,7 @@
 
 namespace super_vio
 {
-class Frame;  // forward declaration
+class Frame;
 
 class MapPoint
 {

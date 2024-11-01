@@ -12,6 +12,8 @@ Panels:
         - /PointCloud22
         - /Axes1
         - /PointCloud23
+        - /Path1
+        - /Pose1
       Splitter Ratio: 0.5
     Tree Height: 695
   - Class: rviz/Selection
@@ -108,7 +110,7 @@ Visualization Manager:
       Class: rviz/PointCloud2
       Color: 255; 255; 255
       Color Transformer: Intensity
-      Decay Time: 0
+      Decay Time: 50
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
@@ -120,7 +122,7 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.5
       Style: Points
-      Topic: /super_vio/point_cloud_2
+      Topic: /global_points
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
@@ -145,7 +147,7 @@ Visualization Manager:
       Class: rviz/PointCloud2
       Color: 255; 255; 255
       Color Transformer: Intensity
-      Decay Time: 0
+      Decay Time: 60
       Enabled: true
       Invert Rainbow: false
       Max Color: 255; 255; 255
@@ -157,10 +159,50 @@ Visualization Manager:
       Size (Pixels): 3
       Size (m): 0.5
       Style: Flat Squares
-      Topic: /super_vio/global_map
+      Topic: /current_points
       Unreliable: false
       Use Fixed Frame: true
       Use rainbow: true
+      Value: true
+    - Alpha: 1
+      Buffer Length: 1
+      Class: rviz/Path
+      Color: 25; 255; 0
+      Enabled: true
+      Head Diameter: 0.30000001192092896
+      Head Length: 0.20000000298023224
+      Length: 1
+      Line Style: Lines
+      Line Width: 0.029999999329447746
+      Name: Path
+      Offset:
+        X: 0
+        Y: 0
+        Z: 0
+      Pose Color: 255; 85; 255
+      Pose Style: None
+      Queue Size: 10
+      Radius: 0.10000000149011612
+      Shaft Diameter: 0.10000000149011612
+      Shaft Length: 0.10000000149011612
+      Topic: /raw_path
+      Unreliable: false
+      Value: true
+    - Alpha: 1
+      Axes Length: 50
+      Axes Radius: 5
+      Class: rviz/Pose
+      Color: 255; 25; 0
+      Enabled: true
+      Head Length: 0.30000001192092896
+      Head Radius: 0.10000000149011612
+      Name: Pose
+      Queue Size: 10
+      Shaft Length: 1
+      Shaft Radius: 0.05000000074505806
+      Shape: Axes
+      Topic: /current_pose
+      Unreliable: false
       Value: true
   Enabled: true
   Global Options:
@@ -189,8 +231,8 @@ Visualization Manager:
   Value: true
   Views:
     Current:
-      Class: rviz/XYOrbit
-      Distance: 234.56607055664062
+      Class: rviz/Orbit
+      Distance: 882.3759155273438
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
@@ -198,17 +240,17 @@ Visualization Manager:
         Value: false
       Field of View: 0.7853981852531433
       Focal Point:
-        X: 13.840381622314453
-        Y: 88.76435852050781
-        Z: 1.4357410691445693e-06
-      Focal Shape Fixed Size: true
+        X: 53.15414810180664
+        Y: -9.017589569091797
+        Z: 204.95147705078125
+      Focal Shape Fixed Size: false
       Focal Shape Size: 0.05000000074505806
       Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.009999999776482582
-      Pitch: -0.1646018773317337
+      Pitch: 0.0953986644744873
       Target Frame: <Fixed Frame>
-      Yaw: 3.5685691833496094
+      Yaw: 1.7753829956054688
     Saved: ~
 Window Geometry:
   Displays:

@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.16) # 他妈的问题出在我只有/usr/share/cmake-3.16/Modules/FindCUDA.cmake，只能指定3.16.其他都错
 project(super_vio  LANGUAGES CXX CUDA)
 
+
 set(CMAKE_BUILD_TYPE Debug)
 set(CMAKE_CXX_STANDARD 17)
 # set(CMAKE_CXX_FLAGS "-w")

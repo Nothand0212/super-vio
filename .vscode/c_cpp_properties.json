@@ -5,6 +5,7 @@
             "includePath": [
                 "${workspaceFolder}/**",
                 "${workspaceFolder}/include/**",
+                "/opt/ros/noetic/include/",
                 "/usr/local/include/opencv4/**",
                 "/home/lin/Projects/onnxruntime-linux-x64-gpu-1.16.3/include/**",
                 "/usr/local/include/eigen3",

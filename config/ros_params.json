@@ -1,0 +1,6 @@
+{
+    "current_cloud_topic": "/current_points",
+    "global_cloud_topic": "/global_points",
+    "current_pose_topic": "/current_pose",
+    "path_topic": "/raw_path"
+}

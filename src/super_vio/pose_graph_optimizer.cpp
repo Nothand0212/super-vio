@@ -1,4 +1,4 @@
-#include "super_vio/optimizer.hpp"
+#include "super_vio/pose_graph_optimizer.hpp"
 
 namespace super_vio
 {

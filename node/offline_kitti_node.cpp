@@ -1,16 +1,26 @@
-#include <cv_bridge/cv_bridge.h>
-#include <image_transport/image_transport.h>
+// PCL
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include <pcl_conversions/pcl_conversions.h>
+
+// OpenCV
+#include <cv_bridge/cv_bridge.h>
+
+#include <opencv2/opencv.hpp>
+
+// ros
+#include <image_transport/image_transport.h>
+#include <ros/package.h>
 #include <ros/ros.h>
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/PointCloud2.h>
 
+// Eigen
 #include <Eigen/Dense>
+
+// STD
 #include <future>
 #include <memory>
-#include <opencv2/opencv.hpp>
 #include <thread>
 
 #include "logger/mine_logger.hpp"
@@ -22,6 +32,7 @@
 #include "super_vio/matcher.hpp"
 #include "super_vio/pose_estimator_3d3d.hpp"
 #include "super_vio/pose_graph_optimizer.hpp"
+#include "super_vio/ros_tool.hpp"
 #include "utilities/accumulate_average.hpp"
 #include "utilities/color.hpp"
 #include "utilities/configuration.hpp"
@@ -35,13 +46,6 @@ void publishPointCloud( ros::Publisher& pub, const std::vector<std::vector<Eigen
 {
   pcl::PointCloud<pcl::PointXYZ>::Ptr cloud( new pcl::PointCloud<pcl::PointXYZ> );
 
-  // Transform each point to the first frame coordinate system
-  // for ( const auto& point : points )
-  // {
-  //   // Apply the cumulative rotation and translation
-  //   Eigen::Vector3d transformed_point = cumulative_rotation * point + cumulative_translation;
-  //   cloud->points.push_back( pcl::PointXYZ( transformed_point[ 0 ], transformed_point[ 1 ], transformed_point[ 2 ] ) );
-  // }
 
   if ( point_cloud_buffer.size() != poses.size() )
   {
@@ -116,9 +120,7 @@ void publishPointCloud( ros::Publisher& pub, const std::vector<Eigen::Vector3d>&
 void publishImage( image_transport::Publisher& pub, const cv::Mat& image )
 {
   sensor_msgs::ImagePtr msg = cv_bridge::CvImage( std_msgs::Header(), "bgr8", image ).toImageMsg();
-  // msg.header.stamp          = ros::Time::now();
 
-  // msg.header.frame_id = "camera_link";
   pub.publish( msg );
 }
 
@@ -127,36 +129,29 @@ int main( int argc, char** argv )
   ros::init( argc, argv, "offline_node", ros::init_options::NoSigintHandler );
   ros::NodeHandle nh;
 
-  ros::Publisher cloud_pub   = nh.advertise<sensor_msgs::PointCloud2>( "/super_vio/point_cloud", 1 );
-  ros::Publisher cloud_pub_2 = nh.advertise<sensor_msgs::PointCloud2>( "/super_vio/point_cloud_2", 1 );
-
-  image_transport::ImageTransport it( nh );
-  image_transport::Publisher      image_pub = it.advertise( "/super_vio/image", 1 );
+  std::string project_path  = ros::package::getPath( "super_vio" );
+  std::string system_config = project_path + "/config/system_params.json";
 
 
   std::vector<std::vector<Eigen::Vector3d>> point_cloud_buffer;
   std::vector<Sophus::SE3d>                 pose_buffer;
   super_vio::PoseGraphOptimizer             pose_graph_optimizer;
 
-  std::string config_path;
-  if ( argc != 2 )
-  {
-    std::cerr << "Usage: " << argv[ 0 ] << " <path_to_config>\n";
-    std::cout << BOLDRED << "Using default config path: /home/lin/Projects/ss_ws/src/super-vio/config/param.json" << RESET << "\n";
-    config_path = "/home/lin/Projects/ss_ws/src/super-vio/config/param.json";
-  }
-  else
-  {
-    config_path = argv[ 1 ];
-  }
 
   utilities::Configuration cfg{};
-  cfg.readConfigFile( config_path );
+  cfg.readConfigFile( system_config );
 
   auto new_cfg = cfg;
 
   super_vio::initLogger( cfg.log_path );
   INFO( super_vio::logger, "Start" );
+
+  // ROS Related
+  std::string        ros_config = project_path + "/config/ros_params.json";
+  super_vio::ROSTool ros_tool( nh, ros_config );
+
+  image_transport::ImageTransport it( nh );
+  image_transport::Publisher      image_pub = it.advertise( "/super_vio/image", 1 );
 
 
   /// load sequence frames
@@ -385,11 +380,13 @@ int main( int argc, char** argv )
     }
 
     test_timer.tic();
-    publishPointCloud( cloud_pub, points_3d, cumulative_rotation, cumulative_translation );
-    publishPointCloud( cloud_pub_2, points_3d );
-    point_cloud_buffer.push_back( points_3d );
 
+    ros_tool.publishPointCloud( points_3d, cumulative_rotation, cumulative_translation );
+
+    point_cloud_buffer.push_back( points_3d );
     Sophus::SE3d current_pose = Sophus::SE3d( cumulative_rotation, cumulative_translation );
+    ros_tool.publishPose( current_pose );
+
     pose_buffer.push_back( current_pose );
 
     auto img = visualizeMatches( img_left, img_right, matches_pair, key_points_transformed_src, key_points_transformed_dst );
@@ -397,6 +394,8 @@ int main( int argc, char** argv )
     test_timer.toc();
     INFO( super_vio::logger, "visualize time: {0}", test_timer.tocGetDuration() );
   }
+
+  // Below should move to Loop Detection and add reconized-pair frames
 
   utilities::Timer timer_pose_graph_optimizer;
   timer_pose_graph_optimizer.tic();
