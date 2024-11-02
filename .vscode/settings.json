@@ -93,7 +93,9 @@
         "__node_handle": "cpp",
         "queue": "cpp",
         "stack": "cpp",
-        "__hash_table": "cpp"
+        "__hash_table": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp"
     },
     "python.autoComplete.extraPaths": [
         "/home/lin/Projects/catkin_ws/devel/lib/python3/dist-packages",

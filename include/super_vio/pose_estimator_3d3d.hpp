@@ -106,9 +106,9 @@ public:
     _jacobianOplusXi.block<3, 3>( 0, 3 ) = Sophus::SO3d::hat( xyz_trans );
   }
 
-  bool read( istream& in ) {}
+  bool read( istream& in ) { return true; }
 
-  bool write( ostream& out ) const {}
+  bool write( ostream& out ) const { return true; }
 
 protected:
   Eigen::Vector3d _point;
@@ -149,12 +149,13 @@ public:
   PoseEstimator3D3D( std::shared_ptr<Matcher> matcher_sptr, std::shared_ptr<utilities::Configuration> config_sptr, float scale = 1.0f );
   ~PoseEstimator3D3D();
 
-  void                                               setScale( float scale );
-  std::tuple<Eigen::Matrix3d, Eigen::Vector3d, bool> setData( const cv::Mat& img, const std::vector<cv::Point2f>& keypoints, const std::vector<cv::Point3f>& points3d, const cv::Mat& descriptors );
-  std::tuple<Eigen::Matrix3d, Eigen::Vector3d, bool> setData( const cv::Mat& img, const Features& features );
-  std::tuple<Eigen::Matrix3d, Eigen::Vector3d>       optimizePose();
-  std::tuple<Eigen::Matrix3d, Eigen::Vector3d>       getPoseSVD( const std::vector<cv::Point3f>& points_last, const std::vector<cv::Point3f>& points_current );
-  std::tuple<Eigen::Matrix3d, Eigen::Vector3d>       getPoseG2O( const std::vector<cv::Point3f>& points_last, const std::vector<cv::Point3f>& points_current );
+  void                           setScale( float scale );
+  std::tuple<Sophus::SE3d, bool> setData( const cv::Mat& img, const std::vector<cv::Point2f>& keypoints, const std::vector<cv::Point3f>& points3d, const cv::Mat& descriptors );
+  std::tuple<Sophus::SE3d, bool> setData( const cv::Mat& img, const Features& features );
+
+  Sophus::SE3d optimizePose();
+  Sophus::SE3d getPoseSVD( const std::vector<cv::Point3f>& points_last, const std::vector<cv::Point3f>& points_current );
+  Sophus::SE3d getPoseG2O( const std::vector<cv::Point3f>& points_last, const std::vector<cv::Point3f>& points_current );
 
   bool    getInitializedFlag() const;
   cv::Mat getDebugImage() const;

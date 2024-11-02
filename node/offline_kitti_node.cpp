@@ -42,87 +42,6 @@
 #include "utilities/timer.hpp"
 #include "utilities/visualizer.hpp"
 
-void publishPointCloud( ros::Publisher& pub, const std::vector<std::vector<Eigen::Vector3d>>& point_cloud_buffer, const std::vector<Sophus::SE3d>& poses )
-{
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud( new pcl::PointCloud<pcl::PointXYZ> );
-
-
-  if ( point_cloud_buffer.size() != poses.size() )
-  {
-    WARN( super_vio::logger, "Point Cloud Buffer size {0} does not match pose size {1}!", point_cloud_buffer.size(), poses.size() );
-    return;
-  }
-
-  std::size_t num = poses.size();
-  for ( std::size_t i = 0; i < num; i++ )
-  {
-    Eigen::Matrix3d rotation    = poses[ i ].rotationMatrix();
-    Eigen::Vector3d translation = poses[ i ].translation();
-    for ( const auto& point : point_cloud_buffer[ i ] )
-    {
-      Eigen::Vector3d transformed_point = rotation * point + translation;
-      cloud->points.push_back( pcl::PointXYZ( transformed_point[ 0 ], transformed_point[ 1 ], transformed_point[ 2 ] ) );
-    }
-  }
-
-  // Convert the PointCloud to a sensor_msgs/PointCloud2
-  sensor_msgs::PointCloud2 output;
-  pcl::toROSMsg( *cloud, output );
-  output.header.frame_id = "camera_link";
-  output.header.stamp    = ros::Time::now();
-
-  // Publish the data
-  pub.publish( output );
-}
-
-void publishPointCloud( ros::Publisher& pub, const std::vector<Eigen::Vector3d>& points, const Eigen::Matrix3d& cumulative_rotation, const Eigen::Vector3d& cumulative_translation )
-{
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud( new pcl::PointCloud<pcl::PointXYZ> );
-
-  // Transform each point to the first frame coordinate system
-  for ( const auto& point : points )
-  {
-    // Apply the cumulative rotation and translation
-    Eigen::Vector3d transformed_point = cumulative_rotation * point + cumulative_translation;
-    cloud->points.push_back( pcl::PointXYZ( transformed_point[ 0 ], transformed_point[ 1 ], transformed_point[ 2 ] ) );
-  }
-
-  // Convert the PointCloud to a sensor_msgs/PointCloud2
-  sensor_msgs::PointCloud2 output;
-  pcl::toROSMsg( *cloud, output );
-  output.header.frame_id = "camera_link";
-  output.header.stamp    = ros::Time::now();
-
-  // Publish the data
-  pub.publish( output );
-}
-
-void publishPointCloud( ros::Publisher& pub, const std::vector<Eigen::Vector3d>& points )
-{
-  pcl::PointCloud<pcl::PointXYZ>::Ptr cloud( new pcl::PointCloud<pcl::PointXYZ> );
-
-  // Transform each point to the first frame coordinate system
-  for ( const auto& point : points )
-  {
-    cloud->points.push_back( pcl::PointXYZ( point[ 0 ], point[ 1 ], point[ 2 ] ) );
-  }
-
-  // Convert the PointCloud to a sensor_msgs/PointCloud2
-  sensor_msgs::PointCloud2 output;
-  pcl::toROSMsg( *cloud, output );
-  output.header.frame_id = "camera_link";
-  output.header.stamp    = ros::Time::now();
-
-  // Publish the data
-  pub.publish( output );
-}
-
-void publishImage( image_transport::Publisher& pub, const cv::Mat& image )
-{
-  sensor_msgs::ImagePtr msg = cv_bridge::CvImage( std_msgs::Header(), "bgr8", image ).toImageMsg();
-
-  pub.publish( msg );
-}
 
 int main( int argc, char** argv )
 {
@@ -149,10 +68,6 @@ int main( int argc, char** argv )
   // ROS Related
   std::string        ros_config = project_path + "/config/ros_params.json";
   super_vio::ROSTool ros_tool( nh, ros_config );
-
-  image_transport::ImageTransport it( nh );
-  image_transport::Publisher      image_pub = it.advertise( "/super_vio/image", 1 );
-
 
   /// load sequence frames
   std::vector<std::string> image_left_vec_path, image_right_vec_path;
@@ -255,6 +170,7 @@ int main( int argc, char** argv )
   // 初始化第一帧的累积变换
   Eigen::Matrix3d cumulative_rotation    = Eigen::Matrix3d::Identity();
   Eigen::Vector3d cumulative_translation = Eigen::Vector3d::Zero();
+  Sophus::SE3d    current_pose;
 
   for ( std::size_t ni = 0; ni < num_images; ni++ )
   {
@@ -313,14 +229,15 @@ int main( int argc, char** argv )
 
     std::vector<std::pair<int, int>> triangular_matches;
     std::vector<bool>                triangular_success( matches_set.size(), false );
-    std::vector<Eigen::Vector3d>     points_3d{ matches_set.size() };
+    std::vector<Eigen::Vector3d>     points_3d;
+    points_3d.reserve( matches_set.size() );
 
     // for test
     std::vector<cv::Point2f> pixel_left, pixel_right;
     // end for test
 
     test_timer.tic();
-    std::size_t match_idx{ 0 };
+    std::size_t success_count = 0;
     for ( const auto& match : matches_set )
     {
       Eigen::Vector3d point_3d = Eigen::Vector3d::Zero();
@@ -329,74 +246,44 @@ int main( int argc, char** argv )
 
       if ( !success )
       {
-        triangular_success[ match_idx ] = false;
-        WARN( super_vio::logger, "Triangulate failed" );
+        // WARN( super_vio::logger, "Triangulate failed" );
+        continue;
       }
       else
       {
-        triangular_success[ match_idx ] = true;
-        pixel_left.push_back( key_points_transformed_src[ match.first ] );
-        pixel_right.push_back( key_points_transformed_dst[ match.second ] );
-
         // Test Map Point
         std::shared_ptr<super_vio::MapPoint> map_point_ptr( new super_vio::MapPoint );
         map_point_ptr->setPosition( point_3d );
 
         features_on_left_img.setSingleMapPoint( match.first, map_point_ptr );
         features_on_right_img.setSingleMapPoint( match.second, map_point_ptr );
-      }
 
-      points_3d[ match_idx ] = point_3d;
-      triangular_matches.push_back( match );
-      match_idx++;
-    }
-
-    // extract keypoints and descriptors from triangular matches
-    std::vector<cv::Point2f> key_points_left_triangular;
-    std::vector<cv::Point3f> points_3d_cv_triangular;
-    cv::Mat                  descriptors_left_triangular;
-    descriptors_left_triangular.reserve( triangular_matches.size() );
-    std::ostringstream keypoint_3dpoint_oss;
-    for ( std::size_t i = 0; i < triangular_matches.size(); i++ )
-    {
-      if ( triangular_success[ i ] == true )
-      {
-        key_points_left_triangular.emplace_back( key_points_left[ triangular_matches[ i ].first ] );
-        points_3d_cv_triangular.emplace_back( cv::Point3f( points_3d[ i ][ 0 ],
-                                                           points_3d[ i ][ 1 ],
-                                                           points_3d[ i ][ 2 ] ) );
-        descriptors_left_triangular.push_back( descriptors_left.row( triangular_matches[ i ].first ) );
+        points_3d.push_back( map_point_ptr->getPosition() );
+        success_count++;
       }
     }
+    INFO( super_vio::logger, "Triangulate {} / {} --> Time Consumed: {}", success_count, matches_set.size(), test_timer.tocGetDuration() );
 
-    INFO( super_vio::logger, "Descriptors Number: {0} / {1}", descriptors_left_triangular.rows, descriptors_left.rows );
 
-
-    auto [ rotation, translation, success ] = pose_estimator_ptr->setData( img_left, features_on_left_img );
-    if ( ni != 0 )
-    {
-      cumulative_rotation    = cumulative_rotation * rotation;
-      cumulative_translation = cumulative_rotation * translation + cumulative_translation;
-    }
+    auto [ pose_increment, success ] = pose_estimator_ptr->setData( img_left, features_on_left_img );
+    current_pose                     = current_pose * pose_increment;
 
     test_timer.tic();
-
-    ros_tool.publishPointCloud( points_3d, cumulative_rotation, cumulative_translation );
-
-    point_cloud_buffer.push_back( points_3d );
-    Sophus::SE3d current_pose = Sophus::SE3d( cumulative_rotation, cumulative_translation );
+    auto img = visualizeMatches( img_left, img_right, matches_pair, key_points_transformed_src, key_points_transformed_dst );
+    ros_tool.publishCurrentPointCloud( points_3d, current_pose.rotationMatrix(), current_pose.translation() );
     ros_tool.publishPose( current_pose );
+    ros_tool.publishImage( img );
+
 
     pose_buffer.push_back( current_pose );
+    point_cloud_buffer.push_back( points_3d );
 
-    auto img = visualizeMatches( img_left, img_right, matches_pair, key_points_transformed_src, key_points_transformed_dst );
-    publishImage( image_pub, img );
+
     test_timer.toc();
     INFO( super_vio::logger, "visualize time: {0}", test_timer.tocGetDuration() );
   }
 
   // Below should move to Loop Detection and add reconized-pair frames
-
   utilities::Timer timer_pose_graph_optimizer;
   timer_pose_graph_optimizer.tic();
   INFO( super_vio::logger, "Pose Graph Optimizer initializing with Pose size: {}", pose_buffer.size() );
@@ -416,12 +303,13 @@ int main( int argc, char** argv )
   INFO( super_vio::logger, "Pose Graph Optimizer Time Consumed: {0}", timer_pose_graph_optimizer.tocGetDuration() );
 
   ros::Publisher cloud_pub_3 = nh.advertise<sensor_msgs::PointCloud2>( "/super_vio/global_map", 1 );
-  publishPointCloud( cloud_pub_3, point_cloud_buffer, poses );
+
+  ros_tool.publishGlobalPointCloud( point_cloud_buffer, poses );
   INFO( super_vio::logger, "Global Map Published" );
 
   while ( true )
   {
-    publishPointCloud( cloud_pub_3, point_cloud_buffer, poses );
+    ros_tool.publishGlobalPointCloud( point_cloud_buffer, poses );
     std::this_thread::sleep_for( std::chrono::milliseconds( 1000 ) );
   }
 

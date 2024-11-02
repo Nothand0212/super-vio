@@ -155,11 +155,24 @@ bool compute3DPoint( const super_vio::CameraParams &camera_params_left, const su
                      const cv::Point2f &pixel_left, const cv::Point2f &pixel_right, Eigen::Vector3d &point_3d )
 {
   // Convert pixel coordinates to camera coordinates
+  if ( abs( pixel_left.y - pixel_right.y ) > 2.0 )
+  {
+    return false;
+  }
   cv::Point2f pt_cam_left  = pixelToCamera( pixel_left, camera_params_left );
   cv::Point2f pt_cam_right = pixelToCamera( pixel_right, camera_params_right );
 
+  // std::cout << "Left:  " << pt_cam_left.x << "( " << pixel_left.x << ")  \t" << pt_cam_left.y << "( " << pixel_left.y << ")" << std::endl;
+  // std::cout << "Right: " << pt_cam_right.x << "( " << pixel_right.x << ")  \t" << pt_cam_right.y << "( " << pixel_right.y << ")" << std::endl;
+
+
   // Triangulate to compute 3D point
   bool valid = triangulate( pose_left, pose_right, pt_cam_left, pt_cam_right, point_3d );
+
+  if ( point_3d( 2 ) < 0.0 )
+  {
+    return false;
+  }
 
   return valid;
 }

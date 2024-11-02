@@ -89,7 +89,7 @@ bool PoseEstimator3D3D::getInitializedFlag() const
   return this->is_initialized_;
 }
 
-std::tuple<Eigen::Matrix3d, Eigen::Vector3d, bool> PoseEstimator3D3D::setData( const cv::Mat& img, const std::vector<cv::Point2f>& keypoints, const std::vector<cv::Point3f>& points3d, const cv::Mat& descriptors )
+std::tuple<Sophus::SE3d, bool> PoseEstimator3D3D::setData( const cv::Mat& img, const std::vector<cv::Point2f>& keypoints, const std::vector<cv::Point3f>& points3d, const cv::Mat& descriptors )
 {
   this->timer_.tic();
   INFO( super_vio::logger, "Received new frame, keypoints: {0}, points3d: {1}, descriptors: {2}", keypoints.size(), points3d.size(), descriptors.rows );
@@ -105,9 +105,9 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d, bool> PoseEstimator3D3D::setData( c
     this->current_points3d_    = points3d;
     this->current_descriptors_ = descriptors;
 
-    auto [ rotation, translation ] = this->optimizePose();
+    auto pose = this->optimizePose();
     INFO( super_vio::logger, "Get Pose Time Consumed: {}", this->timer_.tocGetDuration() );
-    return std::make_tuple( rotation, translation, true );
+    return std::make_tuple( pose, true );
   }
   else
   {
@@ -119,11 +119,11 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d, bool> PoseEstimator3D3D::setData( c
     this->current_descriptors_ = descriptors;
 
     this->is_initialized_ = true;
-    return std::make_tuple( Eigen::Matrix3d::Identity(), Eigen::Vector3d::Zero(), false );
+    return std::make_tuple( Sophus::SE3d(), false );
   }
 }
 
-std::tuple<Eigen::Matrix3d, Eigen::Vector3d, bool> PoseEstimator3D3D::setData( const cv::Mat& img, const Features& features )
+std::tuple<Sophus::SE3d, bool> PoseEstimator3D3D::setData( const cv::Mat& img, const Features& features )
 {
   this->timer_.tic();
 
@@ -156,9 +156,9 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d, bool> PoseEstimator3D3D::setData( c
       // }
     }
 
-    auto [ rotation, translation ] = this->optimizePose();
+    auto pose = this->optimizePose();
     INFO( super_vio::logger, "Get Pose Time Consumed: {}", this->timer_.tocGetDuration() );
-    return std::make_tuple( rotation, translation, true );
+    return std::make_tuple( pose, true );
   }
   else
   {
@@ -185,12 +185,12 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d, bool> PoseEstimator3D3D::setData( c
     }
 
     this->is_initialized_ = true;
-    return std::make_tuple( Eigen::Matrix3d::Identity(), Eigen::Vector3d::Zero(), false );
+    return std::make_tuple( Sophus::SE3d(), false );
   }
 }
 
 
-std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::optimizePose()
+Sophus::SE3d PoseEstimator3D3D::optimizePose()
 {
   // 1. Match the keypoints between the last and current frame
   auto matches_set = this->matcher_sptr_->inferenceDescriptorPair( *this->config_sptr_,
@@ -236,7 +236,7 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::optimizePose()
 }
 
 
-std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::getPoseSVD( const std::vector<cv::Point3f>& points_last, const std::vector<cv::Point3f>& points_current )
+Sophus::SE3d PoseEstimator3D3D::getPoseSVD( const std::vector<cv::Point3f>& points_last, const std::vector<cv::Point3f>& points_current )
 {
   utilities::Timer timer;
   timer.tic();
@@ -270,25 +270,11 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::getPoseSVD( cons
     W += Eigen::Vector3d( points_last_centered[ i ].x, points_last_centered[ i ].y, points_last_centered[ i ].z ) * Eigen::Vector3d( points_current_centered[ i ].x, points_current_centered[ i ].y, points_current_centered[ i ].z ).transpose();
   }
 
-  // oss << "\nW = ";
-  // oss << "\n\t" << W( 0, 0 ) << " " << W( 0, 1 ) << " " << W( 0, 2 );
-  // oss << "\n\t" << W( 1, 0 ) << " " << W( 1, 1 ) << " " << W( 1, 2 );
-  // oss << "\n\t" << W( 2, 0 ) << " " << W( 2, 1 ) << " " << W( 2, 2 );
-
   // 4. Compute SVD of W
   Eigen::JacobiSVD<Eigen::Matrix3d> svd( W, Eigen::ComputeFullU | Eigen::ComputeFullV );
 
   Eigen::Matrix3d U = svd.matrixU();
   Eigen::Matrix3d V = svd.matrixV();
-
-  // oss << "\nU = ";
-  // oss << "\n\t" << U( 0, 0 ) << " " << U( 0, 1 ) << " " << U( 0, 2 );
-  // oss << "\n\t" << U( 1, 0 ) << " " << U( 1, 1 ) << " " << U( 1, 2 );
-  // oss << "\n\t" << U( 2, 0 ) << " " << U( 2, 1 ) << " " << U( 2, 2 );
-  // oss << "\nV = ";
-  // oss << "\n\t" << V( 0, 0 ) << " " << V( 0, 1 ) << " " << V( 0, 2 );
-  // oss << "\n\t" << V( 1, 0 ) << " " << V( 1, 1 ) << " " << V( 1, 2 );
-  // oss << "\n\t" << V( 2, 0 ) << " " << V( 2, 1 ) << " " << V( 2, 2 );
 
 
   Eigen::Matrix3d rotation = U * ( V.transpose() );
@@ -309,21 +295,28 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::getPoseSVD( cons
   oss << "\nTranslation = " << translation( 0 ) << " " << translation( 1 ) << " " << translation( 2 );
   INFO( super_vio::logger, oss.str() );
 
-  return std::make_tuple( rotation, translation );
+  // return std::make_tuple( rotation, translation );
+  Sophus::SE3d pose{ rotation, translation };
+  return pose;
 }
 
 
-std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::getPoseG2O( const std::vector<cv::Point3f>& points_last, const std::vector<cv::Point3f>& points_current )
+Sophus::SE3d PoseEstimator3D3D::getPoseG2O( const std::vector<cv::Point3f>& points_last, const std::vector<cv::Point3f>& points_current )
 {
   utilities::Timer timer;
   timer.tic();
 
+  g2o::SparseOptimizer optimizer;  // 图模型
+  auto                 solver = new g2o::OptimizationAlgorithmLevenberg( std::make_unique<BlockSolverType>( std::make_unique<LinearSolverType>() ) );
+  optimizer.setAlgorithm( solver );  // 设置求解器
+  optimizer.setVerbose( true );      // 打开调试输出
 
   // vertex
   VertexPose* pose = new VertexPose();  // camera pose
   pose->setId( 0 );
   pose->setEstimate( this->last_pose_ );
-  optimizer_.addVertex( pose );
+  // pose->setEstimate( Sophus::SE3d() );
+  optimizer.addVertex( pose );
 
   cv::Point3f centroid_last    = calculateCentroid( points_last );
   cv::Point3f centroid_current = calculateCentroid( points_current );
@@ -332,7 +325,7 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::getPoseG2O( cons
   edge->setVertex( 0, pose );
   edge->setMeasurement( Eigen::Vector3d( centroid_last.x, centroid_last.y, centroid_last.z ) );
   edge->setInformation( Eigen::Matrix3d::Identity() );
-  optimizer_.addEdge( edge );
+  optimizer.addEdge( edge );
 
   // edges
   for ( size_t i = 0; i < points_last.size(); i++ )
@@ -341,20 +334,20 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::getPoseG2O( cons
     edge->setVertex( 0, pose );
     edge->setMeasurement( Eigen::Vector3d( points_last[ i ].x, points_last[ i ].y, points_last[ i ].z ) );
     edge->setInformation( Eigen::Matrix3d::Identity() );
-    optimizer_.addEdge( edge );
+    optimizer.addEdge( edge );
   }
 
-  optimizer_.initializeOptimization();
-  optimizer_.optimize( 10 );
+  optimizer.initializeOptimization();
+  optimizer.optimize( 5 );
 
-  this->last_pose_             = pose->estimate();
-  Eigen::Matrix3d rotation     = pose->estimate().rotationMatrix();
-  Eigen::Vector3d translation  = pose->estimate().translation();
-  Eigen::Vector3d euler_angles = rotation.eulerAngles( 0, 1, 2 );
 
-  optimizer_.clear();
+  this->last_pose_ = pose->estimate();
 
+  // ---- ---- For Debug ---- ----
   std::ostringstream oss;
+  Eigen::Matrix3d    rotation     = pose->estimate().rotationMatrix();
+  Eigen::Vector3d    translation  = pose->estimate().translation();
+  Eigen::Vector3d    euler_angles = rotation.eulerAngles( 0, 1, 2 );
   oss << "\nPose Estimation(g2o) Time Consumed: " << timer.tocGetDuration();
   oss << "\nRotation = ";
   oss << "\n\t" << rotation( 0, 0 ) << " " << rotation( 0, 1 ) << " " << rotation( 0, 2 );
@@ -363,8 +356,10 @@ std::tuple<Eigen::Matrix3d, Eigen::Vector3d> PoseEstimator3D3D::getPoseG2O( cons
   oss << "\nEuler angles = " << euler_angles( 0 ) << " " << euler_angles( 1 ) << " " << euler_angles( 2 );
   oss << "\nTranslation = " << translation( 0 ) << " " << translation( 1 ) << " " << translation( 2 );
   INFO( super_vio::logger, oss.str() );
-  return std::make_tuple( rotation, translation );
+  // ---- ---- ---- ---- ----
+  return this->last_pose_;
 }
+
 
 cv::Mat PoseEstimator3D3D::getDebugImage() const
 {
