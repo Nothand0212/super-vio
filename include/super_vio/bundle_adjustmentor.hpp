@@ -1,3 +1,5 @@
+#pragma once
+
 #include <g2o/core/base_binary_edge.h>
 #include <g2o/core/base_unary_edge.h>
 #include <g2o/core/base_vertex.h>

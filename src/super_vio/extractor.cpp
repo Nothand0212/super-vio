@@ -179,6 +179,9 @@ Features Extractor::postProcess( const utilities::Configuration& config, std::ve
     // INFO( super_vio::logger, "descriptor size: [{0}, {1}]", mat_descriptor.cols, mat_descriptor.rows );
     // key_points_result.setDescriptor( mat_descriptor );
     // Features key_points_result( vec_score, vec_points, mat_descriptor );
+
+    // TODO: add filter by score
+
     Features key_points_resul{ vec_score, vec_points, mat_descriptor };
     return key_points_resul;
   }

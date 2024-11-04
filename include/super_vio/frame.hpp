@@ -47,7 +47,9 @@ public:
   Frame( const std::size_t& id, const double& timestamp, const cv::Mat& left_image, const cv::Mat& right_image );
   ~Frame();
 
+  void        setImageLeft( const cv::Mat& image_left );
   cv::Mat     getImageLeft() const;
+  void        setImageRight( const cv::Mat& image_right );
   cv::Mat     getImageRight() const;
   std::size_t getId() const;
   double      getTimestamp() const;

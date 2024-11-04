@@ -21,7 +21,7 @@
 
 using namespace super_vio;
 
-cv::Mat visualizeReProjection( const cv::Mat& src, const std::vector<cv::Point2f>& keypoints, const std::vector<cv::Point2f>& projection_keypoints )
+inline cv::Mat visualizeReProjection( const cv::Mat& src, const std::vector<cv::Point2f>& keypoints, const std::vector<cv::Point2f>& projection_keypoints )
 {
   // 复制并转换为RGB图像
   cv::Mat dst;
@@ -43,7 +43,7 @@ cv::Mat visualizeReProjection( const cv::Mat& src, const std::vector<cv::Point2f
 }
 
 
-cv::Mat visualizeMatches( const cv::Mat& src, const cv::Mat& dst, const std::pair<std::vector<cv::Point2f>, std::vector<cv::Point2f>>& key_points, const std::vector<cv::Point2f>& key_points_src, const std::vector<cv::Point2f>& key_points_dst )
+inline cv::Mat visualizeMatches( const cv::Mat& src, const cv::Mat& dst, const std::pair<std::vector<cv::Point2f>, std::vector<cv::Point2f>>& key_points, const std::vector<cv::Point2f>& key_points_src, const std::vector<cv::Point2f>& key_points_dst )
 {
   // Convert the points to cv::KeyPoint objects
   std::vector<cv::KeyPoint> key_points_1, key_points_2;
@@ -83,7 +83,7 @@ cv::Mat visualizeMatches( const cv::Mat& src, const cv::Mat& dst, const std::pai
   return img_matches;
 }
 
-void visualizeKeyPoints( const cv::Mat& image_src, const cv::Mat& image_dst, const std::vector<cv::Point2f> key_points_src, const std::vector<cv::Point2f> key_points_dst )
+inline void visualizeKeyPoints( const cv::Mat& image_src, const cv::Mat& image_dst, const std::vector<cv::Point2f> key_points_src, const std::vector<cv::Point2f> key_points_dst )
 {
   cv::Mat img_src_color, img_dst_color;
   cv::cvtColor( image_src, img_src_color, cv::COLOR_GRAY2BGR );
@@ -107,9 +107,9 @@ void visualizeKeyPoints( const cv::Mat& image_src, const cv::Mat& image_dst, con
   cv::waitKey( 0 );
 }
 
-void visualizeKeyPoints( const cv::Mat& image_src, const cv::Mat& image_dst,
-                         const std::vector<cv::Point2f> key_points_src, const std::vector<cv::Point2f> key_points_dst,
-                         std::vector<Region> regions_src, std::vector<Region> regions_dst )
+inline void visualizeKeyPoints( const cv::Mat& image_src, const cv::Mat& image_dst,
+                                const std::vector<cv::Point2f> key_points_src, const std::vector<cv::Point2f> key_points_dst,
+                                std::vector<Region> regions_src, std::vector<Region> regions_dst )
 {
   cv::Mat img_src_color, img_dst_color;
   cv::cvtColor( image_src, img_src_color, cv::COLOR_GRAY2BGR );

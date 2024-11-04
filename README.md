@@ -34,10 +34,15 @@ roslaunch super_vio run_kitti.launch
 
 ## Doing
 
-- 1. Mapping with SuperPoint and SuperGlue
+- 1. add a FrontEnd class to reconstuct the VO functions;
 
 ## History
 
+- 2024-11-04:
+  - 1. add Features class;
+  - 1. add a pose estimator by 3D-3D matching (VO)
+  - 2. add a ROSTool class for Visualizing
+  - 3. add a PoseGraphOpimizer(for LoopClosing, but LoopDetect not finish now)
 - 2024-03-20:
   - 1. reconstruct project structure
 - 2024-03-19:

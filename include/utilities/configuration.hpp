@@ -54,6 +54,11 @@ public:
 
   std::string device{ "cuda" };
 
+  // **** FrontEnd Related ****
+  bool  enable_backend_{ false };
+  bool  enable_imu_preintegration_{ false };
+  float extractor_score_threshold_{ 0.5 };
+
 public:
   Configuration()  = default;
   ~Configuration() = default;

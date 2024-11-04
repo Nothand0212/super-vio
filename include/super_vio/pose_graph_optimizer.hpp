@@ -28,7 +28,7 @@ using Matrix6d = Eigen::Matrix<double, 6, 6>;
 using Vector6d = Eigen::Matrix<double, 6, 1>;
 
 // 给定误差求J_R^{-1}的近似
-Matrix6d JRInv( const Sophus::SE3d &e )
+inline Matrix6d JRInv( const Sophus::SE3d &e )
 {
   Matrix6d J;
   J.block( 0, 0, 3, 3 ) = Sophus::SO3d::hat( e.so3().log() );
@@ -53,6 +53,8 @@ public:
     setEstimate( Sophus::SE3d(
         Eigen::Quaterniond( data[ 6 ], data[ 3 ], data[ 4 ], data[ 5 ] ),
         Eigen::Vector3d( data[ 0 ], data[ 1 ], data[ 2 ] ) ) );
+
+    return true;
   }
 
   virtual bool write( std::ostream &os ) const override

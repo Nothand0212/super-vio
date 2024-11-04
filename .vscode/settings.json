@@ -95,7 +95,14 @@
         "stack": "cpp",
         "__hash_table": "cpp",
         "hash_map": "cpp",
-        "hash_set": "cpp"
+        "hash_set": "cpp",
+        "__debug": "cpp",
+        "__locale": "cpp",
+        "__std_stream": "cpp",
+        "__string": "cpp",
+        "__tuple": "cpp",
+        "__hash": "cpp",
+        "ios": "cpp"
     },
     "python.autoComplete.extraPaths": [
         "/home/lin/Projects/catkin_ws/devel/lib/python3/dist-packages",

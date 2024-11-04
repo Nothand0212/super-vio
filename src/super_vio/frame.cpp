@@ -9,10 +9,22 @@ Frame::Frame( const std::size_t& id, const double& timestamp, const cv::Mat& lef
 
 Frame::~Frame() = default;
 
+
+void Frame::setImageLeft( const cv::Mat& image_left )
+{
+  this->m_image_left = image_left.clone();
+}
+
 cv::Mat Frame::getImageLeft() const
 {
   return m_image_left;
 }
+
+void Frame::setImageRight( const cv::Mat& image_right )
+{
+  this->m_image_right = image_right.clone();
+}
+
 cv::Mat Frame::getImageRight() const
 {
   return m_image_right;
